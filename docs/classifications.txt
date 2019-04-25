@@ -1,0 +1,84 @@
+
+classification codes
+----
+* http://www.hills-database.co.uk/database_notes.html#list_of_lists
+* http://www.hills-database.co.uk/database_notes.html#classification
+ 
+
+CSV report for classifications
+-----
+'classification,country,<300,total,smallest,smallest name,tallest,tallest name',
+  'D,S,0,88,610,Innerdownie,843,Merrick',
+  'D,ES,0,1,619,Windy Gyle,619,Windy Gyle',
+
+  'F,W,0,15,917.5,Tryfan,1085,Snowdon - Yr Wyddfa',
+  'F,E,0,6,930.9,Ill Crag,978.07,Scafell Pike',
+  'F,I,0,13,917.9,Galtymore [Cnoc Mor na nGaibhlte],1038.6,Carrauntoohil [Corran Tuathail]'
+
+  '5,ES,0,4,501,Hungry Law,579,Carter Fell',
+  '5,S,0,944,500,Elrick Beg,599.7,Meallan Liath',
+  '5,W,0,227,500.4,Ffridd yr Allt-llwyd,598.8,Whimble',
+  '5,E,0,164,501,Shillhope Law,597,Haystacks (Buttermere)',
+
+  'M,S,0,282,914.6,Beinn Teallach,1344.53,Ben Nevis [Beinn Nibheis]',
+  'C,S,0,222,762.4,Beinn na h-Uamha,913.96,Beinn a\' Chlaidheimh',
+  'G,S,0,219,611,Creag Dhubh Mhor,761.6,Beinn Talaidh',
+  'B,E,0,541,305,Water Crag,978.07,Scafell Pike',
+  'Sy,E,1,647,290,Castle Crag,978.07,Scafell Pike',
+
+  'Fel,E,3,227,231.4,Muncaster Fell - Hooker Crag,978.07,Scafell Pike',
+  'WO,E,42,116,53,Humphrey Head,621,Walna Scar',
+  'W,E,1,214,290,Castle Crag,978.07,Scafell Pike',
+
+
+
+Lists of < 300m for lakes classifications
+----
+Fel - 3 Under 300m :
+Castle Crag 290
+Muncaster Fell - Hooker Crag 231.4
+Wallowbarrow Crag 292
+
+WO - 42 Under 300m
+St. John's Hill [Caermote Hill N Top] 285
+Watch Hill [Setmurthy Common] 254
+Clints Crags (Wainwright summit) 245
+Dunmallet [Dunmallard Hill] 240
+Watch Hill 235
+Cold Fell 293
+Flat Fell 272
+Irton Pike 229
+High Knott 275
+Hugill Fell (Wainwright summit) 265
+Reston Scar 255
+Grandsire 251
+Burney 298
+The Knott 284
+Dunnerdale Fells 280
+Claife Heights 270
+Staveley Fell 265
+High Light Haw 263
+Beacon Fell 255
+Blawith Knott 248
+Low Light Haw 250
+Latterbarrow 244
+Orrest Head 238
+Newton Fell North 237
+Scout Scar (Wainwright summit) 233
+School Knott 232
+Muncaster Fell - Hooker Crag 231.4
+Tottlebank Height 236
+Hampsfell (Wainwright summit) 220
+Whitbarrow - Lord's Seat 215
+Wool Knott 223
+Cunswick Scar 207
+Yew Bank 207
+Brant Fell 191
+Bigland Barrow 193
+Finsthwaite Heights 180
+Raven's Barrow [Cartmel Fell] 152
+Humphrey Head 53
+Caermote Hill 289
+Newton Fell South [Dixon Heights] 177
+nameless (School Knott) 247
+nameless (Top o' Selside - Brock Barrow) 221
