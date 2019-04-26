@@ -1,12 +1,12 @@
 import React from "react";
 
-const Landing = () => {
+const Home = () => {
   return (
     <div style={{ textAlign: "center" }}>
-      <p>landing page description ...</p>
+      <p>home page text ...</p>
       ...
     </div>
   );
 };
 
-export default Landing;
+export default Home;

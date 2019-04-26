@@ -4,9 +4,11 @@ import { connect } from "react-redux";
 import * as actions from "../actions";
 
 import DefaultLayout from "./DefaultLayout";
-import Landing from "./Landing";
-import Dashboard from "./Dashboard";
+import Home from "./Home";
+import Login from "./Login";
 import PageNotFound from "./PageNotFound";
+// import Dashboard from "./Dashboard";
+import ProtectedRoute from "./ProtectedRoute";
 
 // import ChallengeNewCustomList from "./challenges/new/customList/ChallengeNewCustomList";
 // import ChallengeNewExistingList from "./challenges/new/existingList/ChallengeNewExistingList";
@@ -27,8 +29,11 @@ class App extends Component {
         <BrowserRouter>
           <div className="container">
             <Switch>
-              <DefaultLayout exact path="/" component={Landing} />
-              <DefaultLayout path="/dashboard" component={Dashboard} />
+              <DefaultLayout exact path="/" component={Home} />
+              <DefaultLayout exact path="/login" component={Login} />
+              
+              {/* <DefaultLayout path="/dashboard" component={Dashboard} /> */}
+              <DefaultLayout path="/dashboard" component={ProtectedRoute} />
 
               {/* <DefaultLayout
                 exact
