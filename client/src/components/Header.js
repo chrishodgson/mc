@@ -27,7 +27,11 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.props, 'Header');
+    if(this.props.auth === false) {
+      console.log(this.props, 'this.props.auth === false');
+    } else {
+      console.log(this.props, 'this.props.auth !== false');
+    }
 
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">

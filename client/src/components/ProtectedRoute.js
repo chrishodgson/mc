@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import Dashboard from "./Dashboard";
 
 const ProtectedRoute = ({ match: { path }, auth }) => 
-  !auth ? (
+  auth === false ? (
     <Redirect to="/login" />
   ) : (
     <div>
