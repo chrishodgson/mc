@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
+import activitiesReducer from "./activitiesReducer";
 // import { reducer as reduxForm } from "redux-form";
-// import activitiesReducer from "./activitiesReducer";
 // import challengesReducer from "./challengesReducer";
 // import mountainSearchReducer from "./mountainSearchReducer";
 // import mountainSelectionReducer from "./mountainSelectionReducer";
@@ -9,8 +9,8 @@ import authReducer from "./authReducer";
 // import mountainListSelectionReducer from "./mountainListSelectionReducer";
 
 export default combineReducers({
-  auth: authReducer
-  // activities: activitiesReducer,
+  auth: authReducer,
+  activities: activitiesReducer
   // challenges: challengesReducer,
   // mountainSearch: mountainSearchReducer,
   // mountainSelection: mountainSelectionReducer,

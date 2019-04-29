@@ -2,26 +2,29 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-//protected components
+// protected components
 import Dashboard from "./Dashboard";
+import ActivityList from "./activities/ActivityList";
+import ActivityView from "./activities/ActivityView";
 
-const ProtectedRoute = ({ match: { path }, auth }) => 
-  auth === false ? (
+const ProtectedRoute = ({ auth }) => {
+  return auth === false ? (
     <Redirect to="/login" />
   ) : (
-    <div>
-      <Route exact path={`${path}/dashboard`} component={Dashboard} />
-    </div>
-  );
+      <div>
+        <Route path={`/dashboard`} component={Dashboard} />
 
-function mapStateToProps(state) {
+        <Route exact path={`/activities`} component={ActivityList} />
+        {/* <Route path={`${path}/activities/new`} component={ActivityNew} /> */}
+        <Route path="/activities/view/:activityId" component={ActivityView} />
 
-  //console.log(state, 'ProtectedRoute');
-
-  return { state };
+        {/* <Route exact path={`${path}/challenges`} component={ChallengeList} /> */}
+        {/* <Route path={`${path}/challenges/join`} component={ChallengeJoin} /> */}
+        {/* <Route path="/activities/view/:challengeId" component={ChallengeView} /> */}
+      </div>
+    );
 }
 
-export default connect(mapStateToProps)(ProtectedRoute);
-
-// export default connect(state => ({auth})) (ProtectedRoute);
-// export default ProtectedRoute;
+export default connect(
+  ({ auth }) => ({ auth })
+)(ProtectedRoute);

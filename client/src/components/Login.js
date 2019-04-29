@@ -1,8 +1,6 @@
 import React from "react";
 
-const Login = (props) => {
-  // console.log(props, 'Login');
-
+const Login = () => {
   return (
     <div style={{ textAlign: "center" }}>
       <p>login page text ...</p>

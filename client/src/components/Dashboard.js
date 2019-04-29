@@ -1,10 +1,15 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   return (
     <div>
       <p>Dashboard - you should be logged in to view this</p>
+
+      <p>
+        <Link to="/activities">List Activities</Link>
+      </p>
+
       {/* <p>
         <Link to="/challenges">List Challenges</Link>
       </p>
@@ -15,9 +20,6 @@ const Dashboard = () => {
       </p>
       <p>
         <Link to="/challenges/existing">New Challenge - existing list</Link>
-      </p>
-      <p>
-        <Link to="/activities">List Activities</Link>
       </p>
       <p>
         <Link to="/activities/new">New Activity</Link>

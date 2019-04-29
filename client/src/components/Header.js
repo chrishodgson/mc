@@ -27,12 +27,6 @@ class Header extends Component {
   }
 
   render() {
-    if(this.props.auth === false) {
-      console.log(this.props, 'this.props.auth === false');
-    } else {
-      console.log(this.props, 'this.props.auth !== false');
-    }
-
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link
@@ -60,8 +54,9 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
-  return { auth };
-}
+// function mapStateToProps({ auth }) {
+//   return { auth };
+// }
+// export default connect(mapStateToProps)(Header);
 
-export default connect(mapStateToProps)(Header);
+export default connect(({ auth }) => ({ auth })) (Header);
