@@ -58,8 +58,6 @@ class ActivityView extends Component {
   }
 }
 
-function mapStateToProps({ activities }) {
-  return { activities };
-}
-
-export default connect(mapStateToProps) (withRouter(ActivityView));
+export default connect(({ activities }) => ({ activities }))(
+  withRouter(ActivityView)
+);

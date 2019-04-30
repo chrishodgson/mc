@@ -21,7 +21,7 @@ const ProtectedRoute = ({ auth }) => {
         
         <Route path="/activities/view/:activityId" component={ActivityView} />
 
-        <Route exact path={`challenges`} component={ChallengeList} />
+        <Route exact path={`/challenges`} component={ChallengeList} />
 
         {/* <Route path={`/challenges/join`} component={ChallengeJoin} /> */}
         

@@ -5,7 +5,7 @@ import { fetchActivities } from "../../actions";
 import Moment from "moment";
 
 class ActivityList extends Component {
-  componentDidMount(props) {
+  componentDidMount() {
     this.props.fetchActivities();
   }
 
@@ -39,7 +39,7 @@ class ActivityList extends Component {
 
   render() {
     if (this.props.activities.length === 0) {
-      return 'No activities found';
+      return "No activities found";
     }
 
     return (

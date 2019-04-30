@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { fetchChallenges } from "../../actions";
 
 class ChallengeList extends Component {
-  componentDidMount(props) {
+  componentDidMount() {
     this.props.fetchChallenges();
   }
 
@@ -13,6 +13,10 @@ class ChallengeList extends Component {
     });
   }
   render() {
+    if (this.props.challenges.length === 0) {
+      return 'No challenges found';
+    }
+
     return <div>Challenges {this.renderChallenges()}</div>;
   }
 }
