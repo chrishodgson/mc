@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchChallenges } from "../../actions";
+import { fetchMyChallenges } from "../../actions";
 
 class ChallengeList extends Component {
   componentDidMount() {
-    this.props.fetchChallenges();
+    this.props.fetchMyChallenges();
   }
 
   renderChallenges() {
@@ -23,5 +23,5 @@ class ChallengeList extends Component {
 
 export default connect(
   ({ challenges }) => ({ challenges }),
-  { fetchChallenges }
+  { fetchMyChallenges }
 )(ChallengeList);

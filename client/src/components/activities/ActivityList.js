@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchActivities } from "../../actions";
+import { fetchMyActivities } from "../../actions";
 import Moment from "moment";
 
 class ActivityList extends Component {
   componentDidMount() {
-    this.props.fetchActivities();
+    this.props.fetchMyActivities();
   }
 
   renderMountains(mountains) {
@@ -63,5 +63,5 @@ class ActivityList extends Component {
 
 export default connect(
   ({ activities }) => ({ activities }),
-  { fetchActivities }
+  { fetchMyActivities }
 )(ActivityList);

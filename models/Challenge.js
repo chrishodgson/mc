@@ -6,7 +6,7 @@ const Mountain = require("./Mountain");
  * NOTE: mountainCount as a calculated field
  */
 const challengeSchema = new Schema({
-  name: String,
+  title: String,
   description: String,
   handle: String,
   countryCode: String,
