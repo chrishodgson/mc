@@ -9,10 +9,11 @@ const Dashboard = () => {
       <p>
         <Link to="/activities">List Activities</Link>
       </p>
-
-      {/* <p>
+      <p>
         <Link to="/challenges">List Challenges</Link>
       </p>
+
+      {/* 
       <p>
         <Link to="/challenges/custom">
           New challenge - create your own list
