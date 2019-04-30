@@ -8,10 +8,10 @@ const keys = require("./config/keys");
 // require("./models/Mountain");
 // require("./models/MountainList");
 
-require("./services/passport");
-require("./models/User");
-require("./models/Activity");
 require("./models/Challenge");
+require("./models/Activity");
+require("./models/User");
+require("./services/passport");
 
 mongoose.connect(
   keys.mongoURI,

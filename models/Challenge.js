@@ -14,4 +14,4 @@ const challengeSchema = new Schema({
   _mountains: [MountainItem]
 });
 
-mongoose.model("Challenges", challengeSchema);
+mongoose.model("challenges", challengeSchema);
