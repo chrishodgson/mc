@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const MountainItem = require("./MountainItem");
+const Mountain = require("./Mountain");
 
+/**
+ * NOTE: mountainCount as a calculated field
+ */
 const challengeSchema = new Schema({
   name: String,
   description: String,
@@ -11,7 +14,7 @@ const challengeSchema = new Schema({
   highestInMetres: Number,
   lowestInMetres: Number,
   mountainCount: Number,
-  _mountains: [MountainItem]
+  _mountains: [Mountain]
 });
 
 mongoose.model("challenges", challengeSchema);

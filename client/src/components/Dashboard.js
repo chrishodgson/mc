@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
   return (
     <div>
-      <p>Dashboard - you should be logged in to view this</p>
+      <p>Dashboard</p>
 
       <p>
         <Link to="/activities">List Activities</Link>

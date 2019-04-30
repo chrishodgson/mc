@@ -31,6 +31,10 @@ class ActivityView extends Component {
         <table className="table condensed">
           <tbody>
             <tr>
+              <th>Challenge</th>
+              <td>TODO - add name from challenge </td>
+            </tr>
+            <tr>
               <th>Title</th>
               <td>{activity.title}</td>
             </tr>
