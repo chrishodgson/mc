@@ -74,44 +74,56 @@ const doImport = async () => {
   console.log("Starting...");
 
   if (!validateInputs()) {
-    return;
+    process.exit(1);
   }
 
   if (await doesChallengeAlreadyExist().catch(e => {
     console.error(e); 
-    return true;
-  })) {
-    return; 
-  }
+    process.exit(1);
+  }));
 
   await parseFile();
   await saveAreas();
   await saveCounties();
-  await saveChallenge();
+  await createChallenge();
   await processMountains();
+  await updateChallenge();
 
   // console.log(mountainsMinimal);
   console.log("Finished.");
+  process.exit(0);
 };
 
 /** Validate Inputs
  */
 const validateInputs = () => {
+  let valid = true;
   if (!filenameInput) {
-    console.error("Error: no --filename parameter passed");
-    return false;
+    console.error("Error: --filename parameter not passed");
+    valid = false;
   }
-
   if (!countryInput || !allowedCountriesList.includes(countryInput)) {
     console.error("Error: --country parameter is not passed or contains an invalid value");
-    return false;
+    valid = false;
   }
-
   if (!classificationInput || !allowedClassificationList.includes(classificationInput)) {
     console.error("Error: --classification parameter is not passed or contains an invalid value");
-    return false;
+    valid = false;
   }
-  return true;
+  return valid;
+};
+
+/** check the challenge doesn't exist
+ */
+const doesChallengeAlreadyExist = async () => {
+  const countDocuments = await Challenge.countDocuments({
+    classificationCode: classificationInput,
+    countryCode: countryInput
+  });
+  if (countDocuments !== 0) {
+    throw 'Error: Challenge already exists for classification ' 
+      + classificationInput + ' and country ' + countryInput;
+  }
 };
 
 /** Parse file
@@ -135,29 +147,24 @@ const parseFile = async () => {
   }
 };
 
-/** check the challenge doesn't exist
+/** Create Challenge
  */
-const doesChallengeAlreadyExist = async () => {
-  const countDocuments = await Challenge.countDocuments({
-    classificationCode: classificationInput,
-    countryCode: countryInput
-  });
-  if (countDocuments !== 0) {
-    throw 'Error: Challenge already exists for classification ' + classificationInput;
-  }
-};
-
-/** Save Challenge
- */
-const saveChallenge = async () => {
+const createChallenge = async () => {
   document = new Challenge({
     title: classificationInput,
     countryCode: countryInput,
-    classificationCode: classificationInput,
-    _mountains: mountainsMinimal
+    classificationCode: classificationInput
   });
   await document.save();
   challengeId = document._id;
+};
+
+/** Update Challenge (_mountains field)
+ */
+const updateChallenge = async () => {
+  let document = await Challenge.findOne({ _id: challengeId });
+  document["_mountains"] = mountainsMinimal;
+  await document.save();
 };
 
 /** Save Areas
@@ -211,46 +218,42 @@ const saveCounties = async () => {
 /** Process Mountains
  */
 const processMountains = async () => {
-  existing = created = ignored = 0;
+  existing = created = added = 0;
   for (const item of mountains) {
-    const document = await Mountain.findOne({
+    const position = convertGridRefToEastingNorthing(item["Grid ref 10"]);
+
+    if (!position) {
+      console.log('No Grid ref for ' + item["Number"] + ' ' + item["Name"]);
+      continue;
+    }
+
+    let document = await Mountain.findOne({
       dobihId: item.Number
     });
-    if (document) {
-      if (!document["_challenges"] || !document["_challenges"].includes(challengeId)) {
-        document["_challenges"].push(challengeId);
-        await document.save();
-      }
+
+    if (!document) {
+      document = hydrateMountain(item, position);
+      await document.save();
+      created++;
+    } else if (!document["_challenges"] || !document["_challenges"].includes(challengeId)) {
+      document["_challenges"].push(challengeId);
+      await document.save();
       existing++;
-    } else {
-      const position = convertGridRefToEastingNorthing(item["Grid ref 10"]);
-      if (!position) {
-        console.log('No Grid ref for ' + item["Number"] + ' ' + item["Name"]);
-        ignored++;
-      } else {
-        const mountain = hydrateMountain(item, position);
-        await mountain.save();
-        created++;
-      }
     }
+
+    added++;
+    hydrateMountainMinimal(item, position, document._id);        
   }
 
-  console.log(existing + " mountains already exist in database.");
-  console.log(ignored + " mountains ignored.");
+  console.log(existing + " mountains already exist.");
   console.log(created + " mountains created.");
+  console.log(added + " mountains added to challenge .");
+  
 };
 
 /** Hydrate Mountain
  */
 const hydrateMountain = (item, position) => {
-  mountainsMinimal.push({
-    name: item["Name"],
-    metres: Number(item["Metres"]),
-    gridRef: item["Grid ref 10"],
-    easting: position[0],
-    northing: position[1]
-  });
-
   return new Mountain({
     dobihId: Number(item["Number"]),
     name: item["Name"],
@@ -265,6 +268,19 @@ const hydrateMountain = (item, position) => {
     _area: areaKeys[item["Area"]],
     _county: countyKeys[item["County"]],
     _challenges: [challengeId]
+  });
+};
+
+/** Hydrate Mountain minimal
+ */
+const hydrateMountainMinimal = (item, position, mountainId) => {
+  mountainsMinimal.push({
+    name: item["Name"],
+    metres: Number(item["Metres"]),
+    gridRef: item["Grid ref 10"],
+    easting: position[0],
+    northing: position[1],
+    _mountain: mountainId 
   });
 };
 
