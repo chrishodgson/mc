@@ -6,7 +6,6 @@ const passport = require("passport");
 const keys = require("./config/keys");
 
 // require("./models/Mountain");
-// require("./models/MountainList");
 
 require("./models/Challenge");
 require("./models/Activity");
@@ -33,10 +32,9 @@ app.use(passport.session());
 
 // routes
 require("./routes/authRoutes")(app);
-require("./routes/activityRoutes")(app);
-require("./routes/challengeRoutes")(app);
+require("./routes/myActivityRoutes")(app);
+require("./routes/myChallengeRoutes")(app);
 // require("./routes/mountainRoutes")(app);
-// require("./routes/mountainListRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   //attempt to load js and css asset

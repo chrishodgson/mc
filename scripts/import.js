@@ -35,7 +35,7 @@ const csv = require("csvtojson");
 const convertGridRefToEastingNorthing = require("./gridref");
 
 require("../models/Mountain");
-require("../models/MountainList");
+require("../models/Challenge");
 require("../models/County");
 require("../models/Area");
 
@@ -45,20 +45,22 @@ mongoose.connect(
 );
 
 const Mountain = mongoose.model("mountains");
-const MountainList = mongoose.model("mountainLists");
+const Challenge = mongoose.model("challenges");
 const Area = mongoose.model("areas");
 const County = mongoose.model("counties");
 
 const columns = /(Number|Name|Metres|Feet|Area|Grid ref 10|Classification|Parent (Ma)|Map 1:25k|Country|County)/;
 const allowedClassifications = "M,C,G,F,Sim,Sy,Fel,B,W,WO";
-const classificationList = allowedClassifications.split(",");
+const allowedClassificationList = allowedClassifications.split(",");
 
 const filenameInput = args["filename"] || null;
 const countryInput = args["country"] || false;
+const classificationInput = args["classification"] || false;
 
 let areaKeys = {},
   countyKeys = {},
-  classificationKeys = {},
+  //classificationKeys = {},
+  challengeId = 0,
   mountains = [];
 
 /** Run Import
@@ -70,17 +72,33 @@ const doImport = async () => {
   await parseFile();
   await saveAreas();
   await saveCounties();
-  await saveMountainLists();
+  await saveChallenges();
   await processMountains();
+
+  console.log(mountains);
 };
 
 /** Validate Inputs
  */
 const validateInputs = () => {
+
+  if (!classificationInput) {
+    console.log("Error: no --classification parameter passed");
+    return false;
+  }
+
+  //TODO allow list of classifications ?
+  if (!allowedClassificationList.includes(classificationInput)) {
+    console.log("Error: --classification parameter is not allowed");
+    return false;
+  }
+
   if (!filenameInput) {
     console.log("Error: no --filename parameter passed");
     return false;
   }
+
+  //TODO validate a valid country
   if (!countryInput) {
     console.log("Error: no --country parameter passed");
     return false;
@@ -96,7 +114,9 @@ const parseFile = async () => {
   );
 
   for (const item of jsonArray) {
-    if (countryInput == item["Country"]) {
+
+    const mountainClassifications = item["Classification"].split(",");
+    if (countryInput == item["Country"] && mountainClassifications.includes(classificationInput)) {
       mountains.push(item);
       if (item["Area"] && !areaKeys.hasOwnProperty(item["Area"])) {
         areaKeys[item["Area"]] = null;
@@ -104,52 +124,71 @@ const parseFile = async () => {
       if (item["County"] && !areaKeys.hasOwnProperty(item["County"])) {
         countyKeys[item["County"]] = null;
       }
-      for (const classification of getFilteredClassifications(item)) {
-        if (!classificationKeys.hasOwnProperty(classification)) {
-          classificationKeys[classification] = null;
-        }
-      }
+      // for (const classification of getFilteredClassifications(item)) {
+      //   if (!classificationKeys.hasOwnProperty(classification)) {
+      //     classificationKeys[classification] = null;
+      //   }
+      // }
     }
   }
 };
 
 /** get filtered classifications
  */
-const getFilteredClassifications = item => {
-  let list = [];
-  const mountainClassifications = item["Classification"].split(",");
-  for (const classification of mountainClassifications) {
-    if (classificationList.includes(classification)) {
-      list.push(classification);
-    }
-  }
-  return list;
-};
+// const getFilteredClassifications = item => {
+//   let list = [];
+//   const mountainClassifications = item["Classification"].split(",");
+//   for (const classification of mountainClassifications) {
+//     if (allowedClassificationList.includes(classification)) {
+//       list.push(classification);
+//     }
+//   }
+//   return list;
+// };
 
-/** Save MountainLists
+/** Save Challenges
  */
-const saveMountainLists = async () => {
-  let created = 0;
-  for (const property in classificationKeys) {
-    let document = await MountainList.findOne({
-      classificationCode: property,
+// const saveChallenges = async () => {
+//   let created = 0;
+//   for (const property in classificationKeys) {
+//     let document = await Challenge.findOne({
+//       classificationCode: property,
+//       countryCode: countryInput
+//     }).select("_id");
+//     if (!document) {
+//       document = new Challenge({
+//         title: property + " name",
+//         description: property + " description",
+//         countryCode: countryInput,
+//         classificationCode: property
+//       });
+//       await document.save();
+//       created++;
+//     }
+//     classificationKeys[property] = document._id;
+//   }
+//   if (created > 0) {
+//     console.log(created + " Challenges created.");
+//   }
+// };
+
+/** Save Challenge
+ */
+const saveChallenge = async () => {
+    let document = await Challenge.findOne({
+      classificationCode: classificationInput,
       countryCode: countryInput
     }).select("_id");
     if (!document) {
-      document = new MountainList({
-        classificationCode: property,
+      document = new Challenge({
+        title: property + " name",
+        description: property + " description",
         countryCode: countryInput,
-        name: property + " name",
-        description: property + " description"
+        classificationCode: property
       });
       await document.save();
-      created++;
     }
-    classificationKeys[property] = document._id;
-  }
-  if (created > 0) {
-    console.log(created + " MountainLists created.");
-  }
+    challengeId = document._id;
 };
 
 /** Save Areas
@@ -159,7 +198,10 @@ const saveAreas = async () => {
   for (const property in areaKeys) {
     let document = await Area.findOne({ name: property });
     if (!document) {
-      document = new Area({ name: property, countryCodes: [countryInput] });
+      document = new Area({ 
+        name: property, 
+        countryCodes: [countryInput] 
+      });
       await document.save();
       created++;
     } else if (
@@ -176,7 +218,7 @@ const saveAreas = async () => {
   }
 };
 
-/** Save Countries
+/** Save Countries - do we need this ??
  */
 const saveCounties = async () => {
   let created = 0;
@@ -212,7 +254,22 @@ const processMountains = async () => {
     } else {
       existing++;
     }
+
+    // else if (
+      // !mountain["_challenges"] 
+      // TODO check how to do this
+      //|| !mountain["_challenges"].includes(classificationInput) 
+    // ) {
+      //TODO: how to populate the ObjectId
+      // const challenge = {challengeId};
+      // mountain["_challenges"].push(challenge);
+      // await mountain.save();
+    // }
+  
   }
+
+
+
   console.log(notExisting + " mountains created.");
   console.log(existing + " mountains already exist in database.");
 };
@@ -220,26 +277,31 @@ const processMountains = async () => {
 /** Hydrate Mountain
  */
 const hydrateMountain = item => {
-  const mountainLists = [];
-  for (const classification of getFilteredClassifications(item)) {
-    mountainLists.push(classificationKeys[classification]);
-  }
+  // const challenges = [];
+  // for (const classification of getFilteredClassifications(item)) {
+  //   challenges.push(classificationKeys[classification]);
+  // }
 
   const position = convertGridRefToEastingNorthing(item["Grid ref 10"]);
+
+  if(!position) {
+    console.log('No Grid ref for ' + item["Number"] + ' ' + item["Name"]);
+    return;
+  }
   return new Mountain({
     dobihId: Number(item["Number"]),
     name: item["Name"],
+    metres: Number(item["Metres"]),
+    gridRef: item["Grid ref 10"],
     easting: position[0],
     northing: position[1],
     lat: item["Latitude"],
     lng: item["Longitude"],
-    metres: Number(item["Metres"]),
-    feet: Number(item["Feet"]),
-    gridRef: item["Grid ref 10"],
+    //feet: Number(item["Feet"]),
     countryCode: item["Country"],
     _area: areaKeys[item["Area"]],
     _county: countyKeys[item["County"]],
-    _mountainLists: mountainLists
+    _challenges: [challengeId]
   });
 };
 

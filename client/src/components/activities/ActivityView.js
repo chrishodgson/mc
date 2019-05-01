@@ -22,7 +22,7 @@ class ActivityView extends Component {
     const activity = this.state.activity;
 
     if (!activity) {
-      return null;
+      return 'activity not found';
     }
 
     return (

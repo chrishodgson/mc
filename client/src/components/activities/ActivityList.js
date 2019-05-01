@@ -30,7 +30,8 @@ class ActivityList extends Component {
           <td>{item.description}</td>
           <td>{item.date ? Moment(item.date).format("MMMM Do YYYY") : ""}</td>
           <td>
-            Total: {item.mountainCount} {this.renderMountains(item._mountains)}
+            Total: {item.mountainCount} 
+            <ul>{this.renderMountains(item._mountains)}</ul>
           </td>
         </tr>
       );
@@ -44,7 +45,7 @@ class ActivityList extends Component {
 
     return (
       <div>
-        <p>Activity Listing</p>
+        <p>Activity List</p>
         <table className="table condensed">
           <thead>
             <tr>

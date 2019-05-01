@@ -14,8 +14,8 @@ const mountainSchema = new Schema({
   lat: Number,
   lng: Number,
   countryCode: String,
-  _county: { type: Schema.Types.ObjectId, ref: "County" },
   _area: { type: Schema.Types.ObjectId, ref: "Area" },
+  _county: { type: Schema.Types.ObjectId, ref: "County" },
   _challenges: [{ type: Schema.Types.ObjectId, ref: "Challenge" }]
 });
 

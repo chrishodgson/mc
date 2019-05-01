@@ -7,7 +7,8 @@ import Dashboard from "./Dashboard";
 import ActivityList from "./activities/ActivityList";
 import ActivityView from "./activities/ActivityView";
 import ChallengeList from "./challenges/ChallengeList";
-// import ChallengeView from "./activities/ChallengeView";
+import ChallengeView from "./challenges/ChallengeView";
+// import ActivityNew from "./activities/ActivityNew";
 
 const ProtectedRoute = ({ auth }) => {
   return auth === false ? (
@@ -17,15 +18,13 @@ const ProtectedRoute = ({ auth }) => {
         <Route path={`/dashboard`} component={Dashboard} />
 
         <Route exact path={`/activities`} component={ActivityList} />
+
         {/* <Route path={`/activities/new`} component={ActivityNew} /> */}
         
         <Route path="/activities/view/:activityId" component={ActivityView} />
 
         <Route exact path={`/challenges`} component={ChallengeList} />
-
-        {/* <Route path={`/challenges/join`} component={ChallengeJoin} /> */}
-        
-        {/* <Route path="/activities/view/:challengeId" component={ChallengeView} /> */}
+        <Route path="/challenges/view/:challengeId" component={ChallengeView} />
       </div>
     );
 }

@@ -8,12 +8,12 @@ const Mountain = require("./Mountain");
 const challengeSchema = new Schema({
   title: String,
   description: String,
-  handle: String,
   countryCode: String,
   classificationCode: String,
-  highestInMetres: Number,
-  lowestInMetres: Number,
-  mountainCount: Number,
+  //handle: String,
+  //highestInMetres: Number,
+  //lowestInMetres: Number,
+  //mountainCount: Number,
   _mountains: [Mountain]
 });
 

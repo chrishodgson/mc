@@ -1,9 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import OSMap from "../OSMap";
 
 class ChallengeView extends Component {
   state = { challenge: "" };
@@ -22,7 +20,7 @@ class ChallengeView extends Component {
     const challenge = this.state.challenge;
 
     if (!challenge) {
-      return null;
+      return 'challenge not found';
     }
 
     return (
@@ -44,7 +42,6 @@ class ChallengeView extends Component {
             </tr>
           </tbody>
         </table>
-        {/* <OSMap mountains={challenge._mountains} /> */}
       </div>
     );
   }

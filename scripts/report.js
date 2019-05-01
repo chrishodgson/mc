@@ -21,14 +21,10 @@ const mongoose = require("mongoose");
 const args = require("minimist")(process.argv.slice(2));
 const csv = require("csvtojson");
 
-require("../models/Mountain");
-
 mongoose.connect(
   keys.mongoURI,
   { useNewUrlParser: true }
 );
-
-const Mountain = mongoose.model("mountains");
 
 const columns = /(Number|Name|Metres|Feet|Area|Classification|Country|County)/;
 const filenameInput = args["filename"] || null;

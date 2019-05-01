@@ -4,7 +4,7 @@ const Activity = mongoose.model("activities");
 
 module.exports = app => {
   //get activities
-  app.get("/api/activities", requireLogin, async (req, res) => {
+  app.get("/api/myactivities", requireLogin, async (req, res) => {
     //todo: restrict by user logged in - {'_users._user': req.user._id}
     // const activities = await Activity.find({ _users: req.user._id });
     const activities = await Activity.find();

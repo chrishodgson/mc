@@ -4,7 +4,7 @@ const Challenge = mongoose.model("challenges");
 
 module.exports = app => {
   //get challenges
-  app.get("/api/challenges", requireLogin, async (req, res) => {
+  app.get("/api/mychallenges", requireLogin, async (req, res) => {
     //todo: restrict by user logged in - {'_users._user': req.user._id}
     const challenges = await Challenge.find();
     res.send(challenges);
