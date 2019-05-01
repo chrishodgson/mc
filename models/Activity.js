@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const Mountain = require("./Mountain");
 const ChallengeMinimal = require("./ChallengeMinimal");
+const MountainMinimal = require("./MountainMinimal");
 
 const activitySchema = new Schema({
   title: String,
   description: String,
   startDate: Date,
   _challenge: ChallengeMinimal,
-  _mountains: [Mountain]
+  _mountains: [MountainMinimal]
 });
 
 mongoose.model("activities", activitySchema);
