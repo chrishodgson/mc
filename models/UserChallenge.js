@@ -3,13 +3,15 @@ const { Schema } = mongoose;
 const ChallengeMinimal = require("./ChallengeMinimal");
 const MountainMinimal = require("./MountainMinimal");
 
-const activitySchema = new Schema({
+const userChallengeSchema = new Schema({
   title: String,
   description: String,
-  startDate: Date,
+  mountainsRemainingCount: Number,
+  mountainsClimbedCount: Number,
   _challenge: ChallengeMinimal,
-  _mountains: [MountainMinimal],
+  _mountainsRemaining: [MountainMinimal],
+  _mountainsClimbed: [MountainMinimal],
   _user: { type: Schema.Types.ObjectId, ref: "User" }
 });
 
-mongoose.model("activities", activitySchema);
+mongoose.model("userChallenges", userChallengeSchema);
