@@ -1,3 +1,3 @@
 export const FETCH_USER = "fetch_user";
-export const FETCH_MY_ACTIVITIES = "fetch_my_activities";
-export const FETCH_MY_CHALLENGES = "fetch_my_challenges";
+export const FETCH_ACTIVITIES = "fetch_activities";
+export const FETCH_CHALLENGES = "fetch_challenges";

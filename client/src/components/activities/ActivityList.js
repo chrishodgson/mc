@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchMyActivities } from "../../actions";
+import { fetchActivities } from "../../actions";
 import Moment from "moment";
 
 class ActivityList extends Component {
   componentDidMount() {
-    this.props.fetchMyActivities();
+    this.props.fetchActivities();
   }
 
   renderMountains(mountains) {
-    //todo order mountains by order field
+    //todo order mountains by order field ?
     return mountains.map(mountain => {
       return (
         <li key={mountain._id}>
@@ -30,7 +30,7 @@ class ActivityList extends Component {
           <td>{item.description}</td>
           <td>{item.date ? Moment(item.date).format("MMMM Do YYYY") : ""}</td>
           <td>
-            Total: {item.mountainCount} 
+            Mountains: (total {item.mountainCount}) 
             <ul>{this.renderMountains(item._mountains)}</ul>
           </td>
         </tr>
@@ -64,5 +64,5 @@ class ActivityList extends Component {
 
 export default connect(
   ({ activities }) => ({ activities }),
-  { fetchMyActivities }
+  { fetchActivities }
 )(ActivityList);

@@ -1,8 +1,8 @@
-import { FETCH_MY_ACTIVITIES } from "../actions/types";
+import { FETCH_ACTIVITIES } from "../actions/types";
 
 export default function(state = [], action) {
   switch (action.type) {
-    case FETCH_MY_ACTIVITIES:
+    case FETCH_ACTIVITIES:
       return action.payload;
     default:
       return state;

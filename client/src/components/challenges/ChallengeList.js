@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchMyChallenges } from "../../actions";
+import { fetchChallenges } from "../../actions";
 
 class ChallengeList extends Component {
   componentDidMount() {
-    this.props.fetchMyChallenges();
+    this.props.fetchChallenges();
   }
 
   renderChallenges() {
@@ -35,5 +35,5 @@ class ChallengeList extends Component {
 
 export default connect(
   ({ challenges }) => ({ challenges }),
-  { fetchMyChallenges }
+  { fetchChallenges }
 )(ChallengeList);

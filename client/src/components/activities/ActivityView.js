@@ -18,6 +18,17 @@ class ActivityView extends Component {
     this.setState({ activity });
   }
 
+  renderMountains(mountains) {
+    //todo order mountains by order field ?
+    return mountains.map(mountain => {
+      return (
+        <li key={mountain._id}>
+          {mountain.name} {mountain.metres}m - {mountain.gridRef}
+        </li>
+      );
+    });
+  }
+
   render() {
     const activity = this.state.activity;
 
@@ -51,8 +62,10 @@ class ActivityView extends Component {
               </td>
             </tr>
             <tr>
-              <th>Mountain Count</th>
-              <td>{activity.mountainCount}</td>
+              <td>
+                Mountains: (total {activity.mountainCount}) 
+                <ul>{this.renderMountains(activity._mountains)}</ul>
+              </td>
             </tr>
           </tbody>
         </table>

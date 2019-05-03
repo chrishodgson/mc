@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
   FETCH_USER, 
-  FETCH_MY_ACTIVITIES, 
-  FETCH_MY_CHALLENGES
+  FETCH_ACTIVITIES, 
+  FETCH_CHALLENGES
 } from "./types";
 
 /**
@@ -18,18 +18,25 @@ export const fetchUser = () => async dispatch => {
 /**
  * Activities
  */
-export const fetchMyActivities = () => async dispatch => {
-  const res = await axios.get("/api/myactivities");
+export const fetchActivities = () => async dispatch => {
+  const res = await axios.get("/api/activities");
 
-  dispatch({ type: FETCH_MY_ACTIVITIES, payload: res.data });
+  dispatch({ type: FETCH_ACTIVITIES, payload: res.data });
 };
 
 
 /**
- * Challenges
+ * My Challenges
  */
-export const fetchMyChallenges = () => async dispatch => {
-  const res = await axios.get("/api/mychallenges");
+export const fetchChallenges = () => async dispatch => {
+  const res = await axios.get("/api/challenges");
 
-  dispatch({ type: FETCH_MY_CHALLENGES, payload: res.data });
+  dispatch({ type: FETCH_CHALLENGES, payload: res.data });
+};
+
+export const joinChallenge = (id, history) => async dispatch => {
+  const res = await axios.post("/api/challenges", id);
+
+  history.push("/dashboard");
+  dispatch({ type: FETCH_USER, payload: res.data });
 };

@@ -8,6 +8,7 @@ const keys = require("./config/keys");
 // require("./models/Mountain");
 
 require("./models/Challenge");
+require("./models/UserChallenge");
 require("./models/Activity");
 require("./models/User");
 require("./services/passport");
@@ -32,8 +33,8 @@ app.use(passport.session());
 
 // routes
 require("./routes/authRoutes")(app);
-require("./routes/myActivityRoutes")(app);
-require("./routes/myChallengeRoutes")(app);
+require("./routes/activityRoutes")(app);
+require("./routes/challengeRoutes")(app);
 // require("./routes/mountainRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
