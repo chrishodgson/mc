@@ -17,32 +17,31 @@ module.exports = app => {
 
     console.log(id, 'POST api/challenges');
 
-    //const challenge = await Challenge.findById(id);
-    const challenge = await Challenge.findOne({_id: id} );
+    const challenge = await Challenge.findById(id);
+    // const challenge = await Challenge.findOne({_id: id} );
     
-    //todo: check that that we have not already joined (ie userChallenge doesnt exist)
-
-    //TODO FIX ME _challenge is not an id 
     let userChallenge = await UserChallenge.findOne({_user: req.user._id, _challenge: id});
     if (userChallenge) {
+      console.log('userChallenge already exists', 'POST api/challenges');
       return;
     }
     
     userChallenge = new UserChallenge({
-      title,
+      title: challenge.title,
       climbedCount: 0,
-      remainingCount: challenge._mountains,
-      // _challenge: { _challenge: id, title: challenge.title },
+      remainingCount: challenge._mountains.length,
       _mountainsClimbed: challenge._mountains,
+      _challenge: id,
       _user: req.user._id,
     });
     
-    console.log(userChallenge, 'POST api/challenges 2');
-    // try {
-    //   await userChallenge.save();
-    //   res.send({});
-    // } catch (err) {
-    //   res.status(422).send(err);
-    // }
+    try {
+      await userChallenge.save();
+      console.log('saved', 'POST api/challenges');
+      res.send({});
+    } catch (e) {
+      console.log('error ' + e, 'POST api/challenges');
+      res.status(422).send(err);
+    }
   });
 };
