@@ -1,8 +1,9 @@
 import axios from "axios";
 import {
   FETCH_USER, 
+  FETCH_CHALLENGES,
+  FETCH_USER_CHALLENGE,
   FETCH_ACTIVITIES, 
-  FETCH_CHALLENGES
 } from "./types";
 
 /**
@@ -26,17 +27,30 @@ export const fetchActivities = () => async dispatch => {
 
 
 /**
- * My Challenges
+ * User Challenges
  */
-export const fetchChallenges = () => async dispatch => {
+export const fetchUserChallenge = challengeId => async dispatch => {
+  const res = await axios.get("/api/userChallenge", {
+    params: { challengeId }
+  });
+
+  dispatch({ type: FETCH_USER_CHALLENGE, payload: res.data });
+};
+
+export const addUserChallenge = (challengeId, history) => async dispatch => {
+  const res = await axios.post("/api/userChallenges", challengeId);
+
+  history.push("/dashboard");
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+
+/**
+ * Challenges
+ */
+ export const fetchChallenges = () => async dispatch => {
   const res = await axios.get("/api/challenges");
 
   dispatch({ type: FETCH_CHALLENGES, payload: res.data });
 };
 
-export const joinChallenge = (id, history) => async dispatch => {
-  const res = await axios.post("/api/challenges", id);
-
-  history.push("/dashboard");
-  dispatch({ type: FETCH_USER, payload: res.data });
-};

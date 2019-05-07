@@ -35,7 +35,8 @@ app.use(passport.session());
 require("./routes/authRoutes")(app);
 require("./routes/activityRoutes")(app);
 require("./routes/challengeRoutes")(app);
-// require("./routes/mountainRoutes")(app);
+require("./routes/userChallengeRoutes")(app);
+
 
 if (process.env.NODE_ENV === "production") {
   //attempt to load js and css asset

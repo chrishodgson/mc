@@ -2,19 +2,25 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { joinChallenge } from "../../actions";
+import { addUserChallenge, fetchUserChallenge } from "../../actions";
 
 class ChallengeView extends Component {
-  state = { challenge: "" };
+  state = { challenge: "", userChallenge: "" };
 
   componentDidMount() {
-    const challenge = _.find(this.props.challenges, {
-      _id: this.props.match.params.challengeId
-    });
+    const challengeId = this.props.match.params.challengeId,
+          challenge = _.find(this.props.challenges, { _id: challengeId });
+
     if (!challenge) {
-      this.props.history.push("/challenges");
+      this.props.history.push("/challenges"); //show flash message?
+      return;
     }
-    this.setState({ challenge });
+
+    const userChallenge = _.find(this.props.userChallenges, { _challenge: challengeId });
+    if (!userChallenge) {
+      this.props.fetchUserChallenge(challengeId);
+    }
+    this.setState({ challenge });// todo replace with result from fetchUserChallenge
   }
 
   renderMountains(mountains) {
@@ -30,24 +36,26 @@ class ChallengeView extends Component {
 
   render() {
     const challenge = this.state.challenge;
-
-    if (!challenge) {
-      return 'challenge not found';
-    }
+    const userChallenge = _.find(this.props.userChallenges, { _challenge: this.state.challenge._id });
+    
+    console.log(userChallenge, 'userChallenge');
 
     return (
       <div>
         <p>Challenge Details</p>
+        
+        <p>{!userChallenge ? 'User challenge not found' : 'User challenge found'}</p>
+
         <button
-          className="btn"
+          className="btn btn-default"
           onClick={() =>
-            this.props.joinChallenge(
-              { id: challenge._id },
+            this.props.addUserChallenge(
+              { challengeId: challenge._id },
               this.props.history
             )
           }
         >
-          Save
+          Join Challenge
         </button>
         <table className="table condensed">
           <tbody>
@@ -62,7 +70,7 @@ class ChallengeView extends Component {
             <tr>
               <td>
                 Mountains: (total {challenge.mountainCount})
-              <ul>{this.renderMountains(challenge._mountains)}</ul>
+              {/* <ul>{this.renderMountains(challenge._mountains)}</ul> */}
               </td>
             </tr>
           </tbody>
@@ -73,6 +81,6 @@ class ChallengeView extends Component {
 }
 
 export default connect(
-  ({ challenges }) => ({ challenges }),
-  { joinChallenge }
+  ({ challenges, userChallenges }) => ({ challenges, userChallenges }),
+  { addUserChallenge, fetchUserChallenge }
 )(withRouter(ChallengeView));

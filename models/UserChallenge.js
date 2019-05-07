@@ -6,9 +6,9 @@ const userChallengeSchema = new Schema({
   title: String,
   climbedCount: Number,
   remainingCount: Number,
-  _mountainsClimbed: [MountainMinimal],
   _challenge: { type: Schema.Types.ObjectId, ref: "Challenge" },
-  _user: { type: Schema.Types.ObjectId, ref: "User" }
+  _user: { type: Schema.Types.ObjectId, ref: "User" },
+  _mountainsClimbed: [MountainMinimal]
 });
 
 mongoose.model("userChallenges", userChallengeSchema);
