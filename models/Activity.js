@@ -8,7 +8,7 @@ const activitySchema = new Schema({
   description: String,
   startDate: Date,
   _challenge: ChallengeMinimal,
-  _mountains: [MountainMinimal],
+  _mountains: [ MountainMinimal ],
   _user: { type: Schema.Types.ObjectId, ref: "User" }
 });
 

@@ -6,7 +6,7 @@ const { Schema } = mongoose;
  */
 const challengeMinimalSchema = new Schema({
   title: String,
-  _challenge: { type: Schema.Types.ObjectId, ref: "Challenge"}
+  _challenge: { type: Schema.Types.ObjectId, ref: "Challenge" }
 });
 
 module.exports = challengeMinimalSchema;

@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { addUserChallenge, fetchUserChallenge } from "../../actions";
 
 class ChallengeView extends Component {
-  state = { challenge: "", userChallenge: "" };
+  state = { challenge: "" };
 
   componentDidMount() {
     const challengeId = this.props.match.params.challengeId,
@@ -16,11 +16,10 @@ class ChallengeView extends Component {
       return;
     }
 
-    const userChallenge = _.find(this.props.userChallenges, { _challenge: challengeId });
-    if (!userChallenge) {
+    if (!this.findUserChallenge(challengeId)) {
       this.props.fetchUserChallenge(challengeId);
     }
-    this.setState({ challenge });// todo replace with result from fetchUserChallenge
+    this.setState({ challenge });
   }
 
   renderMountains(mountains) {
@@ -34,43 +33,59 @@ class ChallengeView extends Component {
     });
   }
 
+  findUserChallenge(challengeId) {
+    return _.find(this.props.userChallenges, item => { 
+      return item.challenge._id === challengeId; 
+    });
+  }
+
   render() {
-    const challenge = this.state.challenge;
-    const userChallenge = _.find(this.props.userChallenges, { _challenge: this.state.challenge._id });
-    
-    console.log(userChallenge, 'userChallenge');
+    const challengeId = this.state.challenge._id;
+    const userChallengeData = this.findUserChallenge(challengeId);
+
+    if (!userChallengeData) {
+      return null;
+    }
 
     return (
       <div>
         <p>Challenge Details</p>
         
-        <p>{!userChallenge ? 'User challenge not found' : 'User challenge found'}</p>
-
+        { userChallengeData.userChallenge ? 'You have joined this challenge.' : 
         <button
-          className="btn btn-default"
+          className="btn btn-secondary"
           onClick={() =>
             this.props.addUserChallenge(
-              { challengeId: challenge._id },
+              { challengeId },
               this.props.history
             )
           }
         >
           Join Challenge
-        </button>
+        </button> }
+
         <table className="table condensed">
           <tbody>
             <tr>
               <th>Title</th>
-              <td>{challenge.title}</td>
+              <td>{userChallengeData.challenge.title}</td>
             </tr>
             <tr>
               <th>Desc</th>
-              <td>{challenge.description}</td>
+              <td>{userChallengeData.challenge.description}</td>
             </tr>
             <tr>
               <td>
-                Mountains: (total {challenge.mountainCount})
-              {/* <ul>{this.renderMountains(challenge._mountains)}</ul> */}
+                Climbed: (total {userChallengeData.userChallenge && userChallengeData.userChallenge.climbedCount})
+                <ul>{userChallengeData.userChallenge && userChallengeData.userChallenge._mountainsClimbed ? 
+                  this.renderMountains(userChallengeData.userChallenge._mountainsClimbed) : ''}
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                All: (total {userChallengeData.challenge._mountains.length})
+                <ul>{this.renderMountains(userChallengeData.challenge._mountains)}</ul>
               </td>
             </tr>
           </tbody>

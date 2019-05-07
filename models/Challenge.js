@@ -10,7 +10,7 @@ const challengeSchema = new Schema({
   highestInMetres: Number,
   lowestInMetres: Number,
   mountainCount: Number,
-  _mountains: [Mountain]
+  _mountains: [ Mountain ]
 });
 
 mongoose.model("challenges", challengeSchema);

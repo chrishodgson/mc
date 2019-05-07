@@ -8,7 +8,7 @@ const userChallengeSchema = new Schema({
   remainingCount: Number,
   _challenge: { type: Schema.Types.ObjectId, ref: "Challenge" },
   _user: { type: Schema.Types.ObjectId, ref: "User" },
-  _mountainsClimbed: [MountainMinimal]
+  _mountainsClimbed: [ MountainMinimal ]
 });
 
 mongoose.model("userChallenges", userChallengeSchema);

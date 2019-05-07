@@ -11,7 +11,7 @@ const mountainMinimalSchema = new Schema({
   gridRef: String,
   easting: Number,
   northing: Number,
-  _mountain: { type: Schema.Types.ObjectId, ref: "Mountain"}
+  _mountain: { type: Schema.Types.ObjectId, ref: "Mountain" }
 });
 
 module.exports = mountainMinimalSchema;

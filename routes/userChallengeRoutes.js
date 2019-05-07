@@ -11,10 +11,8 @@ module.exports = app => {
     const { challengeId } = req.query, 
           challenge = await Challenge.findById(challengeId),
           userChallenge = await UserChallenge.findOne({_user: req.user._id, _challenge: challengeId});
-    
-          userChallenge._mountains = challenge._mountains; //FAILING
 
-    res.send({userChallenge});
+    res.send({userChallenge, challenge});    
   });
 
   /**
