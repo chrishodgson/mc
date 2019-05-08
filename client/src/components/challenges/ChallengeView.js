@@ -12,7 +12,7 @@ class ChallengeView extends Component {
           challenge = _.find(this.props.challenges, { _id: challengeId });
 
     if (!challenge) {
-      this.props.history.push("/challenges"); //show flash message?
+      this.props.history.push("/challenges"); //TODO show flash message saying challenge not found
       return;
     }
 
@@ -20,6 +20,12 @@ class ChallengeView extends Component {
       this.props.fetchUserChallenge(challengeId);
     }
     this.setState({ challenge });
+  }
+
+  findUserChallenge(challengeId) {
+    return _.find(this.props.userChallenges, item => { 
+      return item.challenge._id === challengeId; 
+    });
   }
 
   renderMountains(mountains) {
@@ -33,63 +39,71 @@ class ChallengeView extends Component {
     });
   }
 
-  findUserChallenge(challengeId) {
-    return _.find(this.props.userChallenges, item => { 
-      return item.challenge._id === challengeId; 
-    });
-  }
-
-  render() {
-    const challengeId = this.state.challenge._id;
-    const userChallengeData = this.findUserChallenge(challengeId);
-
-    if (!userChallengeData) {
-      return null;
-    }
-
-    return (
-      <div>
-        <p>Challenge Details</p>
-        
-        { userChallengeData.userChallenge ? 'You have joined this challenge.' : 
-        <button
-          className="btn btn-secondary"
-          onClick={() =>
-            this.props.addUserChallenge(
-              { challengeId },
-              this.props.history
-            )
-          }
+  renderButton() {
+    return <button
+        className="btn btn-secondary"
+        onClick={() =>
+          this.props.addUserChallenge(
+            { challengeId: this.state.challenge._id },
+            this.props.history
+          )
+        }
         >
           Join Challenge
-        </button> }
+        </button>;
+  }
+
+  renderTable(userChallengeData) {
+    const challenge = userChallengeData.challenge,
+          userChallenge = userChallengeData.userChallenge,
+          mountains = (challenge && challenge._mountains) || [],
+          mountainsClimbed = (userChallenge && userChallenge._mountainsClimbed) || [];
+          
+    return (
+      <div>
+        {/* <p>{challenge.title}</p> */}
 
         <table className="table condensed">
           <tbody>
             <tr>
-              <th>Title</th>
-              <td>{userChallengeData.challenge.title}</td>
+              <th>Challenge Title</th>
+              <td>{challenge.title}</td>
             </tr>
             <tr>
-              <th>Desc</th>
-              <td>{userChallengeData.challenge.description}</td>
+              <th>Challenge Description</th>
+              <td>{challenge.description}</td>
             </tr>
+            {userChallenge ? (
             <tr>
               <td>
-                Climbed: (total {userChallengeData.userChallenge && userChallengeData.userChallenge.climbedCount})
-                <ul>{userChallengeData.userChallenge && userChallengeData.userChallenge._mountainsClimbed ? 
-                  this.renderMountains(userChallengeData.userChallenge._mountainsClimbed) : ''}
-                </ul>
+                Mountains Climbed: (total {mountainsClimbed.length || 0})
+                <ul>{ this.renderMountains(mountainsClimbed) }</ul>
               </td>
             </tr>
+            ) : ''}
             <tr>
               <td>
-                All: (total {userChallengeData.challenge._mountains.length})
-                <ul>{this.renderMountains(userChallengeData.challenge._mountains)}</ul>
+                All Mountains: (total {mountains.length})
+                <ul>{this.renderMountains(mountains)}</ul>
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
+    );  
+  }
+
+  render() {
+    const userChallengeData = this.findUserChallenge(this.state.challenge._id);
+    
+    if (!userChallengeData) {
+      return null;
+    }
+    
+    return (
+      <div>        
+        { userChallengeData.userChallenge ? 'You have joined this challenge' : this.renderButton() }
+        { this.renderTable(userChallengeData) }  
       </div>
     );
   }

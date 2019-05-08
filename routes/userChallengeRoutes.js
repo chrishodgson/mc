@@ -12,6 +12,9 @@ module.exports = app => {
           challenge = await Challenge.findById(challengeId),
           userChallenge = await UserChallenge.findOne({_user: req.user._id, _challenge: challengeId});
 
+    console.log(userChallenge._mountainsClimbed, '_mountainsClimbed');
+    console.log(challenge._mountains, '_mountains');
+
     res.send({userChallenge, challenge});    
   });
 
