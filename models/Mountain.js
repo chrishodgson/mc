@@ -9,9 +9,7 @@ const mountainSchema = new Schema({
   easting: Number,
   northing: Number,
   countryCode: String,
-  _area: { type: Schema.Types.ObjectId, ref: "Area" }
-  //_county: { type: Schema.Types.ObjectId, ref: "County" }, 
-  //_challenges: [{ type: Schema.Types.ObjectId, ref: "Challenge" }] 
+  _areaId: { type: Schema.Types.ObjectId, ref: "Area" }
 });
 
 mongoose.model("mountains", mountainSchema);
