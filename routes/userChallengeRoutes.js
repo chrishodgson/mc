@@ -30,7 +30,6 @@ module.exports = app => {
     }
     
     userChallenge = new UserChallenge({
-      title: challenge.title,
       remainingCount: challenge._mountains.length,
       _challengeId,
       _userId: req.user._id,
