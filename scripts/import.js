@@ -2,7 +2,6 @@
  * import mountains and associated data (areas and mountain lists) by country from CSV
  * 
  * This will populate the following collections: 
- * - mountains - a mountain can have multiple areas but only ONE country 
  * - mountain Lists - one per classification code (see allowed classifications below). a mountain list can have ONE country 
  * - areas - (ie Wainwright volumes, Donald Sections, Nuttall chapters, SIB Regions). an area can have multiple countries
  * 
@@ -36,10 +35,7 @@ const args = require("minimist")(process.argv.slice(2));
 const csv = require("csvtojson");
 const convertGridRefToEastingNorthing = require("./gridref");
 
-require("../models/Mountain");
-require("../models/MountainMinimal"); //sub document
 require("../models/Challenge");
-require("../models/County");
 require("../models/Area");
 
 mongoose.connect(
@@ -47,10 +43,8 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
-const Mountain = mongoose.model("mountains");
 const Challenge = mongoose.model("challenges");
 const Area = mongoose.model("areas");
-const County = mongoose.model("counties");
 
 const columns = /(Number|Name|Metres|Feet|Area|Grid ref 10|Classification|Parent (Ma)|Map 1:25k|Country|County)/;
 const allowedClassifications = "M,C,G,F,Sim,Sy,Fel,B,W,WO";
@@ -63,10 +57,10 @@ const countryInput = args["country"] || false;
 const classificationInput = args["classification"] || false;
 
 let areaKeys = {},
-  countyKeys = {},
-  challengeId = 0,
-  mountains = [],
-  mountainsMinimal = [];
+  highestInMetres = 0,
+  lowestInMetres = 0,
+  validItems = [],
+  mountains = [];
 
 /** Run Import
  */
@@ -84,13 +78,12 @@ const doImport = async () => {
 
   await parseFile();
   await saveAreas();
-  await saveCounties();
-  await createChallenge();
   await processMountains();
-  await updateChallenge();
-
-  // console.log(mountainsMinimal);
-  console.log("Finished.");
+  await createChallenge();
+  
+  console.log(
+    "Finished - challenge created with classification " + classificationInput + ', country ' + countryInput + ' - ' + mountains.length + " mountains"
+  );
   process.exit(0);
 };
 
@@ -126,7 +119,7 @@ const doesChallengeAlreadyExist = async () => {
   }
 };
 
-/** Parse file
+/** step 1 Parse file
  */
 const parseFile = async () => {
   const jsonArray = await csv({ includeColumns: columns }).fromFile(
@@ -136,38 +129,15 @@ const parseFile = async () => {
   for (const item of jsonArray) {
     const mountainClassifications = item["Classification"].split(",");
     if (countryInput == item["Country"] && mountainClassifications.includes(classificationInput)) {
-      mountains.push(item);
+      validItems.push(item);  
       if (item["Area"] && !areaKeys.hasOwnProperty(item["Area"])) {
         areaKeys[item["Area"]] = null;
       }
-      if (item["County"] && !areaKeys.hasOwnProperty(item["County"])) {
-        countyKeys[item["County"]] = null;
-      }
-    }
+    }  
   }
 };
 
-/** Create Challenge
- */
-const createChallenge = async () => {
-  document = new Challenge({
-    title: classificationInput,
-    countryCode: countryInput,
-    classificationCode: classificationInput
-  });
-  await document.save();
-  challengeId = document._id;
-};
-
-/** Update Challenge (_mountains field)
- */
-const updateChallenge = async () => {
-  let document = await Challenge.findOne({ _id: challengeId });
-  document["_mountains"] = mountainsMinimal;
-  await document.save();
-};
-
-/** Save Areas
+/** step 2 Save Areas
  */
 const saveAreas = async () => {
   let created = 0;
@@ -194,94 +164,56 @@ const saveAreas = async () => {
   }
 };
 
-/** Save Countries - do we need this ??
- */
-const saveCounties = async () => {
-  let created = 0;
-  for (const property in countyKeys) {
-    let document = await County.findOne({
-      name: property,
-      countryCode: countryInput
-    }).select("_id");
-    if (!document) {
-      document = new County({ name: property, countryCode: countryInput });
-      await document.save();
-      created++;
-    }
-    countyKeys[property] = document._id;
-  }
-  if (created > 0) {
-    console.log(created + " Counties created.");
-  }
-};
-
-/** Process Mountains
+/** step 3 process Mountains
  */
 const processMountains = async () => {
-  existing = created = added = 0;
-  for (const item of mountains) {
+  for (const item of validItems) {
     const position = convertGridRefToEastingNorthing(item["Grid ref 10"]);
 
     if (!position) {
       console.log('No Grid ref for ' + item["Number"] + ' ' + item["Name"]);
       continue;
     }
+    mountains.push(hydrateMountain(item, position));  
+  }  
+}
 
-    let document = await Mountain.findOne({
-      dobihId: item.Number
-    });
-
-    if (!document) {
-      document = hydrateMountain(item, position);
-      await document.save();
-      created++;
-    } else if (!document["_challenges"] || !document["_challenges"].includes(challengeId)) {
-      document["_challenges"].push(challengeId);
-      await document.save();
-      existing++;
-    }
-
-    added++;
-    hydrateMountainMinimal(item, position, document._id);        
-  }
-
-  console.log(existing + " mountains already exist.");
-  console.log(created + " mountains created.");
-  console.log(added + " mountains added to challenge .");
-  
+/** step 4 Create Challenge
+ */
+const createChallenge = async () => {
+  document = new Challenge({
+    title: 'title for classification ' + classificationInput,
+    description: 'description for classification ' + classificationInput,
+    countryCode: countryInput,
+    classificationCode: classificationInput,
+    mountainCount: mountains.length,
+    _mountains: mountains,
+    highestInMetres,
+    lowestInMetres
+  });
+  await document.save();
 };
 
 /** Hydrate Mountain
  */
 const hydrateMountain = (item, position) => {
-  return new Mountain({
+  const metres = Number(item["Metres"]);
+  if (metres > highestInMetres) {
+    highestInMetres = metres;
+  }
+  if (metres < lowestInMetres) {
+    lowestInMetres = metres;
+  }
+  return {
     dobihId: Number(item["Number"]),
     name: item["Name"],
-    metres: Number(item["Metres"]),
+    metres: metres,
     gridRef: item["Grid ref 10"],
     easting: position[0],
     northing: position[1],
-    //lat: item["Latitude"],
-    //lng: item["Longitude"],
-    //feet: Number(item["Feet"]),
     countryCode: item["Country"],
-    _area: areaKeys[item["Area"]],
-    _county: countyKeys[item["County"]],
-    _challenges: [challengeId]
-  });
-};
-
-/** Hydrate Mountain minimal
- */
-const hydrateMountainMinimal = (item, position, mountainId) => {
-  mountainsMinimal.push({
-    name: item["Name"],
-    metres: Number(item["Metres"]),
-    gridRef: item["Grid ref 10"],
-    easting: position[0],
-    northing: position[1],
-    _mountain: mountainId 
-  });
+    _area: areaKeys[item["Area"]]
+  };
 };
 
 doImport();

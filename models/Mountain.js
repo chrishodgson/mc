@@ -12,4 +12,4 @@ const mountainSchema = new Schema({
   _areaId: { type: Schema.Types.ObjectId, ref: "Area" }
 });
 
-mongoose.model("mountains", mountainSchema);
+module.exports = mountainSchema;
