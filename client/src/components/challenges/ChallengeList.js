@@ -8,12 +8,12 @@ class ChallengeList extends Component {
     this.props.fetchChallenges();
   }
 
-  renderChallenges() {
+  renderChallenges() {    
     return this.props.challenges.reverse().map(challenge => {
       return (
         <li key={challenge._id}>
           <Link to={`/challenges/view/${challenge._id}`}>
-            {challenge.title}
+            {challenge.name}
           </Link>
         </li>
       );

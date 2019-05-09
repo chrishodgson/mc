@@ -32,7 +32,7 @@ class ChallengeView extends Component {
     //todo order mountains by order field ?
     return mountains.map(item => {
       return (
-        <li key={item._mountain}>
+        <li key={item._id}>
           {item.name} {item.metres}m - {item.gridRef}
         </li>
       );
@@ -61,17 +61,15 @@ class ChallengeView extends Component {
           
     return (
       <div>
-        {/* <p>{challenge.title}</p> */}
-
         <table className="table condensed">
           <tbody>
             <tr>
-              <th>Challenge Title</th>
-              <td>{challenge.title}</td>
+              <th>Name</th>
+              <td>{this.state.challenge.name}</td>
             </tr>
             <tr>
-              <th>Challenge Description</th>
-              <td>{challenge.description}</td>
+              <th>Description</th>
+              <td>{this.state.challenge.description}</td>
             </tr>
             {userChallenge ? (
             <tr>
@@ -80,7 +78,7 @@ class ChallengeView extends Component {
                 <ul>{ this.renderMountains(mountainsClimbed) }</ul>
               </td>
             </tr>
-            ) : ''}
+            ) : '&nbsp;'}
             <tr>
               <td>
                 All Mountains: (total {mountains.length})

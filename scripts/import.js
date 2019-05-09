@@ -180,7 +180,7 @@ const processMountains = async () => {
  */
 const createChallenge = async () => {
   document = new Challenge({
-    title: 'title for classification ' + classificationInput,
+    name: 'title for classification ' + classificationInput,
     description: 'description for classification ' + classificationInput,
     countryCode: countryInput,
     classificationCode: classificationInput,
