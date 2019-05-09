@@ -1,11 +1,11 @@
 /**
- * import mountains and associated data (areas and mountain lists) by country from CSV
+ * import mountains and associated data by country from CSV
  * 
- * This will populate the following collections: 
- * - mountain Lists - one per classification code (see allowed classifications below). a mountain list can have ONE country 
- * - areas - (ie Wainwright volumes, Donald Sections, Nuttall chapters, SIB Regions). an area can have multiple countries
+ * This will create the following collections: 
+ * - challenge - creates one 
+ * - areas - creates several 
  * 
- * node scripts/import.js --filename=absoluteFilePath.csv --country=E
+ * node scripts/import.js --filename=absoluteFilePath.csv --country=E --classification=W
  *
  * mandatory switches:
  * --country country code to import (see list below)
@@ -150,17 +150,10 @@ const saveAreas = async () => {
     let document = await Area.findOne({ name: property });
     if (!document) {
       document = new Area({
-        name: property,
-        countryCodes: [countryInput]
+        name: property
       });
       await document.save();
       created++;
-    } else if (
-      !document["countryCodes"] ||
-      !document["countryCodes"].includes(countryInput)
-    ) {
-      document["countryCodes"].push(countryInput);
-      await document.save();
     }
     areaKeys[property] = document._id;
   }
@@ -216,7 +209,6 @@ const hydrateMountain = (item, position) => {
     gridRef: item["Grid ref 10"],
     easting: position[0],
     northing: position[1],
-    countryCode: item["Country"],
     _area: areaKeys[item["Area"]]
   };
 };

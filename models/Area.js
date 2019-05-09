@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const areaSchema = new Schema({
-  name: String,
-  countryCodes: [String]
+  name: String
 });
 
 mongoose.model("areas", areaSchema);

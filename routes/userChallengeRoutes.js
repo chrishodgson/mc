@@ -9,11 +9,8 @@ module.exports = app => {
    */
   app.get("/api/userChallenge", requireLogin, async (req, res) => {  
     const { challengeId } = req.query, 
-          challenge = await Challenge.findById(challengeId),
+          challenge = await Challenge.findById(challengeId, {"_mountains": 1}),
           userChallenge = await UserChallenge.findOne({_user: req.user._id, _challenge: challengeId});
-
-    console.log(userChallenge._mountainsClimbed, '_mountainsClimbed');
-    console.log(challenge._mountains, '_mountains');
 
     res.send({userChallenge, challenge});    
   });
@@ -34,10 +31,9 @@ module.exports = app => {
     
     userChallenge = new UserChallenge({
       title: challenge.title,
-      climbedCount: 0,
       remainingCount: challenge._mountains.length,
-      _challenge: challengeId,
-      _user: req.user._id,
+      _challengeId,
+      _userId: req.user._id,
     });
     
     try {

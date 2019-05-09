@@ -8,7 +8,6 @@ const mountainSchema = new Schema({
   gridRef: String,
   easting: Number,
   northing: Number,
-  countryCode: String,
   _areaId: { type: Schema.Types.ObjectId, ref: "Area" }
 });
 
