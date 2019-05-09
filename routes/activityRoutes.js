@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
-const Activity = mongoose.model("activities");
+const Activity = mongoose.model("userActivities");
 
 module.exports = app => {
   // get activities

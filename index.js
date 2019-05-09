@@ -5,12 +5,12 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const keys = require("./config/keys");
 
-// require("./models/Mountain");
 
-require("./models/Challenge");
-require("./models/UserChallenge");
-require("./models/Activity");
+require("./models/Challenge"); //todo remove
+require("./models/UserChallenge"); 
+// require("./models/UserActivity");
 require("./models/User");
+
 require("./services/passport");
 
 mongoose.connect(
@@ -33,9 +33,9 @@ app.use(passport.session());
 
 // routes
 require("./routes/authRoutes")(app);
-require("./routes/activityRoutes")(app);
 require("./routes/challengeRoutes")(app);
 require("./routes/userChallengeRoutes")(app);
+// require("./routes/activityRoutes")(app);
 
 
 if (process.env.NODE_ENV === "production") {

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const Mountain = require("./Mountain");
+const Mountain = require("./Mountain"); //sub document
 
 const challengeSchema = new Schema({
   name: String,
