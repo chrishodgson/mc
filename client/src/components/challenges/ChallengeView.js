@@ -2,7 +2,7 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { addUserChallenge, fetchUserChallenge } from "../../actions";
+import { addUserChallenge, fetchUserChallenge, fetchAreas } from "../../actions";
 
 class ChallengeView extends Component {
   state = { challenge: "" };
@@ -11,15 +11,23 @@ class ChallengeView extends Component {
     const challengeId = this.props.match.params.challengeId,
           challenge = _.find(this.props.challenges, { _id: challengeId });
 
+// console.log(challengeId, 'challengeId');
+console.log(this.props.challenges, 'this.props.challenges');          
+console.log(this.props.userChallenges, 'this.props.userChallenges');          
+
     if (!challenge) {
       this.props.history.push("/challenges"); //TODO show flash message saying challenge not found
       return;
     }
+    this.setState({ challenge });
 
     if (!this.findUserChallenge(challengeId)) {
       this.props.fetchUserChallenge(challengeId);
     }
-    this.setState({ challenge });
+
+    if (this.props.areas.length === 0) {
+      this.props.fetchAreas(); 
+    }
   }
 
   findUserChallenge(challengeId) {
@@ -29,14 +37,19 @@ class ChallengeView extends Component {
   }
 
   renderMountains(mountains) {
-    //todo order mountains by order field ?
     return mountains.map(item => {
-      return (
-        <li key={item._id}>
-          {item.name} {item.metres}m - {item.gridRef}
-        </li>
-      );
+      return <li key={item._id}>{item.name} {item.metres}m - {item.gridRef}</li>;
     });
+  }
+
+  renderClimbed(mountainsClimbed) {
+    return 'climbed';
+    // return <tr>
+    //   <td>
+    //     {/* Mountains Climbed: (total {mountainsClimbed.length || 0}) */}
+    //     {/* <ul>{this.renderMountains(mountainsClimbed)}</ul> */}
+    //   </td>
+    // </tr>;
   }
 
   renderButton() {
@@ -57,8 +70,9 @@ class ChallengeView extends Component {
     const challenge = userChallengeData.challenge,
           userChallenge = userChallengeData.userChallenge,
           mountains = (challenge && challenge._mountains) || [],
-          mountainsClimbed = (userChallenge && userChallenge._mountainsClimbed) || [];
-          
+          mountainsClimbed = (userChallenge && userChallenge._mountainsClimbed) || [];      
+    // console.log(this.props.areas);
+
     return (
       <div>
         <table className="table condensed">
@@ -71,14 +85,11 @@ class ChallengeView extends Component {
               <th>Description</th>
               <td>{this.state.challenge.description}</td>
             </tr>
-            {userChallenge ? (
             <tr>
-              <td>
-                Mountains Climbed: (total {mountainsClimbed.length || 0})
-                <ul>{ this.renderMountains(mountainsClimbed) }</ul>
-              </td>
+              <th>Description</th>
+              <td>{this.renderClimbed(mountainsClimbed)}</td>
             </tr>
-            ) : '&nbsp;'}
+            {/* {userChallenge ? this.renderClimbed(mountainsClimbed) : ''} */}            
             <tr>
               <td>
                 All Mountains: (total {mountains.length})
@@ -98,6 +109,8 @@ class ChallengeView extends Component {
       return null;
     }
     
+    console.log(this.props.areas, 'render');
+
     return (
       <div>        
         { userChallengeData.userChallenge ? 'You have joined this challenge' : this.renderButton() }
@@ -108,6 +121,6 @@ class ChallengeView extends Component {
 }
 
 export default connect(
-  ({ challenges, userChallenges }) => ({ challenges, userChallenges }),
-  { addUserChallenge, fetchUserChallenge }
+  ({ challenges, userChallenges, areas }) => ({ challenges, userChallenges, areas }),
+  { addUserChallenge, fetchUserChallenge, fetchAreas }
 )(withRouter(ChallengeView));

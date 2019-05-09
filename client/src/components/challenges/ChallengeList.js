@@ -5,7 +5,9 @@ import { fetchChallenges } from "../../actions";
 
 class ChallengeList extends Component {
   componentDidMount() {
-    this.props.fetchChallenges();
+    if (this.props.challenges.length === 0) {
+      this.props.fetchChallenges();
+    }  
   }
 
   renderChallenges() {    
@@ -23,7 +25,6 @@ class ChallengeList extends Component {
     if (this.props.challenges.length === 0) {
       return "No challenges found";
     }
-
     return (
       <div>
         <p>Challenge List</p>
