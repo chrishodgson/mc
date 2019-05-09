@@ -81,9 +81,14 @@ const doImport = async () => {
   await processMountains();
   await createChallenge();
   
-  console.log(
-    "Finished - challenge created with classification " + classificationInput + ', country ' + countryInput + ' - ' + mountains.length + " mountains"
+  console.log("Challenge created with classification " + classificationInput + ', country ' + countryInput);
+  
+  console.log(mountains.length + " mountains added, "
+    + lowestInMetres + " lowestInMetres, " + 
+    + highestInMetres + " highestInMetres"
   );
+
+  console.log("Finished.");
   process.exit(0);
 };
 
@@ -187,9 +192,9 @@ const createChallenge = async () => {
     countryCode: countryInput,
     classificationCode: classificationInput,
     mountainCount: mountains.length,
-    _mountains: mountains,
     highestInMetres,
-    lowestInMetres
+    lowestInMetres,
+    _mountains: mountains
   });
   await document.save();
 };
@@ -201,7 +206,7 @@ const hydrateMountain = (item, position) => {
   if (metres > highestInMetres) {
     highestInMetres = metres;
   }
-  if (metres < lowestInMetres) {
+  if (!lowestInMetres || metres < lowestInMetres) {
     lowestInMetres = metres;
   }
   return {
