@@ -10,7 +10,7 @@ require("./models/Challenge"); //todo remove
 require("./models/UserChallenge"); 
 // require("./models/UserActivity");
 require("./models/User");
-
+require("./models/Area");
 require("./services/passport");
 
 mongoose.connect(
@@ -35,6 +35,7 @@ app.use(passport.session());
 require("./routes/authRoutes")(app);
 require("./routes/challengeRoutes")(app);
 require("./routes/userChallengeRoutes")(app);
+require("./routes/AreaRoutes")(app);
 // require("./routes/activityRoutes")(app);
 
 

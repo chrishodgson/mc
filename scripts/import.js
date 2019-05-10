@@ -209,7 +209,7 @@ const hydrateMountain = (item, position) => {
     gridRef: item["Grid ref 10"],
     easting: position[0],
     northing: position[1],
-    _area: areaKeys[item["Area"]]
+    _areaId: areaKeys[item["Area"]]
   };
 };
 

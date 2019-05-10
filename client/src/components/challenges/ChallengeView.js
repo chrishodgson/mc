@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { addUserChallenge, fetchUserChallenge, fetchAreas } from "../../actions";
+// import {mountainsByAreaSelector} from '../../selectors'
 
 class ChallengeView extends Component {
   state = { challenge: "" };
@@ -26,15 +27,15 @@ class ChallengeView extends Component {
     }
   }
 
-  findUserChallenge(challengeId) {
-    return _.find(this.props.userChallenges, item => { 
-      return item.challenge && item.challenge._id === challengeId; 
-    });
-  }
-
-  renderMountains(mountains) {
-    return mountains.map(item => {
-      return <li key={item._id}>{item.name} {item.metres}m - {item.gridRef}</li>;
+  renderMountainsByArea(mountainsByArea) {
+    if (mountainsByArea.length === 0) {
+      return [];
+    }
+    return mountainsByArea.map(areaItem => {      
+      const mountains = areaItem.mountains.map(mountainItem => {
+        return <li key={mountainItem._id}>{mountainItem.name} {mountainItem.metres}m - {mountainItem.gridRef}</li>;
+      });
+      return <li key={areaItem._id}>{areaItem.name}<ul>{mountains}</ul></li>;
     });
   }
 
@@ -53,10 +54,13 @@ class ChallengeView extends Component {
   }
 
   renderTable(userChallengeData) {
+    //todo reduce constants    
     const challenge = userChallengeData.challenge,
           userChallenge = userChallengeData.userChallenge,
           mountains = (challenge && challenge._mountains) || [],
-          mountainsClimbed = (userChallenge && userChallenge._mountainsClimbed) || [];      
+          mountainsClimbed = (userChallenge && userChallenge._mountainsClimbed) || [],
+          mountainsGrouped = this.groupMountainsByArea(mountains, this.props.areas),
+          mountainsClimbedGrouped = this.groupMountainsByArea(mountainsClimbed, this.props.areas);                
 
     return (
       <div>
@@ -74,13 +78,13 @@ class ChallengeView extends Component {
             <tr>
               <td>
                 Mountains Climbed: (total {mountainsClimbed.length || 0})
-                <ul>{this.renderMountains(mountainsClimbed)}</ul>
+                <ul>{this.renderMountainsByArea(mountainsClimbedGrouped)}</ul>
               </td>  
             </tr> : null}            
           <tr>
             <td>
               All Mountains: (total {mountains.length})
-              <ul>{this.renderMountains(mountains)}</ul>
+              <ul>{this.renderMountainsByArea(mountainsGrouped)}</ul>
             </td>
           </tr>
           </tbody>
@@ -89,12 +93,31 @@ class ChallengeView extends Component {
     );  
   }
 
+  // this could be a selector ?
+  findUserChallenge(challengeId) {
+    return _.find(this.props.userChallenges, item => { 
+      return item.challenge && item.challenge._id === challengeId; 
+    });
+  }
+
+  // this could be a selector ?
+  groupMountainsByArea(mountains, areas) {
+    if (mountains.length === 0) {
+      return [];
+    }
+    return _.compact(areas.map(area => {
+        const filteredMountains = _.filter(mountains, {_areaId: area._id});
+        return filteredMountains.length !== 0 ? {_id: area._id, name: area.name, mountains: filteredMountains} : null;
+    }));
+  }
+  
   render() {
     const userChallengeData = this.findUserChallenge(this.state.challenge._id);
-
-    if (!userChallengeData) {
+    if (!userChallengeData || !this.props.areas) {
       return "The Challenge is not available";
     }
+
+    //console.log(this.props, 'this.props');    
 
     return (
       <div>        
@@ -104,6 +127,10 @@ class ChallengeView extends Component {
     );
   }
 }
+
+// function mapStateToProps(state, ownProps) {
+//   return { challenges: state.challenges, userChallenges: state.userChallenges, areas: state.areas };
+// }
 
 export default connect(
   ({ challenges, userChallenges, areas }) => ({ challenges, userChallenges, areas }),
