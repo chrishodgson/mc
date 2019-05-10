@@ -3,7 +3,8 @@
  * 
  * This will create the following collections: 
  * - challenge - creates one 
- * - areas - creates several 
+ * - mountainList - creates one 
+ * - area - creates several 
  * 
  * node scripts/import.js --filename=absoluteFilePath.csv --country=E --classification=W
  *
@@ -36,6 +37,7 @@ const csv = require("csvtojson");
 const convertGridRefToEastingNorthing = require("./gridref");
 
 require("../models/Challenge");
+require("../models/MountainList");
 require("../models/Area");
 
 mongoose.connect(
@@ -44,6 +46,7 @@ mongoose.connect(
 );
 
 const Challenge = mongoose.model("challenges");
+const MountainList = mongoose.model("mountainLists");
 const Area = mongoose.model("areas");
 
 const columns = /(Number|Name|Metres|Feet|Area|Grid ref 10|Classification|Parent (Ma)|Map 1:25k|Country|County)/;
@@ -57,6 +60,8 @@ const countryInput = args["country"] || false;
 const classificationInput = args["classification"] || false;
 
 let areaKeys = {},
+  areaIds = [],
+  mountainListId = '',
   highestInMetres = 0,
   lowestInMetres = 0,
   validItems = [],
@@ -79,6 +84,7 @@ const doImport = async () => {
   await parseFile();
   await saveAreas();
   await processMountains();
+  await createMountainList();
   await createChallenge();
   
   console.log("Challenge created with classification " + classificationInput + ', country ' + countryInput);
@@ -156,6 +162,7 @@ const saveAreas = async () => {
       created++;
     }
     areaKeys[property] = document._id;
+    areaIds.push(document._id);
   }
   if (created > 0) {
     console.log(created + " Areas created.");
@@ -176,18 +183,32 @@ const processMountains = async () => {
   }  
 }
 
-/** step 4 Create Challenge
+/** step 4 Create MountainList
+ */
+const createMountainList = async () => {
+  document = new MountainList({
+    classificationCode: classificationInput,
+    countryCode: countryInput,
+    mountainCount: mountains.length,
+    highestInMetres,
+    lowestInMetres,
+    _areaIds: areaIds,
+    _mountains: mountains,
+  });
+  await document.save();
+  mountainListId = document._id;
+};
+
+/** step 5 Create Challenge
  */
 const createChallenge = async () => {
   document = new Challenge({
     name: 'title for classification ' + classificationInput,
     description: 'description for classification ' + classificationInput,
-    countryCode: countryInput,
-    classificationCode: classificationInput,
     mountainCount: mountains.length,
     highestInMetres,
     lowestInMetres,
-    _mountains: mountains
+    _mountainListId: mountainListId
   });
   await document.save();
 };

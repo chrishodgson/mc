@@ -5,15 +5,21 @@ const UserChallenge = mongoose.model("userChallenges");
 
 module.exports = app => {
   /**
-   * Get a user challenge with the mountains from the challenge
+   * get single
    */
   app.get("/api/userChallenge", requireLogin, async (req, res) => {  
     const { challengeId } = req.query, 
-          challenge = await Challenge.findById(challengeId, {"_mountains": 1}),
           userChallenge = await UserChallenge.findOne({_user: req.user._id, _challenge: challengeId});
-
-    res.send({userChallenge, challenge});    
+    res.send(userChallenge);    
   });
+
+  // app.get("/api/userChallenge", requireLogin, async (req, res) => {  
+  //   const { challengeId } = req.query, 
+  //         challenge = await Challenge.findById(challengeId, {"_mountains": 1}),
+  //         userChallenge = await UserChallenge.findOne({_user: req.user._id, _challenge: challengeId});
+
+  //   res.send({userChallenge, challenge});    
+  // });
 
   /**
    * Join challenge (ie create a userChallenge)
@@ -30,7 +36,9 @@ module.exports = app => {
     }
     
     userChallenge = new UserChallenge({
+      name: challenge.name,
       remainingCount: challenge._mountains.length,
+      _mountainListId: challenge._mountainListId,
       _challengeId,
       _userId: req.user._id,
     });
