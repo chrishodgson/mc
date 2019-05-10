@@ -11,10 +11,6 @@ class ChallengeView extends Component {
     const challengeId = this.props.match.params.challengeId,
           challenge = _.find(this.props.challenges, { _id: challengeId });
 
-// console.log(challengeId, 'challengeId');
-console.log(this.props.challenges, 'this.props.challenges');          
-console.log(this.props.userChallenges, 'this.props.userChallenges');          
-
     if (!challenge) {
       this.props.history.push("/challenges"); //TODO show flash message saying challenge not found
       return;
@@ -32,7 +28,7 @@ console.log(this.props.userChallenges, 'this.props.userChallenges');
 
   findUserChallenge(challengeId) {
     return _.find(this.props.userChallenges, item => { 
-      return item.challenge._id === challengeId; 
+      return item.challenge && item.challenge._id === challengeId; 
     });
   }
 
@@ -40,16 +36,6 @@ console.log(this.props.userChallenges, 'this.props.userChallenges');
     return mountains.map(item => {
       return <li key={item._id}>{item.name} {item.metres}m - {item.gridRef}</li>;
     });
-  }
-
-  renderClimbed(mountainsClimbed) {
-    return 'climbed';
-    // return <tr>
-    //   <td>
-    //     {/* Mountains Climbed: (total {mountainsClimbed.length || 0}) */}
-    //     {/* <ul>{this.renderMountains(mountainsClimbed)}</ul> */}
-    //   </td>
-    // </tr>;
   }
 
   renderButton() {
@@ -71,31 +57,32 @@ console.log(this.props.userChallenges, 'this.props.userChallenges');
           userChallenge = userChallengeData.userChallenge,
           mountains = (challenge && challenge._mountains) || [],
           mountainsClimbed = (userChallenge && userChallenge._mountainsClimbed) || [];      
-    // console.log(this.props.areas);
 
     return (
       <div>
         <table className="table condensed">
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <td>{this.state.challenge.name}</td>
-            </tr>
-            <tr>
-              <th>Description</th>
-              <td>{this.state.challenge.description}</td>
-            </tr>
-            <tr>
-              <th>Description</th>
-              <td>{this.renderClimbed(mountainsClimbed)}</td>
-            </tr>
-            {/* {userChallenge ? this.renderClimbed(mountainsClimbed) : ''} */}            
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td>{this.state.challenge.name}</td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td>{this.state.challenge.description}</td>
+          </tr>
+          {userChallenge ? 
             <tr>
               <td>
-                All Mountains: (total {mountains.length})
-                <ul>{this.renderMountains(mountains)}</ul>
-              </td>
-            </tr>
+                Mountains Climbed: (total {mountainsClimbed.length || 0})
+                <ul>{this.renderMountains(mountainsClimbed)}</ul>
+              </td>  
+            </tr> : null}            
+          <tr>
+            <td>
+              All Mountains: (total {mountains.length})
+              <ul>{this.renderMountains(mountains)}</ul>
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -104,12 +91,10 @@ console.log(this.props.userChallenges, 'this.props.userChallenges');
 
   render() {
     const userChallengeData = this.findUserChallenge(this.state.challenge._id);
-    
+
     if (!userChallengeData) {
-      return null;
+      return "The Challenge is not available";
     }
-    
-    console.log(this.props.areas, 'render');
 
     return (
       <div>        

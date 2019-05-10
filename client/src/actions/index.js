@@ -16,6 +16,13 @@ export const fetchAreas = () => dispatch => {
   dispatch({ type: FETCH_AREAS, payload: areas });
 };
 
+// export const fetchAreas = () => async dispatch => {
+//     const res = await axios.get("/api/areas");
+  
+//     dispatch({ type: FETCH_AREAS, payload: res.data });
+//   };
+// };
+
 /**
  * Challenges - static JSON
  */
