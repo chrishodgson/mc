@@ -4,7 +4,7 @@ const MountainList = mongoose.model("mountainLists");
 
 module.exports = app => {
   /**
-   * get single
+   * get single MountainList
    */
   app.get("/api/mountainList", requireLogin, async (req, res) => {
     const { mountainListId } = req.query, 

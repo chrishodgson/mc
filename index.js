@@ -33,10 +33,10 @@ app.use(passport.session());
 
 // routes
 require("./routes/authRoutes")(app);
-require("./routes/AreaRoutes")(app);
+require("./routes/areaRoutes")(app);
 require("./routes/challengeRoutes")(app);
 require("./routes/userChallengeRoutes")(app);
-require("./routes/MountainListRoutes")(app);
+require("./routes/mountainListRoutes")(app);
 
 
 if (process.env.NODE_ENV === "production") {

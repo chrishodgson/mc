@@ -2,7 +2,7 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { addUserChallenge, fetchUserChallenge, fetchAreas } from "../../actions";
+import { addUserChallenge, fetchMountainList, fetchAreas } from "../../actions";
 // import {mountainsByAreaSelector} from '../../selectors'
 
 class ChallengeView extends Component {
@@ -18,8 +18,10 @@ class ChallengeView extends Component {
     }
     this.setState({ challenge });
 
-    if (!this.findUserChallenge(challengeId)) {
-      this.props.fetchUserChallenge(challengeId);
+    //note fetch userChallenges in ChallengeList Component 
+
+    if (!this.findMountainList(challenge._mountainListId)) {
+      this.props.fetchMountainList(challenge._mountainListId); 
     }
 
     if (this.props.areas.length === 0) {
@@ -53,14 +55,9 @@ class ChallengeView extends Component {
         </button>;
   }
 
-  renderTable(userChallengeData) {
-    //todo reduce constants    
-    const challenge = userChallengeData.challenge,
-          userChallenge = userChallengeData.userChallenge,
-          mountains = (challenge && challenge._mountains) || [],
-          mountainsClimbed = (userChallenge && userChallenge._mountainsClimbed) || [],
-          mountainsGrouped = this.groupMountainsByArea(mountains, this.props.areas),
-          mountainsClimbedGrouped = this.groupMountainsByArea(mountainsClimbed, this.props.areas);                
+  renderTable(mountainList, userChallenge) {
+    //todo add selector to show which mountains have been climbed using userChallenge._climbedMountainIds
+    const mountainsGrouped = this.groupMountainsByArea(mountainList._mountains, this.props.areas);                
 
     return (
       <div>
@@ -68,22 +65,15 @@ class ChallengeView extends Component {
         <tbody>
           <tr>
             <th>Name</th>
-            <td>{this.state.challenge.name}</td>
+            <td>{userChallenge ? userChallenge.name : this.state.challenge.name}</td>
           </tr>
           <tr>
             <th>Description</th>
             <td>{this.state.challenge.description}</td>
           </tr>
-          {userChallenge ? 
-            <tr>
-              <td>
-                Mountains Climbed: (total {mountainsClimbed.length || 0})
-                <ul>{this.renderMountainsByArea(mountainsClimbedGrouped)}</ul>
-              </td>  
-            </tr> : null}            
           <tr>
             <td>
-              All Mountains: (total {mountains.length})
+              Mountains: (total {mountainList._mountains.length})
               <ul>{this.renderMountainsByArea(mountainsGrouped)}</ul>
             </td>
           </tr>
@@ -96,10 +86,17 @@ class ChallengeView extends Component {
   // this could be a selector ?
   findUserChallenge(challengeId) {
     return _.find(this.props.userChallenges, item => { 
-      return item.challenge && item.challenge._id === challengeId; 
+      return item._challengeId === challengeId; 
     });
   }
 
+  // this could be a selector ?
+  findMountainList(mountainListId) {
+    return _.find(this.props.mountainLists, item => { 
+      return item._id === mountainListId; 
+    });
+  }
+  
   // this could be a selector ?
   groupMountainsByArea(mountains, areas) {
     if (mountains.length === 0) {
@@ -112,19 +109,16 @@ class ChallengeView extends Component {
   }
   
   render() {
-    console.log(this.props);
+    const userChallenge = this.findUserChallenge(this.state.challenge._id),
+          mountainList = this.findMountainList(this.state.challenge._mountainListId);
 
-    const userChallengeData = this.findUserChallenge(this.state.challenge._id);
-    if (!userChallengeData || !this.props.areas) {
+    if (!mountainList || !this.props.areas) {
       return "The Challenge is not available";
     }
-
-    //console.log(this.props, 'this.props');    
-
     return (
       <div>        
-        { userChallengeData.userChallenge ? 'You have joined this challenge' : this.renderButton() }
-        { this.renderTable(userChallengeData) }  
+        { userChallenge ? 'You have joined this challenge' : this.renderButton() }
+        { this.renderTable(mountainList, userChallenge) }  
       </div>
     );
   }
@@ -135,6 +129,6 @@ class ChallengeView extends Component {
 // }
 
 export default connect(
-  ({ challenges, userChallenges, areas }) => ({ challenges, userChallenges, areas }),
-  { addUserChallenge, fetchUserChallenge, fetchAreas }
+  ({ challenges, userChallenges, mountainLists, areas }) => ({ challenges, userChallenges, mountainLists, areas }),
+  { addUserChallenge, fetchMountainList, fetchAreas }
 )(withRouter(ChallengeView));

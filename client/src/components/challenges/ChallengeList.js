@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchChallenges } from "../../actions";
+import { fetchChallenges, fetchUserChallenges } from "../../actions";
 
 class ChallengeList extends Component {
   componentDidMount() {
     if (this.props.challenges.length === 0) {
       this.props.fetchChallenges();
     }  
+    this.props.fetchUserChallenges(); // re-fetch each time incase there are changes
   }
 
   renderChallenges() {    
@@ -36,5 +37,5 @@ class ChallengeList extends Component {
 
 export default connect(
   ({ challenges }) => ({ challenges }),
-  { fetchChallenges }
+  { fetchChallenges, fetchUserChallenges}
 )(ChallengeList);

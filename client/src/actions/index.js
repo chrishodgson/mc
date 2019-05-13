@@ -6,7 +6,8 @@ import {
   FETCH_USER,
   FETCH_AREAS, 
   FETCH_CHALLENGES,
-  FETCH_USER_CHALLENGE
+  FETCH_USER_CHALLENGES,
+  FETCH_MOUNTAIN_LIST
 } from "./types";
 
 /**
@@ -47,12 +48,10 @@ export const fetchUser = () => async dispatch => {
 /**
  * User Challenges
  */
-export const fetchUserChallenge = challengeId => async dispatch => {
-  const res = await axios.get("/api/userChallenge", {
-    params: { challengeId }
-  });
+export const fetchUserChallenges = () => async dispatch => {
+  const res = await axios.get("/api/userChallenges");
 
-  dispatch({ type: FETCH_USER_CHALLENGE, payload: res.data });
+  dispatch({ type: FETCH_USER_CHALLENGES, payload: res.data });
 };
 
 export const addUserChallenge = (challengeId, history) => async dispatch => {
@@ -63,3 +62,13 @@ export const addUserChallenge = (challengeId, history) => async dispatch => {
 };
 
 
+/**
+ * User Mountain List
+ */
+export const fetchMountainList = mountainListId => async dispatch => {
+  const res = await axios.get("/api/mountainList", {
+    params: { mountainListId }
+  });
+
+  dispatch({ type: FETCH_MOUNTAIN_LIST, payload: res.data });
+};
