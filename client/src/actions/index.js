@@ -7,7 +7,10 @@ import {
   FETCH_AREAS, 
   FETCH_CHALLENGES,
   FETCH_USER_CHALLENGES,
-  FETCH_MOUNTAIN_LIST
+  FETCH_MOUNTAIN_LIST,
+  FETCH_USER_ACTIVITIES,
+  SELECT_MOUNTAINS, 
+  CLEAR_SELECTED_MOUNTAINS
 } from "./types";
 
 /**
@@ -71,4 +74,30 @@ export const fetchMountainList = mountainListId => async dispatch => {
   });
 
   dispatch({ type: FETCH_MOUNTAIN_LIST, payload: res.data });
+};
+
+
+/**
+ * User Activities
+ */
+export const fetchUserActivities = () => async dispatch => {
+  const res = await axios.get("/api/userActivities");
+
+  dispatch({ type: FETCH_USER_ACTIVITIES, payload: res.data });
+};
+
+/**
+ * Mountain Selections
+ */
+
+export const selectMountain = mountain => {
+  return { type: SELECT_MOUNTAINS, payload: mountain };
+};
+
+export const deSelectMountain = mountainId => {
+  return { type: SELECT_MOUNTAINS };
+};
+
+export const clearMountainSelection = () => {
+  return { type: CLEAR_SELECTED_MOUNTAINS };
 };

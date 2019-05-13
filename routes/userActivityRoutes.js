@@ -3,11 +3,9 @@ const requireLogin = require("../middlewares/requireLogin");
 const Activity = mongoose.model("userActivities");
 
 module.exports = app => {
-  // get activities
-  app.get("/api/activities", requireLogin, async (req, res) => {
-    //todo: restrict by user logged in - {'_users._user': req.user._id}
-    // const activities = await Activity.find({ _users: req.user._id });
-    const activities = await Activity.find();
+  // get user activities - TODO paging
+  app.get("/api/userActivities", requireLogin, async (req, res) => {
+    const activities = await Activity.find({ _userId: req.user._id });
     res.send(activities);
   });
 

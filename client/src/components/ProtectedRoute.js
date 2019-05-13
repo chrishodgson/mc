@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 
 // protected components
 import Dashboard from "./Dashboard";
-// import ActivityList from "./activities/ActivityList";
-// import ActivityView from "./activities/ActivityView";
 import ChallengeList from "./challenges/ChallengeList";
 import ChallengeView from "./challenges/ChallengeView";
-// import ActivityNew from "./activities/ActivityNew";
+import ActivityList from "./activities/ActivityList";
+import ActivityView from "./activities/ActivityView";
+import ActivityAdd from "./activities/add/ActivityAdd";
 
 const ProtectedRoute = ({ auth }) => {
   return auth === false ? (
@@ -17,9 +17,9 @@ const ProtectedRoute = ({ auth }) => {
       <div>
         <Route path={`/dashboard`} component={Dashboard} />
 
-        {/* <Route exact path={`/activities`} component={ActivityList} /> */}
-        {/* <Route path={`/activities/new`} component={ActivityNew} /> */}
-        {/* <Route path="/activities/view/:activityId" component={ActivityView} /> */}
+        <Route exact path={`/activities`} component={ActivityList} />
+        <Route path={`/activities/view/:activityId`} component={ActivityView} />
+        <Route path={`/activities/add`} component={ActivityAdd} />
 
         <Route exact path={`/challenges`} component={ChallengeList} />
         <Route path="/challenges/view/:challengeId" component={ChallengeView} />

@@ -6,7 +6,8 @@ const passport = require("passport");
 const keys = require("./config/keys");
 
 
-require("./models/Challenge"); //todo remove
+require("./models/UserActivity"); 
+require("./models/Challenge"); 
 require("./models/UserChallenge"); 
 require("./models/MountainList");
 require("./models/User");
@@ -37,6 +38,7 @@ require("./routes/areaRoutes")(app);
 require("./routes/challengeRoutes")(app);
 require("./routes/userChallengeRoutes")(app);
 require("./routes/mountainListRoutes")(app);
+require("./routes/userActivityRoutes")(app);
 
 
 if (process.env.NODE_ENV === "production") {

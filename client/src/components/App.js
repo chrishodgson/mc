@@ -24,10 +24,9 @@ class App extends Component {
               <DefaultLayout exact path="/login" component={Login} />              
               <DefaultLayout path="/dashboard" component={ProtectedRoute} />
 
-              {/* <DefaultLayout exact path="/activities" component={ProtectedRoute} />
-              <DefaultLayout path="/activities/view/:activityId" component={ProtectedRoute} /> */}
-
-              {/* <DefaultLayout path="/activities/new" component={ProtectedRoute} /> */}
+              <DefaultLayout exact path="/activities" component={ProtectedRoute} />
+              <DefaultLayout path="/activities/view/:activityId" component={ProtectedRoute} />
+              <DefaultLayout path="/activities/add" component={ProtectedRoute} />
 
               <DefaultLayout exact path="/challenges" component={ProtectedRoute} />
               <DefaultLayout path="/challenges/view/:challengeId" component={ProtectedRoute} />

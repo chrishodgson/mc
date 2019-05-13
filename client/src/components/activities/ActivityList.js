@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchActivities } from "../../actions";
+import { fetchUserActivities } from "../../actions";
 import Moment from "moment";
 
 class ActivityList extends Component {
   componentDidMount() {
-    this.props.fetchActivities();
+    this.props.fetchUserActivities();
   }
 
   renderMountains(mountains) {
@@ -19,12 +19,12 @@ class ActivityList extends Component {
     });
   }
 
-  renderActivities() {
-    return this.props.activities.reverse().map(item => {
+  renderUserActivities() {
+    return this.props.userActivities.reverse().map(item => {
       return (
         <tr key={item._id}>
           <td>
-            <Link to={`/activities/view/${item._id}`}>{item.title}</Link>
+            <Link to={`/activities/view/${item._id}`}>{item.name}</Link>
           </td>
           <td>{item.description}</td>
           <td>{item.date ? Moment(item.date).format("MMMM Do YYYY") : ""}</td>
@@ -38,30 +38,35 @@ class ActivityList extends Component {
   }
 
   render() {
-    if (this.props.activities.length === 0) {
-      return "Activities are not available";
-    }
+    // if (this.props.userActivities.length === 0) {
+    //   return "Activities are not available";
+    // }
 
     return (
       <div>
         <p>Activity List</p>
+        
+        <Link to={`/activities/add`}>Add Activity</Link>
+
+        {this.props.userActivities.length === 0 ? <p>No existing activities</p> : 
         <table className="table condensed">
           <thead>
             <tr>
-              <th>Title</th>
+              <th>Name</th>
               <th>Description</th>
               <th>Date</th>
               <th>Mountains</th>
             </tr>
           </thead>
-          <tbody>{this.renderActivities()}</tbody>
+          <tbody>{this.renderUserActivities()}</tbody>
         </table>
+        }
       </div>
     );
   }
 }
 
 export default connect(
-  ({ activities }) => ({ activities }),
-  { fetchActivities }
+  ({ userActivities }) => ({ userActivities }),
+  { fetchUserActivities }
 )(ActivityList);
