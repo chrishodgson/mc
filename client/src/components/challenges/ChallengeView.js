@@ -56,7 +56,8 @@ class ChallengeView extends Component {
   }
 
   renderTable(mountainList, userChallenge) {
-    //todo add selector to show which mountains have been climbed using userChallenge._climbedMountainIds
+    //todo add selector to show which mountains have been climbed using 
+    // const mountainsFlagged = this.flagMountainsClimbed(mountainList._mountains, userChallenge._climbedMountainIds);  
     const mountainsGrouped = this.groupMountainsByArea(mountainList._mountains, this.props.areas);                
 
     return (
@@ -83,21 +84,21 @@ class ChallengeView extends Component {
     );  
   }
 
-  // this could be a selector ?
+  // TODO make a selector 
   findUserChallenge(challengeId) {
     return _.find(this.props.userChallenges, item => { 
       return item._challengeId === challengeId; 
     });
   }
 
-  // this could be a selector ?
+  // TODO make a selector 
   findMountainList(mountainListId) {
     return _.find(this.props.mountainLists, item => { 
       return item._id === mountainListId; 
     });
   }
   
-  // this could be a selector ?
+  // TODO make a selector 
   groupMountainsByArea(mountains, areas) {
     if (mountains.length === 0) {
       return [];
@@ -106,6 +107,15 @@ class ChallengeView extends Component {
         const filteredMountains = _.filter(mountains, {_areaId: area._id});
         return filteredMountains.length !== 0 ? {_id: area._id, name: area.name, mountains: filteredMountains} : null;
     }));
+  }
+
+  // TODO make a selector 
+  flagMountainsClimbed(mountains, climbedIds) {
+    return mountains.map(mountain => {
+        // const climbed = _.find(climbedIds, mountain._id);
+        const mountainNew = mountain.climbed = true;
+        return mountainNew;
+    });
   }
   
   render() {

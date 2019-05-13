@@ -10,7 +10,6 @@ class ActivityList extends Component {
   }
 
   renderMountains(mountains) {
-    //todo order mountains by order field ?
     return mountains.map(mountain => {
       return (
         <li key={mountain._id}>
@@ -40,7 +39,7 @@ class ActivityList extends Component {
 
   render() {
     if (this.props.activities.length === 0) {
-      return "No activities found";
+      return "Activities are not available";
     }
 
     return (

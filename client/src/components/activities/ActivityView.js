@@ -19,7 +19,6 @@ class ActivityView extends Component {
   }
 
   renderMountains(mountains) {
-    //todo order mountains by order field ?
     return mountains.map(mountain => {
       return (
         <li key={mountain._id}>
@@ -29,11 +28,19 @@ class ActivityView extends Component {
     });
   }
 
-  render() {
-    const activity = this.state.activity;
+  // TODO make a selector 
+  findUserChallenge(challengeId) {
+    return _.find(this.props.userChallenges, item => { 
+      return item._challengeId === challengeId; 
+    });
+  }
 
-    if (!activity) {
-      return 'activity not found';
+  render() {
+    const activity = this.state.activity,
+        userChallenge = this.findUserChallenge(this.state.activity._challengeId);
+
+    if (!activity || !userChallenge) {
+      return "The Activity is not available";
     }
 
     return (
@@ -43,7 +50,7 @@ class ActivityView extends Component {
           <tbody>
             <tr>
               <th>Challenge</th>
-              <td>TODO - add name from challenge </td>
+              <td>{userChallenge.name}</td>
             </tr>
             <tr>
               <th>Title</th>
@@ -75,6 +82,6 @@ class ActivityView extends Component {
   }
 }
 
-export default connect(({ activities }) => ({ activities }))(
+export default connect(({ activities, userChallanges }) => ({ activities, userChallanges }))(
   withRouter(ActivityView)
 );
