@@ -9,7 +9,7 @@ module.exports = app => {
    */
   app.get("/api/userChallenge", requireLogin, async (req, res) => {  
     const { challengeId } = req.query, 
-          userChallenge = await UserChallenge.findOne({_user: req.user._id, _challenge: challengeId});
+          userChallenge = await UserChallenge.findOne({_userId: req.user._id, _challengeId: challengeId});
     res.send(userChallenge);    
   });
 
@@ -28,7 +28,7 @@ module.exports = app => {
     const { challengeId } = req.body,
           challenge = await Challenge.findById(challengeId);
     
-    let userChallenge = await UserChallenge.findOne({_user: req.user._id, _challenge: challengeId});
+    let userChallenge = await UserChallenge.findOne({_userId: req.user._id, _challengeId: challengeId});
 
     if (userChallenge) {
       console.log('already joined challenge ' + challenge.title, 'POST api/userChallenges');

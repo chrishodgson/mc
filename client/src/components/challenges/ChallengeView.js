@@ -8,7 +8,7 @@ import { addUserChallenge, fetchUserChallenge, fetchAreas } from "../../actions"
 class ChallengeView extends Component {
   state = { challenge: "" };
 
-  componentDidMount() {
+  componentDidMount() {    
     const challengeId = this.props.match.params.challengeId,
           challenge = _.find(this.props.challenges, { _id: challengeId });
 
@@ -112,6 +112,8 @@ class ChallengeView extends Component {
   }
   
   render() {
+    console.log(this.props);
+
     const userChallengeData = this.findUserChallenge(this.state.challenge._id);
     if (!userChallengeData || !this.props.areas) {
       return "The Challenge is not available";
