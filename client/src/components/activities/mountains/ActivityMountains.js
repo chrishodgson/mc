@@ -1,47 +1,91 @@
+import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { deSelectMountain } from "../../../actions";
+import { withRouter } from "react-router-dom";
+import { fetchMountainList, fetchAreas } from "../../../actions";
 
 class ActivityMountains extends Component {
-  renderSelectedMountains() {
-    return this.props.mountainSelection.map(mountain => {
-      return (
-        <span style={{ paddingRight: "10px" }} key={mountain._id}>
-          {mountain.name}
-          <button
-            name={mountain._id}
-            onClick={this.handleClick}
-            className="btn btn-light btn-secondary"
-          >
-            x
-          </button>
-        </span>
-      );
+  state = { userChallenge: "" }; //do we need this ?
+
+  componentDidMount() {    
+// console.log(this.props.userChallenges, 'this.props.userChallenges - componentDidMount');
+
+    const userChallengeId = this.props.match.params.userChallengeId,
+          userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
+
+    if (!userChallenge) {
+      //TODO show flash message saying user challenge not found
+      this.props.history.push("/challenges"); 
+      return;
+    }
+
+    this.setState({ userChallenge });
+
+    if (!this.findMountainList(userChallenge._mountainListId)) {
+      this.props.fetchMountainList(userChallenge._mountainListId); 
+    }
+  }
+
+  // TODO make a selector 
+  findUserChallenge(challengeId) {
+    return _.find(this.props.userChallenges, item => { 
+      return item._challengeId === challengeId; 
     });
   }
 
-  handleClick = e => {
-    e.preventDefault();
-    this.props.deSelectMountain(e.target.name);
-  };
+  // TODO make a selector 
+  findMountainList(mountainListId) {
+    return _.find(this.props.mountainLists, item => { 
+      return item._id === mountainListId; 
+    });
+  }
 
-  render() {
-    if (this.props.mountainSelection.length === 0) {
-      return null;
+  // TODO make a selector 
+  groupMountainsByArea(mountains, areas) {
+    if (mountains.length === 0) {
+      return [];
     }
+    return _.compact(areas.map(area => {
+        const filteredMountains = _.filter(mountains, {_areaId: area._id});
+        return filteredMountains.length !== 0 ? {_id: area._id, name: area.name, mountains: filteredMountains} : null;
+    }));
+  }
+
+  renderMountainsByArea(mountainsByArea) {
+    if (mountainsByArea.length === 0) {
+      return [];
+    }
+
+    //todo use 
+    return mountainsByArea.map(areaItem => {      
+      const mountains = areaItem.mountains.map(mountainItem => {
+        return <li class="list-inline-item" key={mountainItem._id}>{mountainItem.name}<span> | </span></li>;
+      });
+      return <div key={areaItem._id}>{areaItem.name}<ul className="list-inline">{mountains}</ul></div>;
+    });
+  }
+
+  render() {  
+    // console.log(this.state.userChallenge, 'state.userChallenge - render');
+    // console.log(this.props, 'render - props');
+
+    const mountainList = this.findMountainList(this.state.userChallenge._mountainListId);
+
+    if (!mountainList || !this.props.areas) {
+      return "Details are not available";
+    }
+
+    const mountainsGrouped = this.groupMountainsByArea(mountainList._mountains, this.props.areas);      
+
     return (
       <div>
-        Selected Mountains: <ul>{this.renderSelectedMountains()}</ul>
+        Mountains: {this.renderMountainsByArea(mountainsGrouped)}
       </div>
     );
   }
 }
 
-function mapStateToProps({ mountainSelection }) {
-  return { mountainSelection };
-}
-
 export default connect(
-  mapStateToProps,
-  { deSelectMountain }
-)(ActivityMountains);
+  ({ userChallenges, mountainLists, areas }) => ({ userChallenges, mountainLists, areas }),
+  { fetchMountainList, fetchAreas }
+)(withRouter(ActivityMountains));

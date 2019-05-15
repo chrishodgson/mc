@@ -1,31 +1,26 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { addUserChallenge, fetchMountainList, fetchAreas } from "../../actions";
 // import {mountainsByAreaSelector} from '../../selectors'
 
 class ChallengeView extends Component {
-  state = { challenge: "" };
+  state = { challenge: "" }; //do we need this ?
 
   componentDidMount() {    
     const challengeId = this.props.match.params.challengeId,
           challenge = _.find(this.props.challenges, { _id: challengeId });
 
     if (!challenge) {
-      this.props.history.push("/challenges"); //TODO show flash message saying challenge not found
+      //TODO show flash message saying challenge not found
+      this.props.history.push("/challenges"); 
       return;
     }
     this.setState({ challenge });
 
-    //note fetch userChallenges in ChallengeList Component 
-
     if (!this.findMountainList(challenge._mountainListId)) {
       this.props.fetchMountainList(challenge._mountainListId); 
-    }
-
-    if (this.props.areas.length === 0) {
-      this.props.fetchAreas(); 
     }
   }
 
@@ -53,6 +48,10 @@ class ChallengeView extends Component {
         >
           Join Challenge
         </button>;
+  }
+
+  renderLink(userChallenge) {
+    return <Link to={`/activities/add/${userChallenge._id}`}>Add New Activity</Link>
   }
 
   renderTable(mountainList, userChallenge) {
@@ -121,13 +120,13 @@ class ChallengeView extends Component {
   render() {
     const userChallenge = this.findUserChallenge(this.state.challenge._id),
           mountainList = this.findMountainList(this.state.challenge._mountainListId);
-
+            
     if (!mountainList || !this.props.areas) {
       return "The Challenge is not available";
     }
     return (
       <div>        
-        { userChallenge ? 'You have joined this challenge' : this.renderButton() }
+        { userChallenge ? this.renderLink(userChallenge) : this.renderButton() }
         { this.renderTable(mountainList, userChallenge) }  
       </div>
     );

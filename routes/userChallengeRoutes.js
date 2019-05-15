@@ -16,6 +16,7 @@ module.exports = app => {
    * Create a  User Challenge
    */
   app.post("/api/userChallenges", requireLogin, async (req, res) => {
+
     const { challengeId } = req.body,
           challenge = await Challenge.findById(challengeId);
     
@@ -28,9 +29,9 @@ module.exports = app => {
     
     userChallenge = new UserChallenge({
       name: challenge.name,
-      remainingCount: challenge._mountains.length,
+      remainingCount: challenge.mountainCount,
       _mountainListId: challenge._mountainListId,
-      _challengeId,
+      _challengeId: challengeId,
       _userId: req.user._id,
     });
     

@@ -12,6 +12,9 @@ import ProtectedRoute from "./ProtectedRoute";
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
+    this.props.fetchAreas(); 
+    this.props.fetchChallenges(); 
+    this.props.fetchUserChallenges(); // is this the right place for this ?
   }
 
   render() {
@@ -26,7 +29,8 @@ class App extends Component {
 
               <DefaultLayout exact path="/activities" component={ProtectedRoute} />
               <DefaultLayout path="/activities/view/:activityId" component={ProtectedRoute} />
-              <DefaultLayout path="/activities/add" component={ProtectedRoute} />
+              <DefaultLayout path="/activities/add/:userChallengeId" component={ProtectedRoute} />
+              {/* <DefaultLayout path="/activities/add" component={ProtectedRoute} /> */}
 
               <DefaultLayout exact path="/challenges" component={ProtectedRoute} />
               <DefaultLayout path="/challenges/view/:challengeId" component={ProtectedRoute} />

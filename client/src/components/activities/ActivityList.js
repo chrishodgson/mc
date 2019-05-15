@@ -46,9 +46,8 @@ class ActivityList extends Component {
       <div>
         <p>Activity List</p>
         
-        <Link to={`/activities/add`}>Add Activity</Link>
-
         {this.props.userActivities.length === 0 ? <p>No existing activities</p> : 
+        
         <table className="table condensed">
           <thead>
             <tr>

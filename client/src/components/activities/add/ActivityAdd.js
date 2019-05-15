@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { reduxForm } from "redux-form";
 import Details from "../details/ActivityDetails";
+import MountainSelections from "../mountains/MountainSelections";
 import Mountains from "../mountains/ActivityMountains";
 import Review from "./ActivityAddReview";
 
@@ -8,9 +9,6 @@ class ActivityAdd extends Component {
   state = { step: "" };
 
   renderContent() {
-
-console.log(this.state.step, 'this.state.step');
-
     switch (this.state.step) {
       //step 3
       case "review":
@@ -22,10 +20,13 @@ console.log(this.state.step, 'this.state.step');
       //step 2
       case "mountains":
         return (
-          <Mountains 
-            onSubmit={() => this.setState({ step: "review" })}
-            onCancel={() => this.setState({ step: "details" })}
-          />
+          <div>
+            <MountainSelections />
+            <Mountains 
+              onSubmit={() => this.setState({ step: "review" })}
+              onCancel={() => this.setState({ step: "details" })}
+            />
+          </div>
         );
       //step 1
       case "details":

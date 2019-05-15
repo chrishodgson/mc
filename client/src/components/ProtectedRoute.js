@@ -19,7 +19,8 @@ const ProtectedRoute = ({ auth }) => {
 
         <Route exact path={`/activities`} component={ActivityList} />
         <Route path={`/activities/view/:activityId`} component={ActivityView} />
-        <Route path={`/activities/add`} component={ActivityAdd} />
+        <Route path={`/activities/add/:userChallengeId`} component={ActivityAdd} />
+        {/* <Route path={`/activities/add`} component={ActivityAdd} />         */}
 
         <Route exact path={`/challenges`} component={ChallengeList} />
         <Route path="/challenges/view/:challengeId" component={ChallengeView} />
