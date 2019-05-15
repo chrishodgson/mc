@@ -56,12 +56,13 @@ class ActivityMountains extends Component {
       return [];
     }
 
-    //todo use 
+    //todo use css grid
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
-        return <li class="list-inline-item" key={mountainItem._id}>{mountainItem.name}<span> | </span></li>;
+        return <div style={{padding: "5px 10px", border: "1px solid #eee"}} key={mountainItem._id}>{mountainItem.name}</div>;
       });
-      return <div key={areaItem._id}>{areaItem.name}<ul className="list-inline">{mountains}</ul></div>;
+      const styles = {display: "inline-grid", "grid-template-columns": "auto auto auto", paddingBottom: "10px"};
+      return <div key={areaItem._id}><p>{areaItem.name}</p><div style={styles}>{mountains}</div></div>;
     });
   }
 
