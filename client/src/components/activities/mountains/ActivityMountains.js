@@ -6,7 +6,7 @@ import { fetchMountainList, selectMountain } from "../../../actions";
 import { groupMountainsByAreaSelector } from '../../../selectors'
 
 class ActivityMountains extends Component {
-  state = { userChallenge: "" }; // why do we need this ?
+  state = { userChallenge: '', mountainsError: false }; // why do we need userChallenge ?
 
   componentDidMount() {    
     const userChallengeId = this.props.match.params.userChallengeId,
@@ -24,7 +24,17 @@ class ActivityMountains extends Component {
     }
   }
 
-  handleClick = e => {
+  handleNextStep(e) {
+    e.preventDefault();
+    const mountainsError = this.props.mountainSelections.length === 0;
+    this.setState({ mountainsError });
+    if (mountainsError) {
+      return;
+    }
+    this.props.onSubmit();
+  }
+
+  handleSelectMountain = e => {
     e.preventDefault();
     const mountainId = e.target.name;
     const mountainList =_.find(this.props.mountainLists, { _id: this.state.userChallenge._mountainListId });
@@ -55,7 +65,7 @@ class ActivityMountains extends Component {
               <small><button
               className="btn btn-link"
               name={mountainItem._id}
-              onClick={this.handleClick}
+              onClick={this.handleSelectMountain}
             >
               Add
             </button></small>
@@ -87,7 +97,28 @@ class ActivityMountains extends Component {
 
     return (
       <div>
+        {this.state.mountainsError ? (
+          <p className="red-text">
+            Please select at least one mountain before proceeding.
+          </p>
+        ) : (
+          ""
+        )}
+        <button onClick={this.props.onCancel} className="btn">
+          Back
+        </button>
+        <button onClick={e => this.handleNextStep(e)} className="btn">
+          Next
+        </button>
+
         Mountains: {this.renderMountainsByArea(mountainsGrouped)}
+
+        <button onClick={this.props.onCancel} className="btn">
+          Back
+        </button>
+        <button onClick={e => this.handleNextStep(e)} className="btn">
+          Next
+        </button>
       </div>
     );
   }
@@ -99,15 +130,3 @@ export default connect(
 )(withRouter(ActivityMountains));
 
 
-// handleNext(e) {
-//   e.preventDefault();
-//   const mountainsError = this.props.mountainSelection.length === 0;
-//   this.setState({ mountainsError });
-//   if (mountainsError) {
-//     return;
-//   }
-//   this.props.onSubmit();
-// }
-// {/* <button onClick={e => this.handleNext(e)} className="btn">
-//   Next
-// </button> */}

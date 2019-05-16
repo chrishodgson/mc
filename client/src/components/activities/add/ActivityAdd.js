@@ -48,4 +48,5 @@ class ActivityAdd extends Component {
   }
 }
 
-export default reduxForm({ form: "activityDetails" })(ActivityAdd);
+//export default reduxForm({ form: "activityDetails" })(ActivityAdd);
+export default ActivityAdd;

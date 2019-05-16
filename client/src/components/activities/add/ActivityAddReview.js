@@ -1,16 +1,11 @@
 import _ from "lodash";
 import React, { Component } from "react";
-// import { reset } from "redux-form";
+import { reset } from "redux-form";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Moment from "moment";
 import activityDetailFields from "../details/activityDetailsFields";
-
-// import {
-//   submitActivity,
-//   clearMountainSearch,
-//   clearMountainSelection
-// } from "../../../actions";
+import { addUserActivity, clearSelectedMountains } from "../../../actions";
 
 class ActivityAddReview extends Component {
   renderActivityDetails = () =>
@@ -29,12 +24,12 @@ class ActivityAddReview extends Component {
     });
 
   renderMountains = () =>
-    _.map(this.props.mountains, ({ _id, name }) => {
+    _.map(this.props.mountainSelections, ({ _id, name }) => {
       return <div key={_id}>{name}</div>;
     });
 
   render() {
-    console.log(this.props.activityDetails);
+    // console.log(this.props.activityDetails);
     return (
       <div>
         <h5>Please confirm your entries</h5>
@@ -44,46 +39,45 @@ class ActivityAddReview extends Component {
         <button className="btn" onClick={this.props.onCancel}>
           Back
         </button>
-        {/* <button
+        <button
           className="btn"
           onClick={() => {
             this.props.resetState();
             this.props.dispatch(
-              submitActivity(
+              addUserActivity(
                 this.props.activityDetails,
-                this.props.mountains,
+                this.props.mountainSelections,
                 this.props.history
               )
             );
           }}
         >
-          Save
-        </button> */}
+          Save Activity
+        </button>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
+  console.log(state.form);
   return {
     activityDetails: state.form.activityDetails.values || [],
-    mountains: state.mountainSelection || []
+    mountainSelections: state.mountainSelections
   };
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     dispatch,
-//     resetState: () => {
-//       dispatch(reset("activityDetails"));
-//       dispatch(reset("mountainSearch"));
-//       dispatch(clearMountainSearch());
-//       dispatch(clearMountainSelection());
-//     }
-//   };
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    resetState: () => {
+      dispatch(reset("activityDetails"));
+      dispatch(clearSelectedMountains());
+    }
+  };
+}
 
 export default connect(
-  mapStateToProps
-  // ,mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(withRouter(ActivityAddReview));

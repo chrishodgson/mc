@@ -113,6 +113,6 @@ export const deSelectMountain = mountainId => {
   return { type: DESELECT_MOUNTAIN, payload: mountainId };
 };
 
-export const clearMountainSelection = () => {
+export const clearSelectedMountains = () => {
   return { type: CLEAR_SELECTED_MOUNTAINS };
 };

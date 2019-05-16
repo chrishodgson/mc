@@ -25,8 +25,8 @@ class ActivityDetails extends Component {
       <div>
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderFields()}
-          <Link to="/activities" className="btn">
-            Back
+          <Link to="/dashboard" className="btn">
+            Cancel
           </Link>
           <button onClick={this.props.onSubmit} className="btn">
             Next
