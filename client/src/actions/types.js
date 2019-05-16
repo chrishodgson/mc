@@ -4,5 +4,6 @@ export const FETCH_CHALLENGES = "fetch_challenges";
 export const FETCH_USER_CHALLENGES = "fetch_user_challenges"; 
 export const FETCH_USER_ACTIVITIES = "fetch_user_activities"; 
 export const FETCH_MOUNTAIN_LIST = "fetch_mountain_list"; 
-export const SELECT_MOUNTAINS = "select_mountains";
+export const SELECT_MOUNTAIN = "select_mountain";
+export const DESELECT_MOUNTAIN = "deselect_mountain";
 export const CLEAR_SELECTED_MOUNTAINS = "clear_selected_mountains";

@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { deSelectMountain } from "../../../actions";
 
 class MountainSelections extends Component {
-  renderSelectedMountains() {
-    return this.props.mountainSelection.map(mountain => {
+  renderMountainSelections() {
+    return this.props.mountainSelections.map(mountain => {
       return (
         <span style={{ paddingRight: "10px" }} key={mountain._id}>
           {mountain.name}
@@ -26,22 +26,18 @@ class MountainSelections extends Component {
   };
 
   render() {
-    if (this.props.mountainSelection.length === 0) {
+    if (this.props.mountainSelections.length === 0) {
       return null;
     }
     return (
       <div>
-        Selected Mountains: <ul>{this.renderSelectedMountains()}</ul>
+        Selected Mountains: <ul>{this.renderMountainSelections()}</ul>
       </div>
     );
   }
 }
 
-function mapStateToProps({ mountainSelection }) {
-  return { mountainSelection };
-}
-
 export default connect(
-  mapStateToProps,
+  ({ mountainSelections }) => ({ mountainSelections }),
   { deSelectMountain }
 )(MountainSelections);

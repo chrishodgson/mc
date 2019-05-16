@@ -4,19 +4,19 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Moment from "moment";
 import OSMap from "../OSMap";
-import { findUserChallengeSelector } from '../../selectors'
+import { findUserChallengeByChallengeIdSelector } from '../../selectors'
 
 class ActivityView extends Component {
-  state = { activity: "" };
+  state = { userActivity: "" }; //why do we need this ?
 
   componentDidMount() {
-    const activity = _.find(this.props.activities, {
+    const userActivity = _.find(this.props.userActivities, {
       _id: this.props.match.params.activityId
     });
-    if (!activity) {
-      this.props.history.push("/activities");
+    if (!userActivity) {
+      this.props.history.push("/activities"); //TODO show flash message
     }
-    this.setState({ activity });
+    this.setState({ userActivity });
   }
 
   renderMountains(mountains) {
@@ -30,12 +30,12 @@ class ActivityView extends Component {
   }
 
   render() {
-    const activity = this.state.activity,
-        userChallenge = findUserChallengeSelector(this.state.activity._challengeId);
-
-    if (!activity || !userChallenge) {
+    if (!this.props.userChallenges || !this.state.activity) {
       return "The Activity is not available";
     }
+
+    const userActivity = this.state.activity,
+        userChallenge = findUserChallengeByChallengeIdSelector(userActivity._challengeId, this.props.userChallenges);
 
     return (
       <div>
@@ -48,34 +48,34 @@ class ActivityView extends Component {
             </tr>
             <tr>
               <th>Title</th>
-              <td>{activity.title}</td>
+              <td>{userActivity.title}</td>
             </tr>
             <tr>
               <th>Desc</th>
-              <td>{activity.description}</td>
+              <td>{userActivity.description}</td>
             </tr>
             <tr>
               <th>Date</th>
               <td>
-                {activity.date
-                  ? Moment(activity.date).format("MMMM Do YYYY")
+                {userActivity.date
+                  ? Moment(userActivity.date).format("MMMM Do YYYY")
                   : ""}
               </td>
             </tr>
             <tr>
               <td>
-                Mountains: (total {activity.mountainCount}) 
-                <ul>{this.renderMountains(activity._mountains)}</ul>
+                Mountains: (total {userActivity.mountainCount}) 
+                <ul>{this.renderMountains(userActivity._mountains)}</ul>
               </td>
             </tr>
           </tbody>
         </table>
-        <OSMap mountains={activity._mountains} />
+        <OSMap mountains={userActivity._mountains} />
       </div>
     );
   }
 }
 
-export default connect(({ activities, userChallanges }) => ({ activities, userChallanges }))(
+export default connect(({ userActivities, userChallenges }) => ({ userActivities, userChallenges }))(
   withRouter(ActivityView)
 );

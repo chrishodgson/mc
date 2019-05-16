@@ -5,7 +5,7 @@ import challengesReducer from "./challengesReducer";
 import userChallengesReducer from "./userChallengesReducer";
 import userActivitiesReducer from "./userActivitiesReducer";
 import mountainListsReducer from "./mountainListsReducer";
-import mountainSelectionReducer from "./mountainSelectionReducer";
+import mountainSelectionsReducer from "./mountainSelectionsReducer";
 import { reducer as reduxForm } from "redux-form";
 
 export default combineReducers({
@@ -15,6 +15,6 @@ export default combineReducers({
   userChallenges: userChallengesReducer,
   userActivities: userActivitiesReducer,
   mountainLists: mountainListsReducer,
-  mountainSelection: mountainSelectionReducer,
+  mountainSelections: mountainSelectionsReducer,
   form: reduxForm
 });

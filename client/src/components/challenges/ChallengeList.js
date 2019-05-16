@@ -19,6 +19,7 @@ class ChallengeList extends Component {
       );
     });
   }
+  
   render() {
     if (this.props.challenges.length === 0) {
       return "The Challenges are not available";

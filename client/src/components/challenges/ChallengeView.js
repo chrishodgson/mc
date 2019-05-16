@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { addUserChallenge, fetchMountainList, fetchAreas } from "../../actions";
-import { findUserChallengeSelector, groupMountainsByAreaSelector } from '../../selectors'
+import { findUserChallengeByChallengeIdSelector, groupMountainsByAreaSelector } from '../../selectors'
 
 class ChallengeView extends Component {
   state = { challenge: "" }; //do we need this ?
@@ -13,8 +13,7 @@ class ChallengeView extends Component {
           challenge = _.find(this.props.challenges, { _id: challengeId });
 
     if (!challenge) {
-      //TODO show flash message saying challenge not found
-      this.props.history.push("/challenges"); 
+      this.props.history.push("/challenges");  //TODO show flash message
       return;
     }
     this.setState({ challenge });
@@ -85,10 +84,10 @@ class ChallengeView extends Component {
   }
 
   render() {
-    const userChallenge = findUserChallengeSelector(this.state.challenge._id),
+    const userChallenge = findUserChallengeByChallengeIdSelector(this.state.challenge._id, this.props.userChallenges),
           mountainList = _.find(this.props.mountainLists, { _id: this.state.challenge._mountainListId });
             
-    if (!mountainList || !this.props.areas) {
+    if (!mountainList || !this.props.areas || !this.props.userChallenges) {
       return "The Challenge is not available";
     }
     return (
@@ -99,10 +98,6 @@ class ChallengeView extends Component {
     );
   }
 }
-
-// function mapStateToProps(state, ownProps) {
-//   return { challenges: state.challenges, userChallenges: state.userChallenges, areas: state.areas };
-// }
 
 export default connect(
   ({ challenges, userChallenges, mountainLists, areas }) => ({ challenges, userChallenges, mountainLists, areas }),

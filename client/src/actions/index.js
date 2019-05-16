@@ -9,7 +9,8 @@ import {
   FETCH_USER_CHALLENGES,
   FETCH_MOUNTAIN_LIST,
   FETCH_USER_ACTIVITIES,
-  SELECT_MOUNTAINS, 
+  SELECT_MOUNTAIN, 
+  DESELECT_MOUNTAIN, 
   CLEAR_SELECTED_MOUNTAINS
 } from "./types";
 
@@ -105,11 +106,11 @@ export const addUserActivity = (
  * Mountain Selections
  */
 export const selectMountain = mountain => {
-  return { type: SELECT_MOUNTAINS, payload: mountain };
+  return { type: SELECT_MOUNTAIN, payload: mountain };
 };
 
 export const deSelectMountain = mountainId => {
-  return { type: SELECT_MOUNTAINS };
+  return { type: DESELECT_MOUNTAIN, payload: mountainId };
 };
 
 export const clearMountainSelection = () => {

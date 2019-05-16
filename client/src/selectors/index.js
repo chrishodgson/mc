@@ -1,10 +1,7 @@
 import _ from "lodash";
 
-// how does this work and others don't ?
-const userChallengeSelector = state => state.userChallenges;
-
-export const findUserChallengeSelector = challengeId => {
-  return _.find(userChallengeSelector, item => { 
+export const findUserChallengeByChallengeIdSelector = (challengeId, userChallenges) => {
+  return _.find(userChallenges, item => { 
     return item._challengeId === challengeId; 
   });
 }

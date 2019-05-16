@@ -20,27 +20,14 @@ class ActivityDetails extends Component {
     });
   }
 
-  // handleNext(e) {
-  //   e.preventDefault();
-  //   const mountainsError = this.props.mountainSelection.length === 0;
-  //   this.setState({ mountainsError });
-  //   if (mountainsError) {
-  //     return;
-  //   }
-  //   this.props.onSubmit();
-  // }
-
   render() {
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderFields()}
-          <Link to="/dashboard" className="btn">
+          <Link to="/activities" className="btn">
             Back
           </Link>
-          {/* <button onClick={e => this.handleNext(e)} className="btn">
-            Next
-          </button> */}
           <button onClick={this.props.onSubmit} className="btn">
             Next
           </button>
