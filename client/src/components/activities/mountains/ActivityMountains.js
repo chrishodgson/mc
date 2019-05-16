@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { fetchMountainList, fetchAreas } from "../../../actions";
+import { groupMountainsByAreaSelector } from '../../../selectors'
 
 class ActivityMountains extends Component {
   state = { userChallenge: "" }; //do we need this ?
@@ -21,34 +22,10 @@ class ActivityMountains extends Component {
 
     this.setState({ userChallenge });
 
-    if (!this.findMountainList(userChallenge._mountainListId)) {
+    if (!_.find(this.props.mountainLists, { _id: userChallenge._mountainListId })) {
+    //if (!this.findMountainList(userChallenge._mountainListId)) {
       this.props.fetchMountainList(userChallenge._mountainListId); 
     }
-  }
-
-  // TODO make a selector 
-  findUserChallenge(challengeId) {
-    return _.find(this.props.userChallenges, item => { 
-      return item._challengeId === challengeId; 
-    });
-  }
-
-  // TODO make a selector 
-  findMountainList(mountainListId) {
-    return _.find(this.props.mountainLists, item => { 
-      return item._id === mountainListId; 
-    });
-  }
-
-  // TODO make a selector 
-  groupMountainsByArea(mountains, areas) {
-    if (mountains.length === 0) {
-      return [];
-    }
-    return _.compact(areas.map(area => {
-        const filteredMountains = _.filter(mountains, {_areaId: area._id});
-        return filteredMountains.length !== 0 ? {_id: area._id, name: area.name, mountains: filteredMountains} : null;
-    }));
   }
 
   renderMountainsByArea(mountainsByArea) {
@@ -79,13 +56,14 @@ class ActivityMountains extends Component {
     // console.log(this.state.userChallenge, 'state.userChallenge - render');
     // console.log(this.props, 'render - props');
 
-    const mountainList = this.findMountainList(this.state.userChallenge._mountainListId);
+    // const mountainList = this.findMountainList(this.state.userChallenge._mountainListId);
+    const mountainList = _.find(this.props.mountainLists, { _id: this.state.userChallenge._mountainListId });
 
     if (!mountainList || !this.props.areas) {
       return "Details are not available";
     }
 
-    const mountainsGrouped = this.groupMountainsByArea(mountainList._mountains, this.props.areas);      
+    const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);      
 
     return (
       <div>

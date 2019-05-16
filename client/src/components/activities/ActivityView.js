@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Moment from "moment";
 import OSMap from "../OSMap";
+import { findUserChallengeSelector } from '../../selectors'
 
 class ActivityView extends Component {
   state = { activity: "" };
@@ -28,16 +29,9 @@ class ActivityView extends Component {
     });
   }
 
-  // TODO make a selector 
-  findUserChallenge(challengeId) {
-    return _.find(this.props.userChallenges, item => { 
-      return item._challengeId === challengeId; 
-    });
-  }
-
   render() {
     const activity = this.state.activity,
-        userChallenge = this.findUserChallenge(this.state.activity._challengeId);
+        userChallenge = findUserChallengeSelector(this.state.activity._challengeId);
 
     if (!activity || !userChallenge) {
       return "The Activity is not available";

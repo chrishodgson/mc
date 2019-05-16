@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { addUserChallenge, fetchMountainList, fetchAreas } from "../../actions";
-// import {mountainsByAreaSelector} from '../../selectors'
+import { findUserChallengeSelector, groupMountainsByAreaSelector } from '../../selectors'
 
 class ChallengeView extends Component {
   state = { challenge: "" }; //do we need this ?
@@ -19,7 +19,7 @@ class ChallengeView extends Component {
     }
     this.setState({ challenge });
 
-    if (!this.findMountainList(challenge._mountainListId)) {
+    if (!_.find(this.props.mountainLists, { _id: challenge._mountainListId })) {
       this.props.fetchMountainList(challenge._mountainListId); 
     }
   }
@@ -57,7 +57,8 @@ class ChallengeView extends Component {
   renderTable(mountainList, userChallenge) {
     //todo add selector to show which mountains have been climbed using 
     // const mountainsFlagged = this.flagMountainsClimbed(mountainList._mountains, userChallenge._climbedMountainIds);  
-    const mountainsGrouped = this.groupMountainsByArea(mountainList._mountains, this.props.areas);                
+
+    const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);            
 
     return (
       <div>
@@ -83,43 +84,9 @@ class ChallengeView extends Component {
     );  
   }
 
-  // TODO make a selector 
-  findUserChallenge(challengeId) {
-    return _.find(this.props.userChallenges, item => { 
-      return item._challengeId === challengeId; 
-    });
-  }
-
-  // TODO make a selector 
-  findMountainList(mountainListId) {
-    return _.find(this.props.mountainLists, item => { 
-      return item._id === mountainListId; 
-    });
-  }
-  
-  // TODO make a selector 
-  groupMountainsByArea(mountains, areas) {
-    if (mountains.length === 0) {
-      return [];
-    }
-    return _.compact(areas.map(area => {
-        const filteredMountains = _.filter(mountains, {_areaId: area._id});
-        return filteredMountains.length !== 0 ? {_id: area._id, name: area.name, mountains: filteredMountains} : null;
-    }));
-  }
-
-  // TODO make a selector 
-  flagMountainsClimbed(mountains, climbedIds) {
-    return mountains.map(mountain => {
-        // const climbed = _.find(climbedIds, mountain._id);
-        const mountainNew = mountain.climbed = true;
-        return mountainNew;
-    });
-  }
-  
   render() {
-    const userChallenge = this.findUserChallenge(this.state.challenge._id),
-          mountainList = this.findMountainList(this.state.challenge._mountainListId);
+    const userChallenge = findUserChallengeSelector(this.state.challenge._id),
+          mountainList = _.find(this.props.mountainLists, { _id: this.state.challenge._mountainListId });
             
     if (!mountainList || !this.props.areas) {
       return "The Challenge is not available";

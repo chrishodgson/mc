@@ -1,14 +1,28 @@
 import _ from "lodash";
-import { createSelector } from "reselect";
 
-const mountainsSelector = state => state.mountains;
-const selectedMountainIdsSelector = state => state.selectedMountainIds;
+// how does this work and others don't ?
+const userChallengeSelector = state => state.userChallenges;
 
-export const mountainsByAreaSelector = createSelector(
-  [mountainsSelector, selectedMountainIdsSelector],
-  (mountains, selectedMountainIds) => {
-    return _.filter(mountains, mountain => {
-      return _.indexOf(selectedMountainIds, mountain._id) > -1;
-    });
+export const findUserChallengeSelector = challengeId => {
+  return _.find(userChallengeSelector, item => { 
+    return item._challengeId === challengeId; 
+  });
+}
+
+export const groupMountainsByAreaSelector = (mountains, areas) => {
+  if (mountains.length === 0) {
+    return [];
   }
-);
+  return _.compact(areas.map(area => {
+      const filteredMountains = _.filter(mountains, {_areaId: area._id});
+      return filteredMountains.length !== 0 ? {_id: area._id, name: area.name, mountains: filteredMountains} : null;
+  }));
+}
+
+// export const flagMountainsClimbedSelectror(mountains, climbedIds) {
+//   return mountains.map(mountain => {
+//       // const climbed = _.find(climbedIds, mountain._id);
+//       const mountainNew = mountain.climbed = true;
+//       return mountainNew;
+//   });
+// }
