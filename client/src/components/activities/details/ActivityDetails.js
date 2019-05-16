@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { reduxForm, Field as ReduxField } from "redux-form";
+import { Link } from "react-router-dom";
 import Field from "../../Field";
 import formFields from "./activityDetailsFields";
 
@@ -19,13 +20,26 @@ class ActivityDetails extends Component {
     });
   }
 
+  // handleNext(e) {
+  //   e.preventDefault();
+  //   const mountainsError = this.props.mountainSelection.length === 0;
+  //   this.setState({ mountainsError });
+  //   if (mountainsError) {
+  //     return;
+  //   }
+  //   this.props.onSubmit();
+  // }
+
   render() {
     return (
       <div>
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderFields()}
-          {/* <button onClick={this.props.onCancel} className="btn">
+          <Link to="/dashboard" className="btn">
             Back
+          </Link>
+          {/* <button onClick={e => this.handleNext(e)} className="btn">
+            Next
           </button> */}
           <button onClick={this.props.onSubmit} className="btn">
             Next

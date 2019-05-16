@@ -61,7 +61,7 @@ export const addUserChallenge = (challengeId, history) => async dispatch => {
   const res = await axios.post("/api/userChallenges", challengeId);
 
   history.push("/dashboard");
-  dispatch({ type: FETCH_USER, payload: res.data });
+  dispatch({ type: FETCH_USER, payload: res.data }); //why do we need to do this ?
 };
 
 
@@ -80,16 +80,30 @@ export const fetchMountainList = mountainListId => async dispatch => {
 /**
  * User Activities
  */
+//todo paging
 export const fetchUserActivities = () => async dispatch => {
   const res = await axios.get("/api/userActivities");
 
   dispatch({ type: FETCH_USER_ACTIVITIES, payload: res.data });
 };
 
+export const addUserActivity = (
+  details,
+  mountains,
+  history
+) => async dispatch => {
+  const res = await axios.post("/api/userActivities", {
+    details,
+    mountains
+  });
+
+  history.push("/dashboard");
+  dispatch({ type: FETCH_USER, payload: res.data }); //why do we need to do this ?
+};
+
 /**
  * Mountain Selections
  */
-
 export const selectMountain = mountain => {
   return { type: SELECT_MOUNTAINS, payload: mountain };
 };

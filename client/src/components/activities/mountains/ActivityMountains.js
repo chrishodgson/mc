@@ -59,10 +59,19 @@ class ActivityMountains extends Component {
     //todo use css grid
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
-        return <div style={{padding: "5px 10px", border: "1px solid #eee"}} key={mountainItem._id}>{mountainItem.name}</div>;
+        return <div style={{padding: "5px 10px", background: "#eee"}} key={mountainItem._id}>{mountainItem.name}</div>;
       });
-      const styles = {display: "inline-grid", "grid-template-columns": "auto auto auto", paddingBottom: "10px"};
-      return <div key={areaItem._id}><p>{areaItem.name}</p><div style={styles}>{mountains}</div></div>;
+      const styles = {
+        display: "inline-grid", 
+        "grid-template-columns": "200px 200px 200px 200px",
+        paddingBottom: "10px",
+        "grid-gap": "10px"
+    };
+      return (
+        <div key={areaItem._id}>
+          <h5>{areaItem.name}</h5>
+          <div style={styles}>{mountains}</div>
+      </div>);
     });
   }
 
