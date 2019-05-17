@@ -6,9 +6,9 @@ import Moment from "moment";
 
 class ActivityList extends Component {
   componentDidMount() {
-    this.props.fetchUserActivities();
+    this.props.fetchUserActivities(); // will this overwrite previous?
   }
-
+  
   renderMountains(mountains) {
     return mountains.map(mountain => {
       return (
@@ -38,15 +38,11 @@ class ActivityList extends Component {
   }
 
   render() {
-    // if (this.props.userActivities.length === 0) {
-    //   return "Activities are not available";
-    // }
-
     return (
       <div>
         <p>Activity List</p>
         
-        {this.props.userActivities.length === 0 ? <p>No existing activities</p> : 
+        {this.props.userActivities.length === 0 ? <p>No activities found</p> : 
         
         <table className="table condensed">
           <thead>

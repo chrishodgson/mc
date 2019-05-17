@@ -5,7 +5,7 @@ import { fetchChallenges, fetchUserChallenges } from "../../actions";
 
 class ChallengeList extends Component {
   componentDidMount() {
-    this.props.fetchUserChallenges(); // refetch each time incase there are changes ?
+    this.props.fetchUserChallenges(); // will this overwrite previous?
   }
 
   renderChallenges() {    

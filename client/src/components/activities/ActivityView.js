@@ -9,14 +9,20 @@ class ActivityView extends Component {
   state = { userActivity: "", userChallenge: "" }; //why do we need this ?
 
   componentDidMount() {
+    
     const userActivityId = this.props.match.params.userActivityId,
-          userActivity = _.find(this.props.userActivities, {_id: userActivityId}),
-          userChallenge = _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
+          userActivity = _.find(this.props.userActivities, {_id: userActivityId});
 
-    if (!userActivity || userChallenge) {
+console.log(this.props.userChallenges, userActivityId);
+
+    // const userChallenge = userActivity && _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
+
+    if (!userActivity) {
+    //if (!userActivity || !userChallenge) {
       this.props.history.push("/activities"); //TODO show flash message
     }
-    this.setState({ userActivity, userChallenge });
+    //this.setState({ userActivity, userChallenge });
+    this.setState({ userActivity });
   }
 
   renderMountains(mountains) {
@@ -30,24 +36,28 @@ class ActivityView extends Component {
   }
 
   render() {
-    if (!this.state.userChallenge || !this.state.activity) {
+    if (!this.state.userActivity) {
+    // if (!this.state.userChallenge || !this.state.activity) {
       return "The Activity is not available";
     }
 
-    const userActivity = this.state.activity,
-          userChallenge = this.state.userChallenge;
+    const userActivity = this.state.userActivity;
+          // userChallenge = this.state.userChallenge;
 
     return (
       <div>
         <p>Activity Details</p>
+
+        {/* For Challenge {userChallenge.name} */}
+
         <table className="table condensed">
           <tbody>
             <tr>
-              <th>Challenge</th>
-              <td>{userChallenge.name}</td>
+              <th>Name</th>
+              <td>{userActivity.name}</td>
             </tr>
             <tr>
-              <th>Title</th>
+              <th>Description</th>
               <td>{userActivity.title}</td>
             </tr>
             <tr>
