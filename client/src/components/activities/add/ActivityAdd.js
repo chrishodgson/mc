@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { reduxForm } from "redux-form";
+// import { reduxForm } from "redux-form";
 import Details from "../details/ActivityDetails";
 import MountainSelections from "../mountains/MountainSelections";
 import Mountains from "../mountains/ActivityMountains";

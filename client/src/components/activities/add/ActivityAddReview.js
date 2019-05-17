@@ -29,7 +29,8 @@ class ActivityAddReview extends Component {
     });
 
   render() {
-    // console.log(this.props.activityDetails);
+    const userChallengeId = this.props.match.params.userChallengeId;
+
     return (
       <div>
         <h5>Please confirm your entries</h5>
@@ -47,6 +48,7 @@ class ActivityAddReview extends Component {
               addUserActivity(
                 this.props.activityDetails,
                 this.props.mountainSelections,
+                userChallengeId,
                 this.props.history
               )
             );

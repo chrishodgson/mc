@@ -5,38 +5,29 @@ const UserActivity = mongoose.model("userActivities");
 module.exports = app => {
   // get user activities - TODO paging
   app.get("/api/userActivities", requireLogin, async (req, res) => {
-    const activities = await Activity.find({ _userId: req.user._id });
-    res.send(activities);
+    const userActivities = await UserActivity.find({ _userId: req.user._id });
+    res.send(userActivities);
   });
 
   // add activity
   app.post("/api/userActivities", requireLogin, async (req, res) => {
     const {
-      activityDetails: { title, description, startDate },
-      mountains
+      details: { name, description, startDate },
+      mountains,
+      userChallengeId
     } = req.body;
-    const mountainItems = mountains.map(mountain => {
-      return {
-        _mountain: mountain._id,
-        name: mountain.name,
-        northing: mountain.northing,
-        easting: mountain.easting,
-        gridRef: mountain.gridRef,
-        metres: mountain.metres
-      };
-    });
-    const UserActivity = new userActivity({
-      _userId: req.user._id,
-      //_userChallengeId
-      title,
+    
+    const userActivity = new UserActivity({
+      name,
       description,
       startDate,
-      mountainCount: mountainItems.length,
-      _mountains: mountainItems
+      _userChallengeId: userChallengeId,
+      _userId: req.user._id,
+      _mountains: mountains
     });
 
     try {
-      await activity.save();
+      await userActivity.save();
       res.send({});
     } catch (err) {
       res.status(422).send(err);

@@ -4,19 +4,19 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Moment from "moment";
 import OSMap from "../OSMap";
-import { findUserChallengeByChallengeIdSelector } from '../../selectors'
 
 class ActivityView extends Component {
-  state = { userActivity: "" }; //why do we need this ?
+  state = { userActivity: "", userChallenge: "" }; //why do we need this ?
 
   componentDidMount() {
-    const userActivity = _.find(this.props.userActivities, {
-      _id: this.props.match.params.activityId
-    });
-    if (!userActivity) {
+    const activityId = this.props.match.params.activityId,
+          userActivity = _.find(this.props.userActivities, {_id: activityId}),
+          userChallenge = _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
+
+    if (!userActivity || userChallenge) {
       this.props.history.push("/activities"); //TODO show flash message
     }
-    this.setState({ userActivity });
+    this.setState({ userActivity, userChallenge });
   }
 
   renderMountains(mountains) {
@@ -30,12 +30,12 @@ class ActivityView extends Component {
   }
 
   render() {
-    if (!this.props.userChallenges || !this.state.activity) {
+    if (!this.state.userChallenge || !this.state.activity) {
       return "The Activity is not available";
     }
 
     const userActivity = this.state.activity,
-        userChallenge = findUserChallengeByChallengeIdSelector(userActivity._challengeId, this.props.userChallenges);
+          userChallenge = this.state.userChallenge;
 
     return (
       <div>
