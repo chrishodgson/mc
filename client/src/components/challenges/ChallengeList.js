@@ -5,7 +5,7 @@ import { fetchChallenges, fetchUserChallenges } from "../../actions";
 
 class ChallengeList extends Component {
   componentDidMount() {
-    this.props.fetchUserChallenges(); // will this overwrite previous?
+    this.props.fetchUserChallenges(); // is this the right place ? needed for view challenge - this will this overwrite previous?
   }
 
   renderChallenges() {    

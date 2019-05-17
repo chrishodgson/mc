@@ -59,6 +59,8 @@ class ChallengeView extends Component {
 
     const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);            
 
+    console.log(mountainList._mountains, "_mountains");
+
     return (
       <div>
         <table className="table condensed">

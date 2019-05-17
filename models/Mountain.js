@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+//sub document
 const mountainSchema = new Schema({
   dobihId: Number,
   name: String,

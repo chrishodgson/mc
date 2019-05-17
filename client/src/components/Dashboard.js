@@ -5,13 +5,13 @@ import { fetchChallenges, fetchUserChallenges, fetchAreas } from "../actions";
 
 class Dashboard extends Component {
     componentDidMount() {      
-      if (!this.props.challenges) {
+      if (this.props.challenges.length === 0) {
         this.props.fetchChallenges();
       }  
-      if (!this.props.userChallenges) {
+      if (this.props.userChallenges.length === 0) {
         this.props.fetchUserChallenges(); 
       }
-      if (!this.props.areas) {
+      if (this.props.areas.length === 0) {
         this.props.fetchAreas(); //we dont need this here but lets get them anyway as this should be the entry point after login
       }  
     }
