@@ -9,8 +9,8 @@ class ActivityView extends Component {
   state = { userActivity: "", userChallenge: "" }; //why do we need this ?
 
   componentDidMount() {
-    const activityId = this.props.match.params.activityId,
-          userActivity = _.find(this.props.userActivities, {_id: activityId}),
+    const userActivityId = this.props.match.params.userActivityId,
+          userActivity = _.find(this.props.userActivities, {_id: userActivityId}),
           userChallenge = _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
 
     if (!userActivity || userChallenge) {
