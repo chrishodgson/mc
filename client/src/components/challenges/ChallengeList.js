@@ -26,7 +26,7 @@ class ChallengeList extends Component {
     }
     return (
       <div>
-        <p>Challenge List</p>
+        <p>My Challenges</p>
         <ul>{this.renderChallenges()}</ul>
       </div>
     );

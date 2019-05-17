@@ -22,17 +22,18 @@ class ActivityList extends Component {
   renderUserActivities() {
     return this.props.userActivities.reverse().map(item => {
       return (
-        <tr key={item._id}>
-          <td>
+        <div key={item._id}>
+          <p>
+            {item.date ? Moment(item.date).format("MMMM Do YYYY") : ""}
+          </p>
+          <h5>
             <Link to={`/activities/view/${item._id}`}>{item.name}</Link>
-          </td>
-          <td>{item.description}</td>
-          <td>{item.date ? Moment(item.date).format("MMMM Do YYYY") : ""}</td>
-          <td>
-            Mountains: (total {item.mountainCount}) 
-            <ul>{this.renderMountains(item._mountains)}</ul>
-          </td>
-        </tr>
+          </h5>
+          <p>
+            {item.mountainCount} mountains 
+            <ul className="list-inline">{this.renderMountains(item._mountains)}</ul>
+          </p>
+        </div>
       );
     });
   }
@@ -40,22 +41,11 @@ class ActivityList extends Component {
   render() {
     return (
       <div>
-        <p>Activity List</p>
+        <p>My Activities</p>
         
-        {this.props.userActivities.length === 0 ? <p>No activities found</p> : 
-        
-        <table className="table condensed">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Date</th>
-              <th>Mountains</th>
-            </tr>
-          </thead>
-          <tbody>{this.renderUserActivities()}</tbody>
-        </table>
-        }
+        {this.props.userActivities.length === 0 ? 
+          <p>No activities found</p> : 
+          this.renderUserActivities()}
       </div>
     );
   }

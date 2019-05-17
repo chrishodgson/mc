@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchChallenges, fetchUserChallenges, fetchAreas } from "../actions";
+import ChallengeList from "./challenges/ChallengeList";
+import ActivityList from "./activities/ActivityList";
 
 class Dashboard extends Component {
     componentDidMount() {      
@@ -20,12 +22,18 @@ class Dashboard extends Component {
       return (
         <div>
           <p>Dashboard</p>
-          <p>
-            <Link to="/activities">List Activities</Link>
-          </p>
-          <p>
-            <Link to="/challenges">List Challenges</Link>
-          </p>
+          <ul className="list-inline">
+            <li className="list-inline-item"><Link to="/activities">List Activities</Link></li>
+            <li className="list-inline-item"><Link to="/challenges">List Challenges</Link></li>
+          </ul>
+          <div className="row">
+            <div className="col-8 bg-light">
+              <ActivityList />
+            </div>
+            <div className="col-4 bg-light">
+              <ChallengeList />
+            </div>
+          </div>
         </div>
       );    
     }
