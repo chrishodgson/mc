@@ -4,8 +4,8 @@ const UserActivityMountain = require("./UserActivityMountain"); //sub document
 
 const userChallengeSchema = new Schema({
   name: String,
-  climbedMountainCount: Number,
-  remainingMountainCount: Number,
+  climbedCount: Number,
+  remainingCount: Number,
   mountainCount: Number,
   _challengeId: { type: Schema.Types.ObjectId, ref: "Challenge" },
   _mountainListId: { type: Schema.Types.ObjectId, ref: "MountainList" },

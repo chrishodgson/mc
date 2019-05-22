@@ -8,12 +8,9 @@ import OSMap from "../OSMap";
 class ActivityView extends Component {
   state = { userActivity: "", userChallenge: "" }; //why do we need this ?
 
-  componentDidMount() {
-    
+  componentDidMount() {    
     const userActivityId = this.props.match.params.userActivityId,
           userActivity = _.find(this.props.userActivities, {_id: userActivityId});
-
-console.log(this.props.userChallenges, userActivityId);
 
     // const userChallenge = userActivity && _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
 

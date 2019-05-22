@@ -6,14 +6,16 @@ import Moment from "moment";
 
 class ActivityList extends Component {
   componentDidMount() {
-    this.props.fetchUserActivities(); // will this overwrite previous?
+    if (this.props.userActivities.length === 0) {
+      this.props.fetchUserActivities(); 
+    }  
   }
   
   renderMountains(mountains) {
     return mountains.map(mountain => {
       return (
         <li key={mountain._id}>
-          {mountain.name} {mountain.metres}m - {mountain.gridRef}
+          {mountain.name} ({mountain.metres}m)
         </li>
       );
     });
@@ -24,14 +26,14 @@ class ActivityList extends Component {
       return (
         <div key={item._id}>
           <p>
-            {item.date ? Moment(item.date).format("MMMM Do YYYY") : ""}
+            {item.startDate ? Moment(item.startDate).format("MMMM Do YYYY") : ""}
           </p>
           <h5>
             <Link to={`/activities/view/${item._id}`}>{item.name}</Link>
           </h5>
           <p>
-            {item.mountainCount} mountains 
-            <ul className="list-inline">{this.renderMountains(item._mountains)}</ul>
+            {item._mountains.length} mountain(s):
+            <ul>{this.renderMountains(item._mountains)}</ul>
           </p>
         </div>
       );

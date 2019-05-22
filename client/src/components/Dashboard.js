@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchChallenges, fetchUserChallenges, fetchAreas } from "../actions";
-import ChallengeList from "./challenges/ChallengeList";
+import ChallengeSummaryList from "./challenges/ChallengeSummaryList";
 import ActivityList from "./activities/ActivityList";
 
 class Dashboard extends Component {
@@ -23,15 +23,15 @@ class Dashboard extends Component {
         <div>
           <p>Dashboard</p>
           <ul className="list-inline">
-            <li className="list-inline-item"><Link to="/activities">List Activities</Link></li>
-            <li className="list-inline-item"><Link to="/challenges">List Challenges</Link></li>
+            <li className="list-inline-item"><Link to="/activities">Activities</Link></li>
+            <li className="list-inline-item"><Link to="/challenges">Challenges</Link></li>
           </ul>
           <div className="row">
             <div className="col-8 bg-light">
               <ActivityList />
             </div>
             <div className="col-4 bg-light">
-              <ChallengeList />
+              <ChallengeSummaryList />
             </div>
           </div>
         </div>

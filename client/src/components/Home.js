@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
     <div style={{ textAlign: "center" }}>
-      <p>home page text ...</p>
+      <li className="list-inline-item"><Link to="/challenges">Challenges</Link></li>
     </div>
   );
 };
