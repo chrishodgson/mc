@@ -22,7 +22,7 @@ export const percentageCompleteSelector = userChallenge => {
   if (climbedCount === 0 || mountainCount === 0) {
     return 0;
   }
-  return Math.floor(climbedCount / mountainCount * 100);
+  return +((climbedCount / mountainCount) * 100).toFixed(1);
 };
 
 // export const flagMountainsClimbedSelectror(mountains, climbedIds) {

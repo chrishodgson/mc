@@ -31,10 +31,10 @@ class ActivityList extends Component {
           <h5>
             <Link to={`/activities/view/${item._id}`}>{item.name}</Link>
           </h5>
-          <p>
+          <div>
             {item._mountains.length} mountain(s):
-            <ul>{this.renderMountains(item._mountains)}</ul>
-          </p>
+            <ul className="list-inline">{this.renderMountains(item._mountains)}</ul>
+          </div>
         </div>
       );
     });
