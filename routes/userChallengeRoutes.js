@@ -23,7 +23,7 @@ module.exports = app => {
     let userChallenge = await UserChallenge.findOne({_userId: req.user._id, _challengeId: challengeId});
 
     if (userChallenge) {
-      console.log('already joined challenge ' + challenge.title, 'POST api/userChallenges');
+      console.log('ERROR - already joined challenge ' + challenge.title, 'POST api/userChallenges');
       return;
     }
     
@@ -41,7 +41,7 @@ module.exports = app => {
       console.log('joined challenge ' + challenge.title, 'POST api/userChallenges');
       res.send({});
     } catch (e) {
-      console.log('error ' + e, 'POST api/userChallenges');
+      console.log('ERROR - ' + e, 'POST api/userChallenges');
       res.status(422).send(err);
     }
   });
