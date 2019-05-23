@@ -3,7 +3,7 @@ const requireLogin = require("../middlewares/requireLogin");
 const UserActivity = mongoose.model("userActivities");
 
 module.exports = app => {
-  // get user activities - TODO paging
+  // get user activities - TODO add paging parameter
   app.get("/api/userActivities", requireLogin, async (req, res) => {
     const userActivities = await UserActivity.find({ _userId: req.user._id });
     res.send(userActivities);
@@ -17,6 +17,22 @@ module.exports = app => {
       userChallengeId
     } = req.body;
     
+    let userChallenge = await UserChallenge.findById({ userChallengeId });
+
+    if (userChallenge) {
+      console.log('ERROR - User challenge not found', 'POST api/userActivities');
+      return;
+    }
+
+    //map mountains
+    // const mountainItems = { 
+    //   _userChallengeMountainId: userChallengeMountainId,
+    //   _userChallengeId: userChallengeId,
+    // };
+    //userChallenge._climbed.push(mountainItems);
+    //userChallenge._climbedCount;
+    //userChallenge._remainingCount;
+
     const userActivity = new UserActivity({
       name,
       description,
@@ -28,6 +44,7 @@ module.exports = app => {
 
     try {
       await userActivity.save();
+      //await userChallenge.save();
       res.send({});
     } catch (err) {
       res.status(422).send(err);
