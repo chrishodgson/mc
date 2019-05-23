@@ -5,11 +5,20 @@ const UserChallenge = mongoose.model("userChallenges");
 
 module.exports = app => {
   /**
-   * Get all User Challenges
+   * Get all User Challenges (without _climbed)
    */
   app.get("/api/userChallenges", requireLogin, async (req, res) => {  
-    const userChallenges = await UserChallenge.find({_userId: req.user._id});
+    const userChallenges = await UserChallenge.find({_userId: req.user._id}, { _climbed: 0 });
     res.send(userChallenges);    
+  });
+
+  /**
+   * Get single User Challenges (only _climbed)
+   */
+  app.get("/api/userChallengeClimbed", requireLogin, async (req, res) => {  
+    const { userChallengeId } = req.body,
+          userChallengeClimbed = await UserChallenge.findById(userChallengeId, { _climbed: 1 });
+    res.send(userChallengeClimbed);    
   });
 
   /**

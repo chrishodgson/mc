@@ -4,8 +4,9 @@
  * This will create the following collections: 
  * - challenge - creates one 
  * - mountainList - creates one 
- * - area - creates several 
- * 
+ * - area - creates several (one per area, if not already created)
+ * - mountainRegister - creates several (one per mountain, if not already created)
+ *  
  * node scripts/import.js --filename=absoluteFilePath.csv --country=E --classification=W
  *
  * mandatory switches:
@@ -38,6 +39,7 @@ const convertGridRefToEastingNorthing = require("./gridref");
 
 require("../models/Challenge");
 require("../models/MountainList");
+require("../models/Mountain");
 require("../models/Area");
 
 mongoose.connect(
@@ -47,9 +49,11 @@ mongoose.connect(
 
 const Challenge = mongoose.model("challenges");
 const MountainList = mongoose.model("mountainLists");
+const Mountain = mongoose.model("mountains");
 const Area = mongoose.model("areas");
 
-const columns = /(Number|Name|Metres|Feet|Area|Grid ref 10|Classification|Parent (Ma)|Map 1:25k|Country|County)/;
+// const columns = /(Number|Name|Metres|Feet|Area|Grid ref 10|Classification|Parent (Ma)|Map 1:25k|Country|County)/;
+const columns = /(Number|Name|Metres|Area|Grid ref 10|Classification|Country)/;
 const allowedClassifications = "M,C,G,F,Sim,Sy,Fel,B,W,WO";
 const allowedClassificationList = allowedClassifications.split(",");
 const allowedCountries = "E,W,S";
@@ -65,7 +69,7 @@ let areaKeys = {},
   highestInMetres = 0,
   lowestInMetres = 0,
   validItems = [],
-  mountains = [];
+  subMountains = [];
 
 /** Run Import
  */
@@ -89,7 +93,7 @@ const doImport = async () => {
   
   console.log("Challenge created with classification " + classificationInput + ', country ' + countryInput);
   
-  console.log(mountains.length + " mountains added, "
+  console.log(subMountains.length + " mountain sub documents added, "
     + lowestInMetres + " lowestInMetres, " + 
     + highestInMetres + " highestInMetres"
   );
@@ -179,7 +183,18 @@ const processMountains = async () => {
       console.log('No Grid ref for ' + item["Number"] + ' ' + item["Name"]);
       continue;
     }
-    mountains.push(hydrateMountain(item, position));  
+
+    const dobihId = Number(item["Number"]);
+    let document = await Area.findOne({ dobihId });
+    if (!document) {
+      //todo store more on Mountain Model (ie Map 1:25k) ?
+      document = new Mountain({
+        dobihId,
+        name: item["Name"]
+      });
+      await document.save();
+    }  
+    subMountains.push(hydrateSubMountain(item, position, document._id));  
   }  
 }
 
@@ -189,11 +204,11 @@ const createMountainList = async () => {
   document = new MountainList({
     classificationCode: classificationInput,
     countryCode: countryInput,
-    mountainCount: mountains.length,
+    mountainCount: subMountains.length,
     highestInMetres,
     lowestInMetres,
     _areaIds: areaIds,
-    _mountains: mountains,
+    _mountains: subMountains,
   });
   await document.save();
   mountainListId = document._id;
@@ -205,7 +220,7 @@ const createChallenge = async () => {
   document = new Challenge({
     name: 'title for classification ' + classificationInput,
     description: 'description for classification ' + classificationInput,
-    mountainCount: mountains.length,
+    mountainCount: subMountains.length,
     highestInMetres,
     lowestInMetres,
     _mountainListId: mountainListId
@@ -213,9 +228,9 @@ const createChallenge = async () => {
   await document.save();
 };
 
-/** Hydrate Mountain
+/** Hydrate Mountain Sub Document
  */
-const hydrateMountain = (item, position) => {
+const hydrateSubMountain = (item, position, mountainId) => {
   const metres = Number(item["Metres"]);
   if (metres > highestInMetres) {
     highestInMetres = metres;
@@ -224,12 +239,12 @@ const hydrateMountain = (item, position) => {
     lowestInMetres = metres;
   }
   return {
-    dobihId: Number(item["Number"]),
     name: item["Name"],
     metres: metres,
     gridRef: item["Grid ref 10"],
     easting: position[0],
     northing: position[1],
+    _mountainId: mountainId,
     _areaId: areaKeys[item["Area"]]
   };
 };

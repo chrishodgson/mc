@@ -9,9 +9,11 @@ const keys = require("./config/keys");
 require("./models/UserActivity"); 
 require("./models/Challenge"); 
 require("./models/UserChallenge"); 
+require("./models/Mountain");
 require("./models/MountainList");
 require("./models/User");
 require("./models/Area");
+
 require("./services/passport");
 
 mongoose.connect(

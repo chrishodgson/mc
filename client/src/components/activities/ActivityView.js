@@ -10,14 +10,15 @@ class ActivityView extends Component {
 
   componentDidMount() {    
     const userActivityId = this.props.match.params.userActivityId,
-          userActivity = _.find(this.props.userActivities, {_id: userActivityId});
-
-    // const userChallenge = userActivity && _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
+          userActivity = _.find(this.props.userActivities, { _id: userActivityId });
 
     if (!userActivity) {
     //if (!userActivity || !userChallenge) {
       this.props.history.push("/activities"); //TODO show flash message
     }
+
+    // const userChallenge = userActivity && _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
+
     //this.setState({ userActivity, userChallenge });
     this.setState({ userActivity });
   }
@@ -45,8 +46,6 @@ class ActivityView extends Component {
       <div>
         <p>Activity Details</p>
 
-        {/* For Challenge {userChallenge.name} */}
-
         <table className="table condensed">
           <tbody>
             <tr>
@@ -55,10 +54,6 @@ class ActivityView extends Component {
             </tr>
             <tr>
               <th>Description</th>
-              <td>{userActivity.title}</td>
-            </tr>
-            <tr>
-              <th>Desc</th>
               <td>{userActivity.description}</td>
             </tr>
             <tr>
@@ -71,7 +66,7 @@ class ActivityView extends Component {
             </tr>
             <tr>
               <td>
-                Mountains: (total {userActivity.mountainCount}) 
+                Mountains: (total {userActivity._mountains.length}) 
                 <ul>{this.renderMountains(userActivity._mountains)}</ul>
               </td>
             </tr>

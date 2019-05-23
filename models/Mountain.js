@@ -1,15 +1,10 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-//sub document
+// used by subMountainSchema and subUserActivityMountainSchema
 const mountainSchema = new Schema({
   dobihId: Number,
-  name: String,
-  metres: Number,
-  gridRef: String,
-  easting: Number,
-  northing: Number,
-  _areaId: { type: Schema.Types.ObjectId, ref: "Area" }
+  name: String
 });
 
-module.exports = mountainSchema;
+mongoose.model("mountains", mountainSchema);

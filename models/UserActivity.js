@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const Mountain = require("./Mountain"); //sub document
+const SubMountain = require("./SubMountain"); //sub document
 
 const userActivitySchema = new Schema({
   name: String,
@@ -8,7 +8,7 @@ const userActivitySchema = new Schema({
   startDate: Date,
   _userChallengeId: { type: Schema.Types.ObjectId, ref: "UserChallenge" },
   _userId: { type: Schema.Types.ObjectId, ref: "User" },
-  _mountains: [ Mountain ]
+  _mountains: [ SubMountain ] // change to _climbed ?
 });
 
 mongoose.model("userActivities", userActivitySchema);
