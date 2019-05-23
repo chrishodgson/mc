@@ -2,6 +2,25 @@ const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 const UserActivity = mongoose.model("userActivities");
 
+hydrateUserChallenge(userChallenge, mountains) {
+
+    //TODO - for each mountain: 
+    // 1. check if mountain already climbed and if not increment _userChallengeId.climbedCount and decrement _userChallengeId.remainingCount
+    // 2. push sub document per mountain { _mountainId: , _userActivityId: userActivity._id }
+
+    //map mountains
+    // const mountainItems = { 
+    //   _userChallengeMountainId: userChallengeMountainId,
+    //   _userChallengeId: userChallengeId,
+    // };
+    //userChallenge._climbed.push(mountainItems);
+    //userChallenge._climbedCount;
+    //userChallenge._remainingCount;
+
+    console.log(userChallenge);
+    return userChallenge;
+}
+
 module.exports = app => {
   // get user activities - TODO add paging parameter
   app.get("/api/userActivities", requireLogin, async (req, res) => {
@@ -24,15 +43,6 @@ module.exports = app => {
       return;
     }
 
-    //map mountains
-    // const mountainItems = { 
-    //   _userChallengeMountainId: userChallengeMountainId,
-    //   _userChallengeId: userChallengeId,
-    // };
-    //userChallenge._climbed.push(mountainItems);
-    //userChallenge._climbedCount;
-    //userChallenge._remainingCount;
-
     const userActivity = new UserActivity({
       name,
       description,
@@ -44,6 +54,7 @@ module.exports = app => {
 
     try {
       await userActivity.save();
+      userChallenge = hydrateUserChallenge(userChallenge, mountains);
       //await userChallenge.save();
       res.send({});
     } catch (err) {

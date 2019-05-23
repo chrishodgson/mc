@@ -13,7 +13,7 @@ module.exports = app => {
   });
 
   /**
-   * Get single User Challenges (only _climbed)
+   * Get single User Challenges (with _climbed)
    */
   app.get("/api/userChallengeClimbed", requireLogin, async (req, res) => {  
     const { userChallengeId } = req.body,

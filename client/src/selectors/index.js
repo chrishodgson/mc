@@ -16,6 +16,15 @@ export const groupMountainsByAreaSelector = (mountains, areas) => {
   }));
 }
 
+export const percentageCompleteSelector = userChallenge => {
+  const climbedCount = userChallenge.climbedCount || 0,
+        mountainCount = userChallenge.mountainCount || 0;
+  if (climbedCount === 0 || mountainCount === 0) {
+    return 0;
+  }
+  return Math.floor(climbedCount / mountainCount * 100);
+};
+
 // export const flagMountainsClimbedSelectror(mountains, climbedIds) {
 //   return mountains.map(mountain => {
 //       // const climbed = _.find(climbedIds, mountain._id);

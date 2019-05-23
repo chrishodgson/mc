@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchUserChallenges } from "../../actions";
+import { percentageCompleteSelector } from '../../selectors'
 
 class ChallengeSummaryList extends Component {
   componentDidMount() {
@@ -20,6 +21,7 @@ class ChallengeSummaryList extends Component {
           <br/>climbed: {userChallenge.climbedCount}
           <br/>remaining: {userChallenge.remainingCount}
           <br/>total: {userChallenge.mountainCount}
+          <br/>{percentageCompleteSelector(userChallenge)}% complete
         </p>
       );
     });

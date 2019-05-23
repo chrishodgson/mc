@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { addUserChallenge, fetchMountainList, fetchAreas } from "../../actions";
-import { groupMountainsByAreaSelector } from '../../selectors'
+import { groupMountainsByAreaSelector, percentageCompleteSelector } from '../../selectors'
 
 class ChallengeView extends Component {
   state = { userChallenge: "" };
@@ -42,7 +42,9 @@ class ChallengeView extends Component {
   }
 
   renderTable(mountainList) {
-    const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);return (
+    const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);
+
+    return (
       <div>
         <table className="table condensed">
         <tbody>
@@ -62,6 +64,11 @@ class ChallengeView extends Component {
             <th>Remaining</th>
             <td>{this.state.userChallenge.remainingCount}</td>
           </tr>
+          <tr>
+            <th>% Complete</th>
+            <td>{percentageCompleteSelector(this.state.userChallenge)}% complete</td>
+          </tr>
+          
           <tr>
             <th>Total</th>
             <td>{this.state.userChallenge.mountainCount}</td>

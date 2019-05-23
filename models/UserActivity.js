@@ -8,7 +8,7 @@ const userActivitySchema = new Schema({
   startDate: Date,
   _userChallengeId: { type: Schema.Types.ObjectId, ref: "UserChallenge" },
   _userId: { type: Schema.Types.ObjectId, ref: "User" },
-  _mountains: [ SubMountain ] // change to _climbed ?
+  _mountains: [ SubMountain ] 
 });
 
 mongoose.model("userActivities", userActivitySchema);
