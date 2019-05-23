@@ -9,8 +9,8 @@ const userChallengeSchema = new Schema({
   mountainCount: Number,
   _challengeId: { type: Schema.Types.ObjectId, ref: "Challenge" },
   _mountainListId: { type: Schema.Types.ObjectId, ref: "MountainList" },
-  _userId: { type: Schema.Types.ObjectId, ref: "User" }
-  //_climbed: [ UserActivityMountain ]
+  _userId: { type: Schema.Types.ObjectId, ref: "User" },
+  _climbed: [ UserActivityMountain ]
 });
 
 mongoose.model("userChallenges", userChallengeSchema);

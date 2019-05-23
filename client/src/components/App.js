@@ -29,7 +29,7 @@ class App extends Component {
               <DefaultLayout path="/activities/add/:userChallengeId" component={ProtectedRoute} />
 
               <DefaultLayout exact path="/challenges" component={ProtectedRoute} />
-              <DefaultLayout path="/challenges/view/:challengeId" component={ProtectedRoute} />
+              <DefaultLayout path="/challenges/view/:userChallengeId" component={ProtectedRoute} />
 
               <DefaultLayout component={PageNotFound} />
             </Switch>

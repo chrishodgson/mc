@@ -22,7 +22,7 @@ const ProtectedRoute = ({ auth }) => {
         <Route path={`/activities/add/:userChallengeId`} component={ActivityAdd} />
 
         <Route exact path={`/challenges`} component={ChallengeList} />
-        <Route path="/challenges/view/:challengeId" component={ChallengeView} />
+        <Route path="/challenges/view/:userChallengeId" component={ChallengeView} />
       </div>
     );
 }
