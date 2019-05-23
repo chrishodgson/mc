@@ -38,6 +38,7 @@ module.exports = app => {
     
     userChallenge = new UserChallenge({
       name: challenge.name,
+      climbedCount: 0,
       mountainCount: challenge.mountainCount,
       remainingCount: challenge.mountainCount,
       _mountainListId: challenge._mountainListId,
@@ -51,7 +52,7 @@ module.exports = app => {
       res.send({});
     } catch (e) {
       console.log('ERROR - ' + e, 'POST api/userChallenges');
-      res.status(422).send(err);
+      res.status(422).send(e);
     }
   });
 };

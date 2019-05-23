@@ -43,19 +43,24 @@ module.exports = app => {
       res.send({});
     } catch (e) {
       console.log('ERROR - ' + e, 'POST api/userActivities');
-      res.status(422).send(err);
+      res.status(422).send(e);
     }
   });
 
   //todo move elsewhere
   const hydrateUserChallenge = (userChallenge, mountains, userActivityId) => {
     mountains.forEach(mountain => { 
-      const found = _.find(userChallenge._climbed, { _mountainId: mountain._mountainId });
+      let climbedCount = userChallenge.climbedCount || 0,
+          remainingCount = userChallenge.climbedCount || 0,
+          found = _.find(userChallenge._climbed, { _mountainId: mountain._mountainId });
   
       if (!found) {
-        userChallenge._climbedCount++;
-        userChallenge._remainingCount--;  
+        climbedCount++;
+        remainingCount--;  
       }
+
+      userChallenge.climbedCount = climbedCount;
+      userChallenge.remainingCount = remainingCount;  
       userChallenge._climbed.push({ 
         _mountainId: mountain._id, 
         _userActivityId: userActivityId
