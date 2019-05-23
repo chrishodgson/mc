@@ -1,28 +1,8 @@
+const _ = require("lodash");
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 const UserActivity = mongoose.model("userActivities");
-
-hydrateUserChallenge(userChallenge, mountains) {
-
-  // let officersIds = officers.map(function (officer) {
-  //   return officer.id
-  // });
-    //TODO - for each mountain: 
-    // 1. check if mountain already climbed and if not increment _userChallengeId.climbedCount and decrement _userChallengeId.remainingCount
-    // 2. push sub document per mountain { _mountainId: , _userActivityId: userActivity._id }
-
-    //map mountains
-    // const mountainItems = { 
-    //   _userChallengeMountainId: userChallengeMountainId,
-    //   _userChallengeId: userChallengeId,
-    // };
-    //userChallenge._climbed.push(mountainItems);
-    //userChallenge._climbedCount;
-    //userChallenge._remainingCount;
-
-    console.log(userChallenge);
-    return userChallenge;
-}
+const UserChallenge = mongoose.model("userChallenges");
 
 module.exports = app => {
   // get user activities - TODO add paging parameter
@@ -39,9 +19,9 @@ module.exports = app => {
       userChallengeId
     } = req.body;
     
-    let userChallenge = await UserChallenge.findById({ userChallengeId });
+    let userChallenge = await UserChallenge.findById(userChallengeId);
 
-    if (userChallenge) {
+    if (!userChallenge) {
       console.log('ERROR - User challenge not found', 'POST api/userActivities');
       return;
     }
@@ -57,11 +37,30 @@ module.exports = app => {
 
     try {
       await userActivity.save();
-      userChallenge = hydrateUserChallenge(userChallenge, mountains);
-      //await userChallenge.save();
+      userChallenge = hydrateUserChallenge(userChallenge, mountains, userActivity._id);
+      await userChallenge.save();
+      console.log('added activity ' + userActivity.name, 'POST api/userActivities');
       res.send({});
-    } catch (err) {
+    } catch (e) {
+      console.log('ERROR - ' + e, 'POST api/userActivities');
       res.status(422).send(err);
     }
   });
+
+  //todo move elsewhere
+  const hydrateUserChallenge = (userChallenge, mountains, userActivityId) => {
+    mountains.forEach(mountain => { 
+      const found = _.find(userChallenge._climbed, { _mountainId: mountain._mountainId });
+  
+      if (!found) {
+        userChallenge._climbedCount++;
+        userChallenge._remainingCount--;  
+      }
+      userChallenge._climbed.push({ 
+        _mountainId: mountain._id, 
+        _userActivityId: userActivityId
+      });    
+    });
+    return userChallenge;
+  }  
 };
