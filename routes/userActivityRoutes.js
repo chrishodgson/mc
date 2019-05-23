@@ -4,6 +4,9 @@ const UserActivity = mongoose.model("userActivities");
 
 hydrateUserChallenge(userChallenge, mountains) {
 
+  // let officersIds = officers.map(function (officer) {
+  //   return officer.id
+  // });
     //TODO - for each mountain: 
     // 1. check if mountain already climbed and if not increment _userChallengeId.climbedCount and decrement _userChallengeId.remainingCount
     // 2. push sub document per mountain { _mountainId: , _userActivityId: userActivity._id }
