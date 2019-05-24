@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchChallenges, fetchUserChallenges, fetchAreas } from "../actions";
-import ChallengeSummaryList from "./challenges/ChallengeSummaryList";
+import { fetchChallenges } from "../actions";
+import UserChallengeList from "./challenges/UserChallengeList";
 import ActivityList from "./activities/ActivityList";
 
 class Dashboard extends Component {
-    componentDidMount() {      
+    componentDidMount() {
       if (this.props.challenges.length === 0) {
         this.props.fetchChallenges();
-      }  
-      if (this.props.userChallenges.length === 0) {
-        this.props.fetchUserChallenges(); 
-      }
-      if (this.props.areas.length === 0) {
-        this.props.fetchAreas(); //we dont need this here but lets get them anyway as this should be the entry point after login
       }  
     }
 
@@ -31,7 +25,7 @@ class Dashboard extends Component {
               <ActivityList />
             </div>
             <div className="col-4 bg-light">
-              <ChallengeSummaryList />
+              <UserChallengeList />
             </div>
           </div>
         </div>
@@ -40,6 +34,6 @@ class Dashboard extends Component {
 };
 
 export default connect(
-  ({ challenges, userChallenges, areas }) => ({ challenges, userChallenges, areas }),
-  { fetchChallenges, fetchUserChallenges, fetchAreas }
+  ({ challenges, userChallenges, areas }) => ({ challenges, userChallenges, areas }), 
+  { fetchChallenges }
 ) (Dashboard);

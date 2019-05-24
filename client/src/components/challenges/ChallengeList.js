@@ -10,7 +10,7 @@ class ChallengeList extends Component {
       this.props.fetchChallenges();
     }  
     if (this.props.userChallenges.length === 0) {
-      this.props.fetchUserChallenges(); 
+      this.props.fetchUserChallenges(); // todo reload on add, then refresh only if empty 
     }
   }
 
@@ -51,7 +51,7 @@ class ChallengeList extends Component {
   
   render() {
     if (this.props.challenges.length === 0) {
-      return "No Challenges are available";
+      return 'No challenges setup'
     }
     return (
       <div>

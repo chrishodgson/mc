@@ -9,21 +9,26 @@ class ChallengeView extends Component {
   state = { userChallenge: "" };
 
   componentDidMount() {    
+    const userChallengeId = this.props.match.params.userChallengeId;
+
     if (this.props.userChallenges.length === 0) {
-      this.props.history.push("/challenges");  
+      this.props.history.push("/dashboard");  // go back to dashboard to load user challenges
       return;
     }
       
-    const userChallengeId = this.props.match.params.userChallengeId,
-          userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
+    const userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
 
     if (!userChallenge) {
-      this.props.history.push("/challenges");  // TODO show flash message
+      this.props.history.push("/dashboard");  // TODO flash message - error page not valid
       return;
     }
-
     this.setState({ userChallenge });
     
+    // load areas (if not found)
+    if (this.props.areas.length === 0) {
+      this.props.fetchAreas(); 
+    }  
+    // load mountain list (if not found)
     if (!_.find(this.props.mountainLists, { _id: userChallenge._mountainListId })) {
       this.props.fetchMountainList(userChallenge._mountainListId); 
     }
@@ -86,7 +91,7 @@ class ChallengeView extends Component {
     const mountainList = _.find(this.props.mountainLists, { _id: this.state.userChallenge._mountainListId });
             
     if (!mountainList || !this.props.areas || !this.state.userChallenge) {
-      return "The Challenge is not available";
+      return "Loading details...";
     }
     return (
       <div>        

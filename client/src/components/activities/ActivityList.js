@@ -6,9 +6,7 @@ import Moment from "moment";
 
 class ActivityList extends Component {
   componentDidMount() {
-    if (this.props.userActivities.length === 0) {
-      this.props.fetchUserActivities(); 
-    }  
+    this.props.fetchUserActivities(); // todo reload add, then refresh only if empty 
   }
   
   renderMountains(mountains) {
@@ -41,13 +39,13 @@ class ActivityList extends Component {
   }
 
   render() {
+    if (this.props.userActivities.length === 0) {
+      return 'No activities created';
+    }
     return (
       <div>
-        <p>My Activities</p>
-        
-        {this.props.userActivities.length === 0 ? 
-          <p>No activities found</p> : 
-          this.renderUserActivities()}
+        <p>My Activities</p>        
+        {this.renderUserActivities()}
       </div>
     );
   }

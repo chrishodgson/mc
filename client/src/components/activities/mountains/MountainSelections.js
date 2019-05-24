@@ -6,7 +6,7 @@ class MountainSelections extends Component {
   renderMountainSelections() {
     return this.props.mountainSelections.map(mountain => {
       return (
-        <span style={{ paddingRight: "10px" }} key={mountain._id}>
+        <li key={mountain._id}>
           {mountain.name}
           <button
             name={mountain._id}
@@ -15,7 +15,7 @@ class MountainSelections extends Component {
           >
             x
           </button>
-        </span>
+        </li>
       );
     });
   }
@@ -31,7 +31,8 @@ class MountainSelections extends Component {
     }
     return (
       <div>
-        Selected Mountains: <ul>{this.renderMountainSelections()}</ul>
+        Selected Mountains: 
+        <ul className="selectedMountainList">{this.renderMountainSelections()}</ul>
       </div>
     );
   }

@@ -2,23 +2,27 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { fetchMountainList, selectMountain } from "../../../actions";
+import { fetchMountainList, fetchAreas, selectMountain } from "../../../actions";
 import { groupMountainsByAreaSelector } from '../../../selectors'
 
 class ActivityMountains extends Component {
-  state = { userChallenge: '', mountainsError: false }; // why do we need userChallenge ?
+  state = { userChallenge: '', mountainsError: false }; 
 
   componentDidMount() {    
     const userChallengeId = this.props.match.params.userChallengeId,
           userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
 
     if (!userChallenge) {      
-      this.props.history.push("/challenges");  //TODO show flash message
+      this.props.history.push("/dashboard"); // TODO flash message - error page not valid
       return;
     }
-
     this.setState({ userChallenge });
 
+    // load areas (if not found)
+    if (this.props.areas.length === 0) {
+      this.props.fetchAreas(); 
+    }  
+    // load mountain list (if not found)
     if (!_.find(this.props.mountainLists, { _id: userChallenge._mountainListId })) {
       this.props.fetchMountainList(userChallenge._mountainListId); 
     }
@@ -60,30 +64,26 @@ class ActivityMountains extends Component {
 
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
-        return <div style={{padding: "0px", background: "#eee"}} key={mountainItem._id}>
+        return <li key={mountainItem._id}>
             {this.isAlreadySelected(mountainItem._id) ? null : 
-              <small><button
+              <button
               className="btn btn-link"
               name={mountainItem._id}
               onClick={this.handleSelectMountain}
             >
               Add
-            </button></small>
+            </button>
           }
           {mountainItem.name}
-        </div>;
+        </li>;
       });
-      const styles = {
-        display: "inline-grid", 
-        gridTemplateColumns: "200px 200px 200px 200px",
-        gridGap: "7px",
-        marginBottom: "20px"
-      };
+
       return (
         <div key={areaItem._id}>
-          <h5>{areaItem.name}</h5>
-          <div style={styles}>{mountains}</div>
-      </div>);
+          {areaItem.name}:
+          <ul className="mountainList">{mountains}</ul>
+        </div>
+      );
     });
   }
 
@@ -91,7 +91,7 @@ class ActivityMountains extends Component {
     const mountainList = _.find(this.props.mountainLists, { _id: this.state.userChallenge._mountainListId });
 
     if (!mountainList || !this.props.areas) {
-      return "Details are not available";
+      return "Loading mountains...";
     }
     const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);      
 
@@ -126,7 +126,7 @@ class ActivityMountains extends Component {
 
 export default connect(
   ({ userChallenges, mountainLists, mountainSelections, areas }) => ({ userChallenges, mountainLists, mountainSelections, areas }),
-  { fetchMountainList, selectMountain }
+  { fetchMountainList, fetchAreas, selectMountain }
 )(withRouter(ActivityMountains));
 
 

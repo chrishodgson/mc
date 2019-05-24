@@ -4,11 +4,9 @@ import { Link } from "react-router-dom";
 import { fetchUserChallenges } from "../../actions";
 import { percentageCompleteSelector } from '../../selectors'
 
-class ChallengeSummaryList extends Component {
+class UserChallengeList extends Component {
   componentDidMount() {
-    if (this.props.userChallenges.length === 0) {
-      this.props.fetchUserChallenges(); 
-    }  
+      this.props.fetchUserChallenges(); // todo reload on add, then load only if empty 
   }
 
   renderUserChallenges() {    
@@ -28,9 +26,12 @@ class ChallengeSummaryList extends Component {
   }
   
   render() {
+    if (this.props.userChallenges.length === 0) {
+      return "You have not joined any Challenges yet.";
+    }
     return (
       <div className="challengeSummaryList">
-        {this.props.userChallenges.length === 0 ? "No Challenges setup" : this.renderUserChallenges()}
+        {this.renderUserChallenges()}
       </div>
     );
   }
@@ -39,4 +40,4 @@ class ChallengeSummaryList extends Component {
 export default connect(
   ({ userChallenges }) => ({ userChallenges }),
   { fetchUserChallenges }
-  )(ChallengeSummaryList);
+  )(UserChallengeList);

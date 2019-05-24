@@ -53,7 +53,6 @@ module.exports = app => {
       let climbedCount = userChallenge.climbedCount || 0,
           remainingCount = userChallenge.climbedCount || 0,
           found = _.find(userChallenge._climbed, { _mountainId: mountain._mountainId });
-console.log(userChallenge);
       if (!found) {
         climbedCount++;
         remainingCount--;  
@@ -66,8 +65,6 @@ console.log(userChallenge);
         _userActivityId: userActivityId
       });    
     });
-console.log(userChallenge);
-
     return userChallenge;
   }  
 };

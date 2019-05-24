@@ -6,21 +6,24 @@ import Moment from "moment";
 import OSMap from "../OSMap";
 
 class ActivityView extends Component {
-  state = { userActivity: "", userChallenge: "" }; //why do we need this ?
+  state = { userActivity: "", userChallenge: "" }; 
 
   componentDidMount() {    
     const userActivityId = this.props.match.params.userActivityId,
           userActivity = _.find(this.props.userActivities, { _id: userActivityId });
 
     if (!userActivity) {
-    //if (!userActivity || !userChallenge) {
-      this.props.history.push("/activities"); //TODO show flash message
+      this.props.history.push("/activities"); // go back to dashboard to load user activities
+      return;
     }
 
-    // const userChallenge = userActivity && _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
+    const userChallenge = _.find(this.props.userChallenges, { _id: userActivity._userChallengeId });
 
-    //this.setState({ userActivity, userChallenge });
-    this.setState({ userActivity });
+    if (!userActivity) {
+      this.props.history.push("/dashboard"); // TODO flash message - error page not valid
+      return;
+    }
+    this.setState({ userActivity, userChallenge });
   }
 
   renderMountains(mountains) {
@@ -34,45 +37,44 @@ class ActivityView extends Component {
   }
 
   render() {
-    if (!this.state.userActivity) {
-    // if (!this.state.userChallenge || !this.state.activity) {
-      return "The Activity is not available";
+    if (!this.state.userActivity ||!this.state.userChallenge) {
+      return null;
     }
-
-    const userActivity = this.state.userActivity;
-          // userChallenge = this.state.userChallenge;
-
     return (
       <div>
         <p>Activity Details</p>
 
         <table className="table condensed">
           <tbody>
+          <tr>
+              <th>CHallenge Name</th>
+              <td>{this.state.userChallenge.name}</td>
+            </tr>
             <tr>
               <th>Name</th>
-              <td>{userActivity.name}</td>
+              <td>{this.state.userActivity.name}</td>
             </tr>
             <tr>
               <th>Description</th>
-              <td>{userActivity.description}</td>
+              <td>{this.state.userActivity.description}</td>
             </tr>
             <tr>
               <th>Date</th>
               <td>
-                {userActivity.date
-                  ? Moment(userActivity.date).format("MMMM Do YYYY")
+                {this.state.userActivity.date
+                  ? Moment(this.state.userActivity.date).format("MMMM Do YYYY")
                   : ""}
               </td>
             </tr>
             <tr>
               <td>
-                Mountains: (total {userActivity._mountains.length}) 
-                <ul>{this.renderMountains(userActivity._mountains)}</ul>
+                Mountains: (total {this.state.userActivity._mountains.length}) 
+                <ul>{this.renderMountains(this.state.userActivity._mountains)}</ul>
               </td>
             </tr>
           </tbody>
         </table>
-        <OSMap mountains={userActivity._mountains} />
+        <OSMap mountains={this.state.userActivity._mountains} />
       </div>
     );
   }
