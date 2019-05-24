@@ -58,12 +58,14 @@ class ChallengeList extends Component {
         <p>Challenges</p>
         <table className="table condensed">
           <thead>
-            <th>Name</th>
-            <th>Details</th>
-            <th>Highest (m)</th>
-            <th>Lowest (m)</th>
-            <th>Total Mountains</th>
-            <th>&nbsp;</th>
+            <tr>
+              <th>Name</th>
+              <th>Details</th>
+              <th>Highest (m)</th>
+              <th>Lowest (m)</th>
+              <th>Total Mountains</th>
+              <th>&nbsp;</th>
+            </tr>
           </thead>
           <tbody>
             {this.renderChallenges()}

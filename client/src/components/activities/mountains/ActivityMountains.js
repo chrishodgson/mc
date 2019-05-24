@@ -60,7 +60,7 @@ class ActivityMountains extends Component {
 
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
-        return <div style={{padding: "5px 10px", background: "#eee"}} key={mountainItem._id}>
+        return <div style={{padding: "0px", background: "#eee"}} key={mountainItem._id}>
             {this.isAlreadySelected(mountainItem._id) ? null : 
               <small><button
               className="btn btn-link"
