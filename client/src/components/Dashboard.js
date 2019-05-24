@@ -1,17 +1,9 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchChallenges } from "../actions";
 import UserChallengeList from "./challenges/UserChallengeList";
 import ActivityList from "./activities/ActivityList";
 
 class Dashboard extends Component {
-    componentDidMount() {
-      if (this.props.challenges.length === 0) {
-        this.props.fetchChallenges();
-      }  
-    }
-
     render() {
       return (
         <div>
@@ -33,7 +25,4 @@ class Dashboard extends Component {
     }
 };
 
-export default connect(
-  ({ challenges, userChallenges, areas }) => ({ challenges, userChallenges, areas }), 
-  { fetchChallenges }
-) (Dashboard);
+export default Dashboard;

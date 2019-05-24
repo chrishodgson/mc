@@ -13,7 +13,7 @@ class ActivityView extends Component {
           userActivity = _.find(this.props.userActivities, { _id: userActivityId });
 
     if (!userActivity) {
-      this.props.history.push("/activities"); // go back to dashboard to load user activities
+      this.props.history.push("/dashboard"); // go back to dashboard to load user activities
       return;
     }
 
