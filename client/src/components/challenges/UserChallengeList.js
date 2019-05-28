@@ -12,15 +12,17 @@ class UserChallengeList extends Component {
   renderUserChallenges() {    
     return this.props.userChallenges.reverse().map(userChallenge => {
       return (
-        <p key={userChallenge._id}>
-          <Link to={`/challenges/view/${userChallenge._id}`}>
-            {userChallenge.name}
-          </Link>
+        <div className="bg-light" key={userChallenge._id}>
+          <p>
+            <Link to={`/challenges/view/${userChallenge._id}`}>
+              {userChallenge.name}
+            </Link>
           <br/>climbed: {userChallenge.climbedCount}
           <br/>remaining: {userChallenge.remainingCount}
           <br/>total: {userChallenge.mountainCount}
           <br/>{percentageCompleteSelector(userChallenge)}% complete
-        </p>
+          </p>
+        </div>
       );
     });
   }

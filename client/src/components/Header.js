@@ -29,13 +29,26 @@ class Header extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link
-          to={this.props.auth ? "/dashboard" : "/"}
-          className="navbar-brand"
-        >
-          MC
-        </Link>
-        <button
+        <Link to="/" className="navbar-brand">Mountain Challenge</Link>
+
+        {this.props.auth ?
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/activities">Activities</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/challenges">Challenges</a>
+          </li>
+          {/* <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li> */}
+        </ul>
+        : ''}
+       
+        {/* <button
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -45,7 +58,7 @@ class Header extends Component {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon" />
-        </button>
+        </button> */}
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">{this.renderContent()}</ul>
         </div>
