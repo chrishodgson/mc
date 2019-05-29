@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-// import { reduxForm } from "redux-form";
-import Details from "../details/ActivityDetails";
-import MountainSelections from "../mountains/MountainSelections";
-import Mountains from "../mountains/ActivityMountains";
-import Review from "./ActivityAddReview";
+import ActivityDetails from "../details/ActivityDetails";
+// import MountainSelections from "../mountains/MountainSelections";
+// import Mountains from "../mountains/ActivityMountains";
+import ActivityMountains from "../mountains2/ActivityMountains";
+import ActivityAddReview from "./ActivityAddReview";
 
 class ActivityAdd extends Component {
   state = { step: "" };
@@ -13,26 +13,32 @@ class ActivityAdd extends Component {
       //step 3
       case "review":
         return (
-          <Review 
+          <ActivityAddReview 
             onCancel={() => this.setState({ step: "mountains" })} 
           />
         );
       //step 2
       case "mountains":
         return (
-          <div>
-            <MountainSelections />
-            <Mountains 
+            <ActivityMountains 
               onSubmit={() => this.setState({ step: "review" })}
               onCancel={() => this.setState({ step: "details" })}
             />
-          </div>
         );
+      //   return (
+      //     <div>
+      //       <MountainSelections />
+      //       <Mountains 
+      //         onSubmit={() => this.setState({ step: "review" })}
+      //         onCancel={() => this.setState({ step: "details" })}
+      //       />
+      //     </div>
+      //   );
       //step 1
       case "details":
       default:
         return (
-          <Details
+          <ActivityDetails
             onSubmit={() => this.setState({ step: "mountains" })}
           />);
     }

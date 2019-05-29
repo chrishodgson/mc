@@ -32,18 +32,18 @@ class Header extends Component {
         <Link to="/" className="navbar-brand">Mountain Challenge</Link>
 
         {this.props.auth ?
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link active" href="/dashboard">Dashboard</a>
+        <ul className="nav">
+          <li className="nav-item">
+            <a className="nav-link active" href="/dashboard">Dashboard</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/activities">Activities</a>
+          <li className="nav-item">
+            <a className="nav-link" href="/activities">Activities</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/challenges">Challenges</a>
+          <li className="nav-item">
+            <a className="nav-link" href="/challenges">Challenges</a>
           </li>
-          {/* <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
+          {/* <li className="nav-item">
+            <a className="nav-link disabled" href="#">Disabled</a>
           </li> */}
         </ul>
         : ''}

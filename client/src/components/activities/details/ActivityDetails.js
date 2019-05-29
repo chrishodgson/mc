@@ -28,7 +28,6 @@ class ActivityDetails extends Component {
           <Link to="/dashboard" className="btn">
             Cancel
           </Link>
-          {/* <button onClick={this.props.onSubmit} className="btn"> */}
           <button type="submit" className="btn">
             Next
           </button>
@@ -46,7 +45,6 @@ function validate(values) {
       errors[name] = "You must provide a value";
     }
   });
-
   return errors;
 }
 
