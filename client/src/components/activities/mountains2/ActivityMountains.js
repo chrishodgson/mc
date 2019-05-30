@@ -1,12 +1,10 @@
-import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { fetchMountainList, fetchAreas, selectMountain } from "../../../actions";
 
-// import { groupMountainsByAreaSelector } from '../../../selectors'
-import ActivityMountainSearch from "./ActivityMountainSearch";
 import ActivityMountainSelections from "./ActivityMountainSelections";
+import ActivityMountainSearchResults from "./ActivityMountainSearchResults";
+import ActivityMountainSearch from "./ActivityMountainSearch";
 
 class ActivityMountains extends Component {
   state = { mountainsError: false }; 
@@ -41,10 +39,12 @@ class ActivityMountains extends Component {
         <button onClick={this.props.onCancel} className="btn btn-default">
           Back
         </button>
+        
         <button onClick={e => this.handleNextStep(e)} className="btn btn-default">
           Next
         </button>
 
+        <ActivityMountainSearchResults />
         <ActivityMountainSelections />
       </div>
     );
@@ -52,8 +52,7 @@ class ActivityMountains extends Component {
 }
 
 export default connect(
-  ({ userChallenges, mountainLists, mountainSelections, areas }) => ({ userChallenges, mountainLists, mountainSelections, areas }),
-  { fetchMountainList, fetchAreas, selectMountain }
+  ({ mountainSelections }) => ({ mountainSelections })
 )(withRouter(ActivityMountains));
 
 

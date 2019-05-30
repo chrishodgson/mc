@@ -25,15 +25,6 @@ class ActivityAdd extends Component {
               onCancel={() => this.setState({ step: "details" })}
             />
         );
-      //   return (
-      //     <div>
-      //       <MountainSelections />
-      //       <Mountains 
-      //         onSubmit={() => this.setState({ step: "review" })}
-      //         onCancel={() => this.setState({ step: "details" })}
-      //       />
-      //     </div>
-      //   );
       //step 1
       case "details":
       default:

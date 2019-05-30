@@ -5,14 +5,13 @@ export default [
     type: "text"
   },
   {
-    name: "country",
-    label: "Country",
+    name: "area",
+    label: "Area",
     type: "select",
     options: [
       { key: "", label: "" },
-      { key: "E", label: "England" },
-      { key: "S", label: "Scotland" },
-      { key: "W", label: "Wales" }
+      { key: "Lakes North", label: "Lakes South" },
+      { key: "Lakes South", label: "Lakes South" }
     ]
   }
 ];

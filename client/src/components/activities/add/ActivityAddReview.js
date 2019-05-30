@@ -62,7 +62,6 @@ class ActivityAddReview extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state.form);
   return {
     activityDetails: state.form.activityDetails.values || [],
     mountainSelections: state.mountainSelections
