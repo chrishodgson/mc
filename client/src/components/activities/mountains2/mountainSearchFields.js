@@ -7,11 +7,6 @@ export default [
   {
     name: "area",
     label: "Area",
-    type: "select",
-    options: [
-      { key: "", label: "" },
-      { key: "Lakes North", label: "Lakes South" },
-      { key: "Lakes South", label: "Lakes South" }
-    ]
+    type: "select"
   }
 ];
