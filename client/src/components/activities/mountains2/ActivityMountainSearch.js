@@ -7,6 +7,12 @@ import formFields from "./mountainSearchFields";
 
 class ActivityMountainSearch extends Component {
 
+  //todo remove constructor and bind handleSearch using arrow function with has same context
+  constructor(props) {
+    super(props)
+    this.handleSearch = this.handleSearch.bind(this)
+  }
+
   getAreaList() {
     let list = _.map(this.props.areas, area => {
         return { key: area.name, label: area.name };
@@ -32,16 +38,19 @@ class ActivityMountainSearch extends Component {
       );
     });
   }
-
+  
+  handleSearch() {
+    console.log(this.props, 'ActivityMountainSearch - handleSearch TODO ');
+  };
+  
   render() {  
-    console.log(this.props, 'ActivityMountainSearch redner');
     return (
       <div>
-        <form onSubmit={this.props.handleSubmit}>
+        <form onSubmit={this.props.handleSubmit(this.handleSearch)}>
           {this.renderFields()}
-          {/* <button className="btn" onClick={this.props.handleSubmit}>
+          <button type="submit" className="btn">
             Search
-          </button> */}
+          </button>
         </form>  
       </div>
     );
@@ -50,7 +59,7 @@ class ActivityMountainSearch extends Component {
 
 function mapStateToProps(state) {
   return {
-    formValues: state.form.activityMountainSearch.values || [],
+    formValues: state.form.activityMountainSearch ? state.form.activityMountainSearch.values : [],
     mountainSelections: state.mountainSelections,
     areas: state.areas
   };
@@ -59,11 +68,9 @@ function mapStateToProps(state) {
 function validate(values) {
   const errors = {};
 
-console.log(values);
-
-  if (!values["mountain"] || !values["area"]) {
-    errors["mountain"] = "You must provide a value for the search";
-  }
+  // if (!values["mountain"] && !values["area"]) {
+  //   errors["mountain"] = "You must provide a value for the search";
+  // }
 
   return errors;
 }

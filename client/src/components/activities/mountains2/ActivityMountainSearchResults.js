@@ -96,7 +96,7 @@ class ActivityMountainSearchResults extends Component {
 
 function mapStateToProps(state) {
   return {
-    formValues: state.form.activityMountainSearch.values || [],
+    formValues: state.form.activityMountainSearch ? state.form.activityMountainSearch.values : [],
     mountainSelections: state.mountainSelections,
     userChallenges: state.userChallenges,
     mountainLists: state.mountainLists,

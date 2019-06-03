@@ -40,20 +40,20 @@ class ActivityDetails extends Component {
 function validate(values) {
   const errors = {};
 
-  _.each(formFields, ({ name, required }) => {
-    // if (required && !values[name]) {
-    //   errors[name] = "You must provide a value";
-    // }
-    if (!values["name"]) {
-      errors["name"] = "You must provide a value for the name";
-    }
-    if (!values["description"]) {
-      errors["description"] = "You must provide a value for the description";
-    }
-    if (!values["startDate"]) {
-      errors["startDate"] = "You must select a date";
-    }
-  });
+  // _.each(formFields, ({ name, required }) => {
+  //   // if (required && !values[name]) {
+  //   //   errors[name] = "You must provide a value";
+  //   // }
+  //   if (!values["name"]) {
+  //     errors["name"] = "You must provide a value for the name";
+  //   }
+  //   if (!values["description"]) {
+  //     errors["description"] = "You must provide a value for the description";
+  //   }
+  //   if (!values["startDate"]) {
+  //     errors["startDate"] = "You must select a date";
+  //   }
+  // });
   return errors;
 }
 
