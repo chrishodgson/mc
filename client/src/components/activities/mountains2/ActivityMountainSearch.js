@@ -8,34 +8,37 @@ import formFields from "./mountainSearchFields";
 class ActivityMountainSearch extends Component {
   getAreaList() {
     let list = _.map(this.props.areas, area => {
-        return { key: area.name, label: area.name };
+        return { key: area._id, label: area.name };
     });
     list.unshift({ key: "", label: "" }); 
     return list;
   }
 
   renderFields() {
-    return _.map(formFields, ({ label, name, type, options }) => {
+    const fields = _.map(formFields, ({ label, name, className, placeholder, type, options }) => {
       if (name === 'area') {
         options = this.getAreaList();
       }
-      return (
+      return (        
         <ReduxField
           key={name}
           type={type}
           component={Field}
+          className={className}
+          placeholder={placeholder}
           label={label}
           name={name}
           options={options}
         />
       );
     });
+    return <div className="form-row">{fields}</div>;
   }
   
   render() {  
     return (
       <div>
-        <form onSubmit={this.props.handleSubmit}>
+        <form className="form-inline" onSubmit={this.props.handleSubmit}>
           {this.renderFields()}
         </form>  
       </div>

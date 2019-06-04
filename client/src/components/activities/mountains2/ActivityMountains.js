@@ -32,20 +32,28 @@ class ActivityMountains extends Component {
   render() {  
     return (
       <div>
-        <ActivityMountainSearch />
-
-        {this.renderNextStepError()}
-
-        <button onClick={this.props.onCancel} className="btn btn-default">
-          Back
-        </button>
+        <div className="row">
+          <div className="col">
+            <ActivityMountainSearch />
+            {this.renderNextStepError()}
+          </div>
+        </div>
         
-        <button onClick={e => this.handleNextStep(e)} className="btn btn-default">
-          Next
-        </button>
+        <div className="row">
+          <div className="col-sm-8">
+            <ActivityMountainSearchResults />
+          </div>
+          <div className="col-sm-4">
+            <ActivityMountainSelections />
+          </div>
+        </div>
 
-        <ActivityMountainSearchResults />
-        <ActivityMountainSelections />
+        <div className="row">
+          <div className="col">
+            <button onClick={this.props.onCancel} className="btn btn-default">Back</button>
+            <button onClick={e => this.handleNextStep(e)} className="btn btn-default">Next</button>
+          </div>
+        </div>
       </div>
     );
   }

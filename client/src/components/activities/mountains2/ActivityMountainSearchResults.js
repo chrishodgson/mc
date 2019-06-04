@@ -81,17 +81,24 @@ class ActivityMountainSearchResults extends Component {
   }
 
   filterMountains(mountains) {
-    const areaFilter = this.props.formValues && this.props.formValues.area ? 
-          this.props.formValues.area.toLowerCase() : null,
-          mountainSearch = this.props.formValues && this.props.formValues.mountain ? this.props.formValues.mountain.toLowerCase() : null;
+    const areaId = this.props.formValues ? this.props.formValues.area : null,
+          mountainSearch = this.props.formValues && this.props.formValues.mountain ? 
+          RegExp(this.props.formValues.mountain.toLowerCase() + '*', 'i') : null;
 
-    if (!areaFilter && !mountainSearch) {
+    if (!areaId && !mountainSearch) {
       return [];     
     }  
 
     return mountains.filter(
-      // mountain => mountain.area === areaFilter || mountain.name === mountainSearch
-      mountain => mountainSearch && mountain.name.toLowerCase() === mountainSearch
+      mountain => {
+        if (mountainSearch && false === mountainSearch.test(mountain.name)) {
+          return false;    
+        }
+        if (areaId && areaId !== mountain._areaId) {
+          return false;    
+        }
+        return true;
+      }
     );
   }
 
@@ -105,13 +112,7 @@ class ActivityMountainSearchResults extends Component {
     }
 
     const filteredMountains = this.filterMountains(mountainList._mountains);   
-
-    const mountainSearch = this.props.formValues ? this.props.formValues.mountain : null;
-
-    console.log(filteredMountains, 'ActivityMountainSearchResults - render filterMountains for mountainSearch: ' + mountainSearch );
-
-    const mountainsGrouped = groupMountainsByAreaSelector(filteredMountains, this.props.areas);   
-    
+    const mountainsGrouped = groupMountainsByAreaSelector(filteredMountains, this.props.areas);       
 
     return (
       <div>

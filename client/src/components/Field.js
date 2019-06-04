@@ -15,12 +15,15 @@ momentLocaliser();
 export default props => {
   const {
     input,
+    name,
     type,
     label,
+    placeholder,
+    className,
     index,
     options,
     meta: { error, touched },
-    showTime
+    showTime,
     // ,minimumNumber
     // ,maximumNumber
   } = props;
@@ -66,8 +69,8 @@ export default props => {
 
   const defaultLayout = children => {
     return (
-      <div className="form-group">
-        <label>{label}</label>
+      <div className={className || "form-group"}>
+        <label for={name}>{label}</label>
         {children}
         {renderError()}
       </div>
@@ -116,7 +119,7 @@ export default props => {
       case "text":
       default:
         return defaultLayout(
-          <input {...input} type="text" className="form-control" />
+          <input {...input} type="text" id={name} className="form-control" placeholder={placeholder || ''}/>
         );
     }
   };
