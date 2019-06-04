@@ -7,9 +7,11 @@ import { groupMountainsByAreaSelector } from '../../../selectors'
 
 class ActivityMountainSearchResults extends Component {
 
-  state = { userChallenge: '' }; 
+  state = { userChallenge: '' };
 
   componentDidMount() {    
+    console.log('ActivityMountainSearchResults - componentDidMount');
+
     const userChallengeId = this.props.match.params.userChallengeId,
           userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
 
@@ -78,13 +80,33 @@ class ActivityMountainSearchResults extends Component {
     });
   }
 
+  filterMountains(mountains) {
+    const areaFilter = this.props.formValues ? this.props.formValues.area : null,
+          mountainSearch = this.props.formValues ? this.props.formValues.mountain : null;
+
+    if (!areaFilter && !mountainSearch) {
+      return mountains;     
+    }  
+    console.log(mountainSearch, 'ActivityMountainSearchResults - filterMountains - mountainSearch');
+
+    return mountains.filter(
+      mountain => mountain.area === areaFilter || mountain.name === mountainSearch
+    );
+  }
+
   render() {  
-    const mountainList = _.find(this.props.mountainLists, { _id: this.state.userChallenge._mountainListId });
+    const mountainList = _.find(this.props.mountainLists, { 
+      _id: this.state.userChallenge._mountainListId 
+    });
 
     if (!mountainList || !this.props.areas) {
       return "Loading mountains...";
     }
-    const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);      
+
+    const filteredMountains = this.filterMountains(mountainList._mountains);   
+    const mountainsGrouped = groupMountainsByAreaSelector(filteredMountains, this.props.areas);   
+
+    console.log(filteredMountains, 'ActivityMountainSearchResults - render filterMountains');
 
     return (
       <div>

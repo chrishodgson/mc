@@ -40,7 +40,7 @@ class ActivityMountainSearch extends Component {
   }
   
   handleSearch() {
-    console.log(this.props, 'ActivityMountainSearch - handleSearch TODO ');
+    // console.log(this.props, 'ActivityMountainSearch - handleSearch');
   };
   
   render() {  
