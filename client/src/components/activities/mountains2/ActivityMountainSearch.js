@@ -6,13 +6,6 @@ import Field from "../../Field";
 import formFields from "./mountainSearchFields";
 
 class ActivityMountainSearch extends Component {
-
-  //todo remove constructor and bind handleSearch using arrow function with has same context
-  constructor(props) {
-    super(props)
-    this.handleSearch = this.handleSearch.bind(this)
-  }
-
   getAreaList() {
     let list = _.map(this.props.areas, area => {
         return { key: area.name, label: area.name };
@@ -39,18 +32,11 @@ class ActivityMountainSearch extends Component {
     });
   }
   
-  handleSearch() {
-    // console.log(this.props, 'ActivityMountainSearch - handleSearch');
-  };
-  
   render() {  
     return (
       <div>
-        <form onSubmit={this.props.handleSubmit(this.handleSearch)}>
+        <form onSubmit={this.props.handleSubmit}>
           {this.renderFields()}
-          <button type="submit" className="btn">
-            Search
-          </button>
         </form>  
       </div>
     );
@@ -65,18 +51,7 @@ function mapStateToProps(state) {
   };
 }
 
-function validate(values) {
-  const errors = {};
-
-  // if (!values["mountain"] && !values["area"]) {
-  //   errors["mountain"] = "You must provide a value for the search";
-  // }
-
-  return errors;
-}
-
 export default reduxForm({
-  validate,
   form: "activityMountainSearch",
   destroyOnUnmount: false
 })(
