@@ -57,8 +57,8 @@ class ActivityMountainSearchResults extends Component {
 
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
-        return <li key={mountainItem._id}>
-            {this.isAlreadySelected(mountainItem._id) ? null : 
+        return this.isAlreadySelected(mountainItem._id) ? null : 
+          <li key={mountainItem._id} className="list-group-item">
               <button
               className="btn btn-link"
               name={mountainItem._id}
@@ -66,26 +66,33 @@ class ActivityMountainSearchResults extends Component {
             >
               Add
             </button>
-          }
-          {mountainItem.name}
-        </li>;
+            {mountainItem.name}
+          </li>;
       });
 
       return (
         <div key={areaItem._id}>
-          {areaItem.name}:
-          <ul className="mountainList">{mountains}</ul>
+          <h5>{areaItem.name}</h5>
+          <ul className="list-group">{mountains}</ul>
         </div>
       );
     });
   }
 
-  filterMountains(mountains) {
-    const areaId = this.props.formValues ? this.props.formValues.area : null,
-          mountainSearch = this.props.formValues && this.props.formValues.mountain ? 
-          RegExp(this.props.formValues.mountain.toLowerCase() + '*', 'i') : null;
+  getAreaSearch() {
+    return this.props.formValues ? this.props.formValues.area : null;
+  }
 
-    if (!areaId && !mountainSearch) {
+  getMountainSearch() {
+    return this.props.formValues && this.props.formValues.mountain ? 
+      RegExp(this.props.formValues.mountain.toLowerCase() + '*', 'i') : null;
+  }
+
+  filterMountains(mountains) {
+    const areaSearch = this.getAreaSearch(),
+          mountainSearch = this.getMountainSearch();
+
+    if (!areaSearch && !mountainSearch) {
       return [];     
     }  
 
@@ -94,7 +101,7 @@ class ActivityMountainSearchResults extends Component {
         if (mountainSearch && false === mountainSearch.test(mountain.name)) {
           return false;    
         }
-        if (areaId && areaId !== mountain._areaId) {
+        if (areaSearch && areaSearch !== mountain._areaId) {
           return false;    
         }
         return true;
@@ -111,14 +118,14 @@ class ActivityMountainSearchResults extends Component {
       return "Loading mountains...";
     }
 
+    const showSearchResults = this.getMountainSearch() || this.getAreaSearch();
     const filteredMountains = this.filterMountains(mountainList._mountains);   
     const mountainsGrouped = groupMountainsByAreaSelector(filteredMountains, this.props.areas);       
 
-    return (
+    return !showSearchResults ? null :
       <div>
-        Mountains: {this.renderMountainsByArea(mountainsGrouped)}
-      </div>
-    );
+        Search Results: {this.renderMountainsByArea(mountainsGrouped)}
+      </div>;
   }
 }
 

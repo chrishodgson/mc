@@ -38,7 +38,7 @@ class ActivityMountainSearch extends Component {
   render() {  
     return (
       <div>
-        <form className="form-inline" onSubmit={this.props.handleSubmit}>
+        <form onSubmit={this.props.handleSubmit}>
           {this.renderFields()}
         </form>  
       </div>

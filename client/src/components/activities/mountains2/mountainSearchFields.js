@@ -1,9 +1,9 @@
 export default [
   {
     name: "mountain",
-    label: "Mountain name",
+    label: "Mountain",
     type: "text",
-    placeholder: "Enter your search",
+    placeholder: "Mountain search",
     className: "col-md-6 mb-3"
   },
   {

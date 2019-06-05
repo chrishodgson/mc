@@ -70,7 +70,7 @@ export default props => {
   const defaultLayout = children => {
     return (
       <div className={className || "form-group"}>
-        <label for={name}>{label}</label>
+        <label htmlFor={name}>{label}</label>
         {children}
         {renderError()}
       </div>
