@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import ActivityDetails from "../details/ActivityDetails";
-// import MountainSelections from "../mountains/MountainSelections";
-// import Mountains from "../mountains/ActivityMountains";
-import ActivityMountains from "../mountains2/ActivityMountains";
+import ActivityMountains from "../mountains/ActivityMountains";
 import ActivityAddReview from "./ActivityAddReview";
 
 class ActivityAdd extends Component {
@@ -38,12 +36,11 @@ class ActivityAdd extends Component {
   render() {
     return (
       <div>
-        <p>Add a new Activity</p>
+        <h3>New Activity</h3>
         {this.renderContent()}
       </div>
     );
   }
 }
 
-//export default reduxForm({ form: "activityDetails" })(ActivityAdd);
 export default ActivityAdd;

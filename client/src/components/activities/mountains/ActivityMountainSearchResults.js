@@ -73,7 +73,7 @@ class ActivityMountainSearchResults extends Component {
       return (
         <div key={areaItem._id}>
           <h5>{areaItem.name}</h5>
-          <ul className="list-group">{mountains}</ul>
+          <ul className="list-group list-group-flush">{mountains}</ul>
         </div>
       );
     });

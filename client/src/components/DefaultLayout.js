@@ -9,8 +9,10 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
       render={matchProps => (
         <div>
           <Header />
-          <Component {...matchProps} />
-        </div>
+          <div className="container">
+            <Component {...matchProps} />
+          </div>
+        </div>  
       )}
     />
   );

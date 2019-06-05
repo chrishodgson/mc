@@ -6,15 +6,16 @@ class MountainSelections extends Component {
   renderMountainSelections() {
     return this.props.mountainSelections.map(mountain => {
       return (
-        <li key={mountain._id}>
+        <li key={mountain._id} className="list-group-item">
           {mountain.name}
-          <button
+          <a
             name={mountain._id}
             onClick={this.handleClick}
-            className="btn btn-light btn-secondary"
+            className="btn btn-link"
           >
             x
-          </button>
+            {/* <i class="fas fa-minus-circle"></i> */}
+          </a>
         </li>
       );
     });
@@ -31,8 +32,10 @@ class MountainSelections extends Component {
     }
     return (
       <div>
-        Selected Mountains: 
-        <ul className="selectedMountainList">{this.renderMountainSelections()}</ul>
+        <h5>Selected Mountains</h5> 
+        <ul className="list-group list-group-flush">
+          {this.renderMountainSelections()}
+        </ul>
       </div>
     );
   }
