@@ -35,9 +35,9 @@ class ActivityMountainSearchResults extends Component {
   handleSelectMountain = e => {
     e.preventDefault();
     const mountainId = e.target.name;
-    const mountainList =_.find(this.props.mountainLists, { _id: this.state.userChallenge._mountainListId });
-    const mountain = _.find(mountainList._mountains, { _id: mountainId });
-    const isAlreadySelected = _.find(this.props.mountainSelections, { _id: mountainId });
+    const mountainList = _.find(this.props.mountainLists, {_id: this.state.userChallenge._mountainListId});
+    const mountain = _.find(mountainList._mountains, {_id: mountainId});
+    const isAlreadySelected = _.find(this.props.mountainSelections, {_id: mountainId});
 
     if (mountain && !isAlreadySelected) {
       this.props.selectMountain(mountain);
@@ -60,14 +60,18 @@ class ActivityMountainSearchResults extends Component {
       const mountains = areaItem.mountains.map(mountainItem => {
         return this.isAlreadySelected(mountainItem._id) ? null : 
           <div key={mountainItem._id} className="grid-item">
-            <button
-              className="btn btn-link"
-              name={mountainItem._id}
-              onClick={this.handleSelectMountain}
-            >
-              Add
-            </button>
-            {mountainItem.name}
+            <div className="grid-item-control">
+              <button
+                className="btn btn-link"
+                name={mountainItem._id}
+                onClick={this.handleSelectMountain}
+              >
+                Add
+              </button>
+            </div>
+            <div className="grid-item-text">
+              {mountainItem.name}
+            </div>
           </div>
       });
 
