@@ -33,29 +33,35 @@ class ActivityAddReview extends Component {
 
     return (
       <div>
-        <h5>Please confirm your entries</h5>
+        <h4 className="page-heading">Step 3: Confirm your Activity</h4>
+
+        <h5>Activity Details</h5>
         {this.renderActivityDetails()}
-        <p>Mountains</p>
+        
+        <h5>Mountains</h5>
         {this.renderMountains()}
-        <button className="btn" onClick={this.props.onCancel}>
-          Back
-        </button>
-        <button
-          className="btn"
-          onClick={() => {
-            this.props.resetState();
-            this.props.dispatch(
-              addUserActivity(
-                this.props.activityDetails,
-                this.props.mountainSelections,
-                userChallengeId,
-                this.props.history
-              )
-            );
-          }}
-        >
-          Save Activity
-        </button>
+
+        <div className="buttons">
+          <button className="btn" onClick={this.props.onCancel}>
+            Back
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              this.props.resetState();
+              this.props.dispatch(
+                addUserActivity(
+                  this.props.activityDetails,
+                  this.props.mountainSelections,
+                  userChallengeId,
+                  this.props.history
+                )
+              );
+            }}
+          >
+            Save Activity
+          </button>
+        </div>  
       </div>
     );
   }

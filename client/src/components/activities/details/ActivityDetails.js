@@ -23,14 +23,18 @@ class ActivityDetails extends Component {
   render() {
     return (
       <div>
+        <h4 className="page-heading">Step 1: New Activity</h4>
+
         <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
           {this.renderFields()}
-          <Link to="/dashboard" className="btn">
-            Cancel
-          </Link>
-          <button type="submit" className="btn">
-            Next
-          </button>
+          <div className="buttons">
+            <Link to="/dashboard" className="btn btn-light">
+              Cancel
+            </Link>
+            <button type="submit" className="btn btn-secondary">
+              Next
+            </button>
+          </div>
         </form>
       </div>
     );

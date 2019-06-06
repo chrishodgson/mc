@@ -1,13 +1,23 @@
-.challengeSummaryList {
+.buttons {
+    margin: 1rem 0;
+}
+.buttons button {
+    margin: 0 0.5rem;
 }
 
-.mountainList {
-    display: "inline-grid";
-    grid-template-columns: "200px 200px 200px 200px";
+.page-heading {
+    margin: 0 0 1.5rem 0;
+}
+
+.grid-container {
+    display: grid;
+    justify-content: space-evenly;
+    /* display: "inline-grid"; */
+    /* grid-template-columns: "200px 200px 200px 200px"; */
+    grid-template-columns: auto auto auto auto;
     grid-gap: "7px";
-    margin-bottom: "20px";
+    margin-bottom: "20px"; 
 }
 
-.selectedMountainList li {
-    padding-right: 10px;
-}
+.grid-item {
+}  

@@ -8,7 +8,7 @@ class MountainSelections extends Component {
       return (
         <li key={mountain._id} className="list-group-item">
           {mountain.name}
-          <a
+          <a href="#"
             name={mountain._id}
             onClick={this.handleClick}
             className="btn btn-link"

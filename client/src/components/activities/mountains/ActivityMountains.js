@@ -11,12 +11,17 @@ class ActivityMountains extends Component {
 
   handleNextStep(e) {
     e.preventDefault();
-    const mountainsError = this.props.mountainSelections.length === 0;
-    this.setState({ mountainsError });
-    if (mountainsError) {
-      return;
+    if (this.validateMountainSelection()) {
+      this.props.onSubmit();
     }
-    this.props.onSubmit();
+  }
+
+  validateMountainSelection() {
+    const mountainsError = this.props.mountainSelections.length === 0;
+    if (this.state.mountainsError !== mountainsError) {
+      this.setState({ mountainsError });
+    }
+    return mountainsError ? false : true;
   }
 
   renderNextStepError() {
@@ -30,8 +35,14 @@ class ActivityMountains extends Component {
   }
 
   render() {  
+    if (this.state.mountainsError) {
+      this.validateMountainSelection();
+    }
+     
     return (
       <div>
+        <h4 className="page-heading">Step 2: Select Mountains Climbed</h4>
+
         <div className="card">
           <div className="card-body">
             <ActivityMountainSearch />
@@ -43,14 +54,10 @@ class ActivityMountains extends Component {
           </div>
         </div>        
         
-        <div className="form-row">
-          <div className="col">
-            <button onClick={this.props.onCancel} type="button" className="btn btn-light">Back</button>
-            <button onClick={e => this.handleNextStep(e)} type="button" className="btn btn-light">Next Step</button>
-          </div>
+        <div className="buttons">
+          <button onClick={this.props.onCancel} type="button" className="btn btn-light">Back</button>
+          <button onClick={e => this.handleNextStep(e)} type="button" className="btn btn-secondary">Next Step</button>
         </div>
-
-        <hr class="style1"/>
 
         <div className="form-row">
           <div className="col-8">

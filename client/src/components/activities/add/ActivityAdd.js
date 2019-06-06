@@ -36,7 +36,6 @@ class ActivityAdd extends Component {
   render() {
     return (
       <div>
-        <h3>New Activity</h3>
         {this.renderContent()}
       </div>
     );

@@ -5,13 +5,14 @@ import { withRouter } from "react-router-dom";
 import { fetchMountainList, fetchAreas, selectMountain } from "../../../actions";
 import { groupMountainsByAreaSelector } from '../../../selectors'
 
+/**
+ * TODO split me up please
+ */
 class ActivityMountainSearchResults extends Component {
 
   state = { userChallenge: '' };
 
   componentDidMount() {    
-    console.log('ActivityMountainSearchResults - componentDidMount');
-
     const userChallengeId = this.props.match.params.userChallengeId,
           userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
 
@@ -58,8 +59,8 @@ class ActivityMountainSearchResults extends Component {
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
         return this.isAlreadySelected(mountainItem._id) ? null : 
-          <li key={mountainItem._id} className="list-group-item">
-              <button
+          <div key={mountainItem._id} className="grid-item">
+            <button
               className="btn btn-link"
               name={mountainItem._id}
               onClick={this.handleSelectMountain}
@@ -67,13 +68,15 @@ class ActivityMountainSearchResults extends Component {
               Add
             </button>
             {mountainItem.name}
-          </li>;
+          </div>
       });
 
       return (
         <div key={areaItem._id}>
           <h5>{areaItem.name}</h5>
-          <ul className="list-group list-group-flush">{mountains}</ul>
+          <div className="grid-container">
+            {mountains}
+          </div>  
         </div>
       );
     });
@@ -124,7 +127,8 @@ class ActivityMountainSearchResults extends Component {
 
     return !showSearchResults ? null :
       <div>
-        Search Results: {this.renderMountainsByArea(mountainsGrouped)}
+        <p>Search Results: </p>
+        {this.renderMountainsByArea(mountainsGrouped)}
       </div>;
   }
 }
