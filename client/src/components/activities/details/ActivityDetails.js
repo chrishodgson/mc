@@ -2,7 +2,7 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { reduxForm, Field as ReduxField } from "redux-form";
 import { Link } from "react-router-dom";
-import Field from "../../Field";
+import Field from "../../utils/Field";
 import formFields from "./activityDetailsFields";
 
 class ActivityDetails extends Component {

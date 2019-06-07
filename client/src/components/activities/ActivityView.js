@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Moment from "moment";
-import OSMap from "../OSMap";
+import OSMap from "../utils/OSMap";
 
 class ActivityView extends Component {
   state = { userActivity: "", userChallenge: "" }; 

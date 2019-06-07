@@ -2,7 +2,7 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { reduxForm, Field as ReduxField } from "redux-form";
 import { connect } from "react-redux";
-import Field from "../../Field";
+import Field from "../../utils/Field";
 import formFields from "./mountainSearchFields";
 
 class ActivityMountainSearch extends Component {

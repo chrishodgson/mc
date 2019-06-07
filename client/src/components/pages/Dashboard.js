@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import UserChallengeList from "./challenges/UserChallengeList";
-import ActivityList from "./activities/ActivityList";
+import UserChallengeList from "../challenges/UserChallengeList";
+import ActivityList from "../activities/ActivityList";
 
 class Dashboard extends Component {
     render() {

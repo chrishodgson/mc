@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 // protected components
-import Dashboard from "./Dashboard";
+import Dashboard from "./pages/Dashboard";
 import ChallengeList from "./challenges/ChallengeList";
 import ChallengeView from "./challenges/ChallengeView";
 import ActivityList from "./activities/ActivityList";

@@ -3,11 +3,12 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
-import DefaultLayout from "./DefaultLayout";
-import Home from "./Home";
-import Login from "./Login";
-import PageNotFound from "./PageNotFound";
+import DefaultLayout from "./layouts/DefaultLayout";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import PageNotFound from "./pages/PageNotFound";
 import ProtectedRoute from "./ProtectedRoute";
+
 
 class App extends Component {
   componentDidMount() {
@@ -21,8 +22,6 @@ class App extends Component {
           <div className="container">
             <Switch>
               <DefaultLayout exact path="/" component={Home} />
-              <DefaultLayout exact path="/login" component={Login} />              
-              <DefaultLayout path="/dashboard" component={ProtectedRoute} />
 
               <DefaultLayout exact path="/activities" component={ProtectedRoute} />
               <DefaultLayout path="/activities/view/:userActivityId" component={ProtectedRoute} />
@@ -30,6 +29,9 @@ class App extends Component {
 
               <DefaultLayout exact path="/challenges" component={ProtectedRoute} />
               <DefaultLayout path="/challenges/view/:userChallengeId" component={ProtectedRoute} />
+
+              <DefaultLayout path="/login" component={Login} />
+              <DefaultLayout path="/dashboard" component={ProtectedRoute}/>
 
               <DefaultLayout component={PageNotFound} />
             </Switch>
