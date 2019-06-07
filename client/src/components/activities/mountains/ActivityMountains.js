@@ -55,7 +55,7 @@ class ActivityMountains extends Component {
         </div>        
         
         <div className="buttons">
-          <button onClick={this.props.onCancel} type="button" className="btn btn-light">Back</button>
+          <button onClick={this.props.onCancel} type="button" className="btn btn-light border">Back</button>
           <button onClick={e => this.handleNextStep(e)} type="button" className="btn btn-secondary">Next Step</button>
         </div>
 

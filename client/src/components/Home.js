@@ -1,12 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
-const Home = () => {
-  return (
-    <div style={{ textAlign: "center" }}>
-      <li className="list-inline-item"><Link to="/challenges">Challenges</Link></li>
-    </div>
-  );
-};
+class Home extends Component {
+  render() {
+    if (this.props.auth && this.props.auth._id) {
+      this.props.history.push("/dashboard"); 
+      return null;  
+    }
 
-export default Home;
+    return (
+      <div style={{ textAlign: "center" }}>
+        <li className="list-inline-item"><Link to="/challenges">Challenges</Link></li>
+      </div>
+    );
+  }
+}
+
+export default connect(({ auth }) => ({ auth })) (withRouter(Home));

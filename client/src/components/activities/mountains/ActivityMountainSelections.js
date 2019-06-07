@@ -5,17 +5,12 @@ import { deSelectMountain } from "../../../actions";
 class MountainSelections extends Component {
   renderMountainSelections() {
     return this.props.mountainSelections.map(mountain => {
+      const strArray = mountain.name.split("[");
       return (
         <li key={mountain._id} className="list-group-item">
-          {mountain.name}
-          <a href="#"
-            name={mountain._id}
-            onClick={this.handleClick}
-            className="btn btn-link"
-          >
-            x
-            {/* <i class="fas fa-minus-circle"></i> */}
-          </a>
+          {strArray[0]}
+          <i className="fa fa-times-circle ml-2" 
+            name={mountain._id} id={mountain._id} onClick={this.handleClick}></i>
         </li>
       );
     });
@@ -23,7 +18,7 @@ class MountainSelections extends Component {
 
   handleClick = e => {
     e.preventDefault();
-    this.props.deSelectMountain(e.target.name);
+    this.props.deSelectMountain(e.target.id);
   };
 
   render() {
@@ -33,7 +28,7 @@ class MountainSelections extends Component {
     return (
       <div>
         <h5>Selected Mountains</h5> 
-        <ul className="list-group list-group-flush">
+        <ul className="list-group list-group-condensed">
           {this.renderMountainSelections()}
         </ul>
       </div>

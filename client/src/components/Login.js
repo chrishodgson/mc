@@ -3,8 +3,7 @@ import React from "react";
 const Login = () => {
   return (
     <div style={{ textAlign: "center" }}>
-      <p>login page text ...</p>
-      ...
+      <p><a href="/auth/google">Login with Google</a></p>
     </div>
   );
 };

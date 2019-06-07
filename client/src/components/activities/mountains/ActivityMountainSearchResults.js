@@ -58,11 +58,12 @@ class ActivityMountainSearchResults extends Component {
 
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
+        const strArray = mountainItem.name.split("[");
         return this.isAlreadySelected(mountainItem._id) ? null : 
           <div key={mountainItem._id} className="grid-item">
             <div className="grid-item-control">
               <button
-                className="btn btn-link"
+                className="btn btn-secondary btn-sm"
                 name={mountainItem._id}
                 onClick={this.handleSelectMountain}
               >
@@ -70,7 +71,7 @@ class ActivityMountainSearchResults extends Component {
               </button>
             </div>
             <div className="grid-item-text">
-              {mountainItem.name}
+              {strArray[0]}
             </div>
           </div>
       });

@@ -42,11 +42,11 @@ class ActivityAddReview extends Component {
         {this.renderMountains()}
 
         <div className="buttons">
-          <button className="btn" onClick={this.props.onCancel}>
+          <button className="btn btn-light border" onClick={this.props.onCancel}>
             Back
           </button>
           <button
-            className="btn"
+            className="btn btn-secondary"
             onClick={() => {
               this.props.resetState();
               this.props.dispatch(
