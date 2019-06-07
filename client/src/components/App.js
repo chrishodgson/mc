@@ -3,11 +3,12 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
-import DefaultLayout from "./layouts/DefaultLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import ProtectedRoute from "./ProtectedRoute";
+import DefaultLayout from "./layouts/DefaultLayout";
+import ProtectedLayout from "./layouts/ProtectedLayout";
 
 
 class App extends Component {
@@ -22,16 +23,16 @@ class App extends Component {
           <div className="container">
             <Switch>
               <DefaultLayout exact path="/" component={Home} />
-
-              <DefaultLayout exact path="/activities" component={ProtectedRoute} />
-              <DefaultLayout path="/activities/view/:userActivityId" component={ProtectedRoute} />
-              <DefaultLayout path="/activities/add/:userChallengeId" component={ProtectedRoute} />
-
-              <DefaultLayout exact path="/challenges" component={ProtectedRoute} />
-              <DefaultLayout path="/challenges/view/:userChallengeId" component={ProtectedRoute} />
-
               <DefaultLayout path="/login" component={Login} />
-              <DefaultLayout path="/dashboard" component={ProtectedRoute}/>
+
+              <ProtectedLayout path="/dashboard" component={ProtectedRoute}/>
+
+              <ProtectedLayout exact path="/activities" component={ProtectedRoute} />
+              <ProtectedLayout path="/activities/view/:userActivityId" component={ProtectedRoute} />
+              <ProtectedLayout path="/activities/add/:userChallengeId" component={ProtectedRoute} />
+
+              <ProtectedLayout exact path="/challenges" component={ProtectedRoute} />
+              <ProtectedLayout path="/challenges/view/:userChallengeId" component={ProtectedRoute} />
 
               <DefaultLayout component={PageNotFound} />
             </Switch>

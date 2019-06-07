@@ -3,6 +3,15 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 class ProtectedHeader extends Component {
+
+  renderAuthLinks() {
+    return this.props.auth ? (
+      <span className="navbar-text">
+        <a className="nav-link" href="/api/logout">Logout - {this.props.auth.name}</a>
+      </span>
+    ) : null;
+  }
+
   renderNavLinks() {
     return (
       <ul className="navbar-nav mr-auto">
@@ -28,9 +37,7 @@ class ProtectedHeader extends Component {
         </button>
         <div className="collapse navbar-collapse" id="navbarText">          
           {this.renderNavLinks()}
-          <span className="navbar-text">
-            <a className="nav-link" href="/api/logout">Logout - {this.props.auth.name}</a>
-          </span>
+          {this.renderAuthLinks()}
         </div>
       </nav>
     );

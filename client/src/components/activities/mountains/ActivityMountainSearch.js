@@ -6,6 +6,7 @@ import Field from "../../utils/Field";
 import formFields from "./mountainSearchFields";
 
 class ActivityMountainSearch extends Component {
+
   getAreaList() {
     let list = _.map(this.props.areas, area => {
         return { key: area._id, label: area.name };
@@ -15,7 +16,8 @@ class ActivityMountainSearch extends Component {
   }
 
   renderFields() {
-    const fields = _.map(formFields, ({ label, name, className, placeholder, type, options }) => {
+    const fields = _.map(formFields, ({ label, name, className, placeholder, type }) => {
+      let options = [];
       if (name === 'area') {
         options = this.getAreaList();
       }

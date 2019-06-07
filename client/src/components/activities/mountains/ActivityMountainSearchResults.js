@@ -12,7 +12,8 @@ class ActivityMountainSearchResults extends Component {
 
   state = { userChallenge: '' };
 
-  componentDidMount() {    
+  componentDidMount() {
+    //todo get
     const userChallengeId = this.props.match.params.userChallengeId,
           userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
 
@@ -88,12 +89,12 @@ class ActivityMountainSearchResults extends Component {
   }
 
   getAreaSearch() {
-    return this.props.formValues ? this.props.formValues.area : null;
+    return this.props.activityMountainSearch ? this.props.activityMountainSearch.area : null;
   }
 
   getMountainSearch() {
-    return this.props.formValues && this.props.formValues.mountain ? 
-      RegExp(this.props.formValues.mountain.toLowerCase() + '*', 'i') : null;
+    return this.props.activityMountainSearch && this.props.activityMountainSearch.mountain ?
+      RegExp(this.props.activityMountainSearch.mountain.toLowerCase() + '*', 'i') : null;
   }
 
   filterMountains(mountains) {
@@ -140,7 +141,8 @@ class ActivityMountainSearchResults extends Component {
 
 function mapStateToProps(state) {
   return {
-    formValues: state.form.activityMountainSearch ? state.form.activityMountainSearch.values : [],
+    activityDetails: state.form.activityDetails ? state.form.activityDetails.values : [],
+    activityMountainSearch: state.form.activityMountainSearch ? state.form.activityMountainSearch.values : [],
     mountainSelections: state.mountainSelections,
     userChallenges: state.userChallenges,
     mountainLists: state.mountainLists,

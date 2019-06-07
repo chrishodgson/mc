@@ -3,12 +3,14 @@ export default [
     name: "name",
     label: "Name",
     type: "text",
-    required: true
+    required: true,
+    placeholder: "Your name",
+    className: "col"
   },
   {
-    name: "description",
-    label: "Description",
-    type: "textarea",
+    name: "challenge",
+    label: "Challenge",
+    type: "select",
     required: true
   },
   {
@@ -16,6 +18,14 @@ export default [
     label: "Start Date",
     type: "date",
     required: true,
-    showTime: false
+    showTime: false,
+    placeholder: "Enter a date",
+    className: "col"
+  },
+  {
+    name: "description",
+    label: "Description",
+    type: "textarea",
+    required: false
   }
 ];
