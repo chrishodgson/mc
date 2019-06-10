@@ -14,9 +14,8 @@ module.exports = app => {
   // add activity
   app.post("/api/userActivities", requireLogin, async (req, res) => {
     const {
-      details: { name, description, startDate },
-      mountains,
-      userChallengeId
+      details: { title, description, startDate, userChallengeId },
+      mountains
     } = req.body;
     
     let userChallenge = await UserChallenge.findById(userChallengeId);
@@ -27,7 +26,7 @@ module.exports = app => {
     }
 
     const userActivity = new UserActivity({
-      name,
+      title,
       description,
       startDate,
       _userChallengeId: userChallengeId,

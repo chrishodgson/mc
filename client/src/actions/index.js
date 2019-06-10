@@ -91,14 +91,12 @@ export const fetchUserActivities = () => async dispatch => {
 export const addUserActivity = (
   details,
   mountains,
-  userChallengeId,
   history
 ) => async dispatch => {
   
   const res = await axios.post("/api/userActivities", {
     details,
-    mountains,
-    userChallengeId
+    mountains
   });
 
   history.push("/dashboard");

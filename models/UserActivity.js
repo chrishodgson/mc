@@ -2,8 +2,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const SubMountain = require("./SubMountain"); //sub document
 
+/**
+ * indexes on _userId and _userChallengeId {_userId: 1, _userChallengeId: 1}
+ */
 const userActivitySchema = new Schema({
-  name: String,
+  title: String,
   description: String,
   startDate: Date,
   _userChallengeId: { type: Schema.Types.ObjectId, ref: "UserChallenge" },

@@ -15,7 +15,7 @@ class UserChallengeList extends Component {
         <div className="bg-light" key={userChallenge._id}>
           <p>
             <Link to={`/challenges/view/${userChallenge._id}`}>
-              {userChallenge.name}
+              {userChallenge.title}
             </Link>
           <br/>climbed: {userChallenge.climbedCount}
           <br/>remaining: {userChallenge.remainingCount}

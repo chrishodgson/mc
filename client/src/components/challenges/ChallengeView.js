@@ -40,9 +40,20 @@ class ChallengeView extends Component {
     }
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
-        return <li key={mountainItem._id}>{mountainItem.name} ({mountainItem.metres}m)</li>;
+        const hasClimbed = _.find(this.state.userChallenge._climbed, {_mountainId: mountainItem._id});
+
+        return (
+          <li className="list-group-item" key={mountainItem._id}>
+            {mountainItem.name} ({mountainItem.metres}m) {hasClimbed ? '** CLIMBED **' : ''}
+          </li>
+        );
       });
-      return <li key={areaItem._id}>{areaItem.name}<ul>{mountains}</ul></li>;
+      return (
+        <li key={areaItem._id}>
+          {areaItem.name}
+          <ul className="list-group list-group-flush">{mountains}</ul>
+        </li>
+      );
     });
   }
 
@@ -51,11 +62,11 @@ class ChallengeView extends Component {
 
     return (
       <div>
-        <table className="table condensed">
+        <table className="table table-condensed">
         <tbody>
           <tr>
             <th>Name</th>
-            <td>{this.state.userChallenge.name}</td>
+            <td>{this.state.userChallenge.title}</td>
           </tr>
           <tr>
             <th>Description</th>
@@ -79,7 +90,11 @@ class ChallengeView extends Component {
             <td>{this.state.userChallenge.mountainCount}</td>
           </tr>
           <tr>
-            <td><ul>{this.renderMountainsByArea(mountainsGrouped)}</ul></td>
+            <td>
+              <ul className="list-inline">
+                {this.renderMountainsByArea(mountainsGrouped)}
+              </ul>
+            </td>
           </tr>
           </tbody>
         </table>

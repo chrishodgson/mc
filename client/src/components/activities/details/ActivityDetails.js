@@ -4,30 +4,23 @@ import { reduxForm, Field as ReduxField } from "redux-form";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import Field from "../../utils/Field";
-import formRows from "./activityDetailsFields";
+import activityDetailsFields from "./activityDetailsFields";
 
 class ActivityDetails extends Component {
 
-  componentDidMount() {
-    if (this.props.userChallenges.length === 0) {
-      this.props.history.push("/dashboard"); // TODO flash message - error page not valid
-      return;
-    }
-  }
-
   getUserChallengeList() {
     let list = _.map(this.props.userChallenges, userChallenge => {
-      return { key: userChallenge._id, label: userChallenge.name };
+      return { key: userChallenge._id, label: userChallenge.title };
     });
     list.unshift({"key": "", "label": '-- Select a challenge --'});
     return list;
   }
 
   renderFields() {
-    return _.map(formRows, (formRow, index) => {
+    return _.map(activityDetailsFields, (formRow, index) => {
       const fields = _.map(formRow, ({ label, name, formGroupClass, placeholder, type }) => {
         let options = [];
-        if (name === 'challenge') {
+        if (name === 'userChallengeId') {
           options = this.getUserChallengeList();
         }
         return (
@@ -48,6 +41,10 @@ class ActivityDetails extends Component {
   }
 
   render() {
+    if (this.props.userChallenges.length === 0) {
+      return 'Please join a challenge before adding any activities.';
+    }
+
     return (
       <div>
         <h4 className="page-heading">Step 1: New Activity</h4>
@@ -67,16 +64,6 @@ class ActivityDetails extends Component {
             </form>
           </div>
           <div className="col-md-4">
-            {/* <div class="card">
-              <div class="card-header">
-                Title
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Entering the Date</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
@@ -91,7 +78,7 @@ function validate(values) {
     startDate: "You must select a date",
   }
   const errors = {};
-  _.each(formRows, formFields => {
+  _.each(activityDetailsFields, formFields => {
     _.each(formFields, ({ name, required }) => {
       if (required && !values[name]) {
         errors[name] = messages[name] || "You must provide a value";

@@ -4,42 +4,63 @@ import { reset } from "redux-form";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Moment from "moment";
-import activityDetailFields from "../details/activityDetailsFields";
+import activityDetailsFields from "../details/activityDetailsFields";
 import { addUserActivity, clearSelectedMountains } from "../../../actions";
 
 class ActivityAddReview extends Component {
+
+    getFieldList = () => {
+        const list = [];
+        _.each(activityDetailsFields, formRow => {
+            _.each(formRow, item => {
+                list.push(item)
+            });
+        });
+        return list;
+    };
+
   renderActivityDetails = () =>
-    _.map(activityDetailFields, ({ label, name }) => {
+    _.map(this.getFieldList(), ({ label, name }) => {
+      if (name === 'userChallengeId') {
+          return null;
+      }
       const value = this.props.activityDetails[name];
       return (
-        <div key={name}>
-          <label>{label}</label>
-          <div>
+        <tr key={name}>
+          <th>{label}</th>
+          <td>
             {value instanceof Date
               ? Moment(value).format("MMMM Do YYYY")
               : value}
-          </div>
-        </div>
+          </td>
+        </tr>
       );
     });
 
   renderMountains = () =>
     _.map(this.props.mountainSelections, ({ _id, name }) => {
-      return <div key={_id}>{name}</div>;
+      return <li className="list-group-item" key={_id}>{name}</li>;
     });
 
   render() {
-    const userChallengeId = this.props.match.params.userChallengeId;
-
     return (
       <div>
         <h4 className="page-heading">Step 3: Confirm your Activity</h4>
 
-        <h5>Activity Details</h5>
-        {this.renderActivityDetails()}
-        
-        <h5>Mountains</h5>
-        {this.renderMountains()}
+          <div className="row">
+              <div className="col">
+                  <h5>Activity Details</h5>
+                  <table className="table table-condensed">
+                    {this.renderActivityDetails()}
+                  </table>
+              </div>
+              <div className="col">
+                  <h5>Mountains</h5>
+                  <ul className="list-group list-group-flush">
+                    {this.renderMountains()}
+                  </ul>
+              </div>
+          </div>
 
         <div className="buttons">
           <button className="btn btn-light border" onClick={this.props.onCancel}>
@@ -53,7 +74,6 @@ class ActivityAddReview extends Component {
                 addUserActivity(
                   this.props.activityDetails,
                   this.props.mountainSelections,
-                  userChallengeId,
                   this.props.history
                 )
               );

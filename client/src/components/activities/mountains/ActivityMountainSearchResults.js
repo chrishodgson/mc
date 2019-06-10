@@ -13,8 +13,7 @@ class ActivityMountainSearchResults extends Component {
   state = { userChallenge: '' };
 
   componentDidMount() {
-    const //userChallengeId = this.props.match.params.userChallengeId,
-          userChallengeId = this.props.activityDetails.challenge,
+    const userChallengeId = this.props.activityDetails.userChallengeId,
           userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
 
     if (!userChallenge) {

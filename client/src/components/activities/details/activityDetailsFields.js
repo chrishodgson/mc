@@ -1,8 +1,8 @@
 export default [
   [
     {
-      name: "name",
-      label: "Title",
+      name: "title",
+      label: "Your title",
       type: "text",
       required: true,
       placeholder: "Enter a title",
@@ -11,7 +11,7 @@ export default [
   ],
   [
     {
-      name: "challenge",
+      name: "userChallengeId",
       label: "Select the Challenge",
       type: "select",
       required: true,
@@ -23,7 +23,6 @@ export default [
       type: "date",
       required: true,
       showTime: false,
-      //placeholder: "Enter a date",
       formGroupClass: "col-sm-6"
     },  
   ],

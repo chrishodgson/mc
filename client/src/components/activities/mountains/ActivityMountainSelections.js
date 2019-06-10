@@ -28,7 +28,7 @@ class MountainSelections extends Component {
     return (
       <div>
         <h5>Selected Mountains</h5> 
-        <ul className="list-group list-group-condensed">
+        <ul className="list-group list-group-flush">
           {this.renderMountainSelections()}
         </ul>
       </div>
