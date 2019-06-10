@@ -13,11 +13,12 @@ class ActivityMountainSearchResults extends Component {
   state = { userChallenge: '' };
 
   componentDidMount() {
-    //todo get
-    const userChallengeId = this.props.match.params.userChallengeId,
+    const //userChallengeId = this.props.match.params.userChallengeId,
+          userChallengeId = this.props.activityDetails.challenge,
           userChallenge = _.find(this.props.userChallenges, { _id: userChallengeId });
 
-    if (!userChallenge) {      
+    if (!userChallenge) {
+      console.log('userChallenge not found');
       this.props.history.push("/dashboard"); // TODO flash message - error page not valid
       return;
     }

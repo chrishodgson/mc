@@ -29,7 +29,9 @@ class App extends Component {
 
               <ProtectedLayout exact path="/activities" component={ProtectedRoute} />
               <ProtectedLayout path="/activities/view/:userActivityId" component={ProtectedRoute} />
-              <ProtectedLayout path="/activities/add/:userChallengeId" component={ProtectedRoute} />
+              
+              {/* <ProtectedLayout path="/activities/add/:userChallengeId" component={ProtectedRoute} /> */}
+              <ProtectedLayout path="/activities/add" component={ProtectedRoute} />
 
               <ProtectedLayout exact path="/challenges" component={ProtectedRoute} />
               <ProtectedLayout path="/challenges/view/:userChallengeId" component={ProtectedRoute} />

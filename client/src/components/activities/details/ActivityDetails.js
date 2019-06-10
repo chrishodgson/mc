@@ -4,7 +4,7 @@ import { reduxForm, Field as ReduxField } from "redux-form";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import Field from "../../utils/Field";
-import formFields from "./activityDetailsFields";
+import formRows from "./activityDetailsFields";
 
 class ActivityDetails extends Component {
 
@@ -16,7 +16,6 @@ class ActivityDetails extends Component {
   }
 
   getUserChallengeList() {
-    console.log(this.props);
     let list = _.map(this.props.userChallenges, userChallenge => {
       return { key: userChallenge._id, label: userChallenge.name };
     });
@@ -25,24 +24,27 @@ class ActivityDetails extends Component {
   }
 
   renderFields() {
-    return _.map(formFields, ({ label, name, className, placeholder, type }) => {
-      let options = [];
-      if (name === 'challenge') {
-        options = this.getUserChallengeList();
-      }
-      return (
-        <ReduxField
-          key={name}
-          type={type}
-          component={Field}
-          className={className}
-          placeholder={placeholder}
-          label={label}
-          name={name}
-          options={options}
-        />
-      );
-    });
+    return _.map(formRows, (formRow, index) => {
+      const fields = _.map(formRow, ({ label, name, className, placeholder, type }) => {
+        let options = [];
+        if (name === 'challenge') {
+          options = this.getUserChallengeList();
+        }
+        return (
+          <ReduxField
+            key={name}
+            type={type}
+            component={Field}
+            className={className}
+            placeholder={placeholder}
+            label={label}
+            name={name}
+            options={options}
+          />
+        );
+      });
+      return <div key={index} className="form-row">{fields}</div>
+    });  
   }
 
   render() {
@@ -67,22 +69,19 @@ class ActivityDetails extends Component {
 }
 
 function validate(values) {
+  const messages = {
+    name: "You must provide a value for the name",    
+    challenge: "You must select a challenge",
+    startDate: "You must select a date",
+  }
   const errors = {};
-
-  // _.each(formFields, ({ name, required }) => {
-  //   // if (required && !values[name]) {
-  //   //   errors[name] = "You must provide a value";
-  //   // }
-  //   if (!values["name"]) {
-  //     errors["name"] = "You must provide a value for the name";
-  //   }
-  //   if (!values["challenge"]) {
-  //     errors["challenge"] = "You must select a challenge";
-  //   }
-  //   if (!values["startDate"]) {
-  //     errors["startDate"] = "You must select a date";
-  //   }
-  // });
+  _.each(formRows, formFields => {
+    _.each(formFields, ({ name, required }) => {
+      if (required && !values[name]) {
+        errors[name] = messages[name] || "You must provide a value";
+      }
+    });
+  });  
   return errors;
 }
 

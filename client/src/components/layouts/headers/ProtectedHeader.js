@@ -24,6 +24,9 @@ class ProtectedHeader extends Component {
         <li className="nav-item">
           <Link to="/challenges" className="nav-link">Challenges</Link>
         </li>
+        <li className="nav-item">
+          <Link to="/activities/add" className="nav-link">Add Activity</Link>
+        </li>
       </ul>
     );
   }
