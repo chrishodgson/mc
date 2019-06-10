@@ -19,13 +19,13 @@ class ActivityDetails extends Component {
     let list = _.map(this.props.userChallenges, userChallenge => {
       return { key: userChallenge._id, label: userChallenge.name };
     });
-    list.unshift({ key: "", label: "" });
+    list.unshift({"key": "", "label": '-- Select a challenge --'});
     return list;
   }
 
   renderFields() {
     return _.map(formRows, (formRow, index) => {
-      const fields = _.map(formRow, ({ label, name, className, placeholder, type }) => {
+      const fields = _.map(formRow, ({ label, name, formGroupClass, placeholder, type }) => {
         let options = [];
         if (name === 'challenge') {
           options = this.getUserChallengeList();
@@ -35,7 +35,7 @@ class ActivityDetails extends Component {
             key={name}
             type={type}
             component={Field}
-            className={className}
+            formGroupClass={formGroupClass}
             placeholder={placeholder}
             label={label}
             name={name}
@@ -52,17 +52,33 @@ class ActivityDetails extends Component {
       <div>
         <h4 className="page-heading">Step 1: New Activity</h4>
 
-        <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-          {this.renderFields()}
-          <div className="buttons">
-            <Link to="/dashboard" className="btn btn-light border">
-              Cancel
-            </Link>
-            <button type="submit" className="btn btn-secondary">
-              Next
-            </button>
+        <div className="row">
+          <div className="col-md-8">
+            <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+              {this.renderFields()}
+              <div className="buttons">
+                <Link to="/dashboard" className="btn btn-light border">
+                  Cancel
+                </Link>
+                <button type="submit" className="btn btn-secondary">
+                  Next
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
+          <div className="col-md-4">
+            {/* <div class="card">
+              <div class="card-header">
+                Title
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Entering the Date</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div> */}
+          </div>
+        </div>
       </div>
     );
   }
@@ -70,7 +86,7 @@ class ActivityDetails extends Component {
 
 function validate(values) {
   const messages = {
-    name: "You must provide a value for the name",    
+    name: "You must provide a title",    
     challenge: "You must select a challenge",
     startDate: "You must select a date",
   }

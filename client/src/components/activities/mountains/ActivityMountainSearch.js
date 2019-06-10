@@ -16,7 +16,7 @@ class ActivityMountainSearch extends Component {
   }
 
   renderFields() {
-    const fields = _.map(formFields, ({ label, name, className, placeholder, type }) => {
+    const fields = _.map(formFields, ({ label, name, formGroupClass, placeholder, type }) => {
       let options = [];
       if (name === 'area') {
         options = this.getAreaList();
@@ -26,7 +26,7 @@ class ActivityMountainSearch extends Component {
           key={name}
           type={type}
           component={Field}
-          className={className}
+          formGroupClass={formGroupClass}
           placeholder={placeholder}
           label={label}
           name={name}
