@@ -4,12 +4,12 @@ export default [
     label: "Mountain",
     type: "text",
     placeholder: "Enter your search",
-    className: "col"
+    formGroupClass: "col"
   },
   {
     name: "area",
     label: "Area",
     type: "select",
-    className: "col"
+    formGroupClass: "col"
   }
 ];

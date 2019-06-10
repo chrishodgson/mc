@@ -24,14 +24,15 @@ export default props => {
 
   //todo default to today
   const renderDateTimePicker = ({ onChange, value }, showTime) => {
-    return
+    return (
         <DateTimePicker
           onChange={onChange}
           format="DD MMM YYYY"
           time={showTime || false}
           defaultValue={new Date()}
           value={!value ? null : new Date(value)}
-        />;
+        />
+    );
   };
 
   const renderOptions = () => {
@@ -45,8 +46,9 @@ export default props => {
   };
 
   const defaultLayout = children => {
+    const className = formGroupClass ? 'form-group ' + formGroupClass : 'form-group';
     return (
-      <div className={formGroupClass || "form-group"}>
+      <div className={className}>
         <label htmlFor={name}>{label}</label>
         {children}
         {renderError()}
@@ -55,8 +57,9 @@ export default props => {
   };
 
   const radioLayout = children => {
+    const className = formGroupClass ? 'form-group ' + formGroupClass : 'form-group';
     return (
-      <div className="form-group">
+      <div className={className}>
         {index === 0 ? renderError() : ""}
         {children}
         <label className="form-check-label">{label}</label>
@@ -90,7 +93,7 @@ export default props => {
       case "text":
       default:
         return defaultLayout(
-          <input {...input} type="text" id={name} className="form-control" placeholder={placeholder || ''} />
+          <input {...input} type="text" className="form-control" id={name} placeholder={placeholder || ''} />
         );
     }
   };

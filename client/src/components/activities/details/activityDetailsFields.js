@@ -6,7 +6,7 @@ export default [
       type: "text",
       required: true,
       placeholder: "Your name",
-      className: "col"
+      formGroupClass: "col-sm-12"
     }
   ],
   [
@@ -15,7 +15,7 @@ export default [
       label: "Challenge",
       type: "select",
       required: true,
-      className: "col"
+      formGroupClass: "col-sm-6"
     },
     {
       name: "startDate",
@@ -24,7 +24,7 @@ export default [
       required: true,
       showTime: false,
       placeholder: "Enter a date",
-      className: "col"
+      formGroupClass: "col-sm-6"
     },  
   ],
   [
@@ -33,7 +33,7 @@ export default [
       label: "Description",
       type: "textarea",
       required: false,
-      className: "col"
+      formGroupClass: "col-sm-12"
     }  
   ]
 ];
