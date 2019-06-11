@@ -19,7 +19,6 @@ module.exports = app => {
     } = req.body;
     
     let userChallenge = await UserChallenge.findById(userChallengeId);
-
     if (!userChallenge) {
       console.log('ERROR - User challenge not found', 'POST api/userActivities');
       return;
@@ -48,22 +47,25 @@ module.exports = app => {
 
   //todo move elsewhere
   const hydrateUserChallenge = (userChallenge, mountains, userActivityId) => {
-    mountains.forEach(mountain => { 
-      let climbedCount = userChallenge.climbedCount || 0,
-          remainingCount = userChallenge.climbedCount || 0,
-          found = _.find(userChallenge._climbed, { _mountainId: mountain._mountainId });
-      if (!found) {
+    let climbedCount = userChallenge.climbedCount,
+        remainingCount = userChallenge.remainingCount;
+
+    mountains.forEach(mountain => {
+      if (!_.find(userChallenge._climbed, { _mountainId: mountain._mountainId })) {
         climbedCount++;
         remainingCount--;  
       }
 
-      userChallenge.climbedCount = climbedCount;
-      userChallenge.remainingCount = remainingCount;  
-      userChallenge._climbed.push({ 
-        _mountainId: mountain._id, 
+      const mountainItem = {
+        _mountainId: mountain._mountainId,
         _userActivityId: userActivityId
-      });    
+      };
+
+      userChallenge.climbedCount = climbedCount;
+      userChallenge.remainingCount = remainingCount;
+      userChallenge._climbed.push(mountainItem);
     });
+
     return userChallenge;
   }  
 };

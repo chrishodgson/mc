@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const SubMountain = require("./SubMountain"); //sub document
+const MountainItem = require("./embedded/MountainItem"); // embedded document
 
 const mountainListSchema = new Schema({
   countryCode: String,
@@ -8,7 +8,7 @@ const mountainListSchema = new Schema({
   highestInMetres: Number,
   lowestInMetres: Number,
   mountainCount: Number,
-  _mountains: [ SubMountain ],
+  _mountains: [ MountainItem ],
   _areaIds: [{ type: Schema.Types.ObjectId, ref: "Area" }]
 });
 

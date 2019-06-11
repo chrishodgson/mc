@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const SubMountain = require("./SubMountain"); //sub document
+const MountainItem = require("./embedded/MountainItem"); //embedded document
 
 /**
  * indexes on _userId and _userChallengeId {_userId: 1, _userChallengeId: 1}
@@ -11,7 +11,7 @@ const userActivitySchema = new Schema({
   startDate: Date,
   _userChallengeId: { type: Schema.Types.ObjectId, ref: "UserChallenge" },
   _userId: { type: Schema.Types.ObjectId, ref: "User" },
-  _mountains: [ SubMountain ] 
+  _mountains: [ MountainItem ]
 });
 
 mongoose.model("userActivities", userActivitySchema);

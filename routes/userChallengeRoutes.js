@@ -5,20 +5,22 @@ const UserChallenge = mongoose.model("userChallenges");
 
 module.exports = app => {
   /**
-   * Get all User Challenges (without _climbed)
+   * Get single User Challenges (with _climbed) - do we need this ?
    */
-  app.get("/api/userChallenges", requireLogin, async (req, res) => {  
-    const userChallenges = await UserChallenge.find({_userId: req.user._id}, { _climbed: 0 });
-    res.send(userChallenges);    
-  });
+  // app.get("/api/userChallengeClimbed", requireLogin, async (req, res) => {
+  //   const { userChallengeId } = req.body,
+  //         userChallengeClimbed = await UserChallenge.findById(userChallengeId, { _climbed: 1 });
+  //   res.send(userChallengeClimbed);
+  // });
+
 
   /**
-   * Get single User Challenges (with _climbed)
+   * Get all User Challenges
    */
-  app.get("/api/userChallengeClimbed", requireLogin, async (req, res) => {  
-    const { userChallengeId } = req.body,
-          userChallengeClimbed = await UserChallenge.findById(userChallengeId, { _climbed: 1 });
-    res.send(userChallengeClimbed);    
+  app.get("/api/userChallenges", requireLogin, async (req, res) => {  
+    // const userChallenges = await UserChallenge.find({_userId: req.user._id}, { _climbed: 0 });
+    const userChallenges = await UserChallenge.find({_userId: req.user._id});
+    res.send(userChallenges);    
   });
 
   /**
@@ -43,6 +45,7 @@ module.exports = app => {
       _mountainListId: challenge._mountainListId,
       _challengeId: challengeId,
       _userId: req.user._id,
+      _climbed: []
     });
     
     try {

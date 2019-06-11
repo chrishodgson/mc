@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-//sub document - for use on UserActivity and MountainList to list all mountains
-const subMountainSchema = new Schema({
+//embedded document - for use on UserActivity and MountainList to list all mountains
+const mountainitemSchema = new Schema({
   name: String,
   metres: Number,
   gridRef: String,
@@ -12,4 +12,4 @@ const subMountainSchema = new Schema({
   _mountainId: { type: Schema.Types.ObjectId, ref: "Mountain" }
 });
 
-module.exports = subMountainSchema;
+module.exports = mountainitemSchema;

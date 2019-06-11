@@ -5,6 +5,8 @@ import { withRouter } from "react-router-dom";
 import { addUserChallenge, fetchMountainList, fetchAreas } from "../../actions";
 import { groupMountainsByAreaSelector, percentageCompleteSelector } from '../../selectors'
 
+import ChallengeViewSearch from "./ChallengeViewSearch";
+
 class ChallengeView extends Component {
   state = { userChallenge: "" };
 
@@ -38,13 +40,15 @@ class ChallengeView extends Component {
     if (mountainsByArea.length === 0) {
       return [];
     }
+
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
-        const hasClimbed = _.find(this.state.userChallenge._climbed, {_mountainId: mountainItem._id});
+        const hasClimbed = _.find(this.state.userChallenge._climbed, { _mountainId: mountainItem._mountainId });
 
         return (
           <li className="list-group-item" key={mountainItem._id}>
-            {mountainItem.name} ({mountainItem.metres}m) {hasClimbed ? '** CLIMBED **' : 'NOT '}
+            {mountainItem.name} ({mountainItem.metres}m)
+            {hasClimbed ? <i className="fas fa-mountain ml-2"></i> : ''}
           </li>
         );
       });
@@ -59,7 +63,7 @@ class ChallengeView extends Component {
 
   renderMountainList(mountainList) {
     const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);
-    console.log(this.state.userChallenge, 'renderMountainList userChallenge');
+
     return (
       <ul className="list-inline">
         {this.renderMountainsByArea(mountainsGrouped)}
@@ -117,6 +121,8 @@ class ChallengeView extends Component {
       <div>
         <h4>{this.state.userChallenge.title}</h4>
 
+        <ChallengeViewSearch />
+        
         <div className="row">
           <div className="col">
             { this.renderDetails() }

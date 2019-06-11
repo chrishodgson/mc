@@ -48,19 +48,9 @@ class ActivityMountainSearch extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    formValues: state.form.activityMountainSearch ? state.form.activityMountainSearch.values : [],
-    mountainSelections: state.mountainSelections,
-    areas: state.areas
-  };
-}
-
 export default reduxForm({
   form: "activityMountainSearch",
   destroyOnUnmount: false
 })(
-  connect(
-    mapStateToProps
-  )(ActivityMountainSearch)
+  connect( ({ areas }) => ({ areas }) )(ActivityMountainSearch)
 );
