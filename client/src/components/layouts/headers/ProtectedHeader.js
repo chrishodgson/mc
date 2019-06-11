@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class ProtectedHeader extends Component {
 
   renderAuthLinks() {
     return this.props.auth ? (
       <span className="navbar-text">
-        <a className="nav-link" href="/api/logout">Logout - {this.props.auth.name}</a>
+        <a href="/api/logout" title={"Logout - " + this.props.auth.name}>Logout</a>
+        <Link className="icon-add-activity fa fa-plus-circle ml-3" to="/activities/add"></Link>
       </span>
     ) : null;
   }
@@ -51,4 +52,4 @@ class ProtectedHeader extends Component {
   }
 }
 
-export default connect(({ auth }) => ({ auth })) (ProtectedHeader);
+export default connect(({ auth }) => ({ auth })) (withRouter(ProtectedHeader));
