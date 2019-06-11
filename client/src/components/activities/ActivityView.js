@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Moment from "moment";
 import OSMap from "../utils/OSMap";
 
@@ -26,7 +26,7 @@ class ActivityView extends Component {
     this.setState({ userActivity, userChallenge });
   }
 
-  renderMountains(mountains) {
+  renderMountainList(mountains) {
     return mountains.map(mountain => {
       return (
         <li key={mountain._id}>
@@ -36,45 +36,54 @@ class ActivityView extends Component {
     });
   }
 
+  renderDetails() {
+    return (
+      <table className="table table-responsive table-borderless">
+        <tbody>
+        <tr>
+          <th>Challenge</th>
+          <td>
+            <Link to={'/challenges/view/' + this.state.userActivity._userChallengeId}>{this.state.userChallenge.title}</Link>
+          </td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td>{this.state.userActivity.description}</td>
+        </tr>
+        <tr>
+          <th>Date</th>
+          <td>
+            {this.state.userActivity.date ? Moment(this.state.userActivity.date).format("MMMM Do YYYY") : ""}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    );
+  }
+
   render() {
     if (!this.state.userActivity ||!this.state.userChallenge) {
       return null;
     }
     return (
       <div>
-        <p>Activity Details</p>
+        <h4>{this.state.userActivity.title}</h4>
 
-        <table className="table condensed">
-          <tbody>
-          <tr>
-              <th>CHallenge Name</th>
-              <td>{this.state.userChallenge.name}</td>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <td>{this.state.userActivity.name}</td>
-            </tr>
-            <tr>
-              <th>Description</th>
-              <td>{this.state.userActivity.description}</td>
-            </tr>
-            <tr>
-              <th>Date</th>
-              <td>
-                {this.state.userActivity.date
-                  ? Moment(this.state.userActivity.date).format("MMMM Do YYYY")
-                  : ""}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Mountains: (total {this.state.userActivity._mountains.length}) 
-                <ul>{this.renderMountains(this.state.userActivity._mountains)}</ul>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <OSMap mountains={this.state.userActivity._mountains} />
+        <div className="row">
+          <div className="col">
+            { this.renderDetails() }
+          </div>
+          <div className="col">
+            <OSMap mountains={this.state.userActivity._mountains} />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col">
+              Mountains: (total {this.state.userActivity._mountains.length})
+              <ul>{this.renderMountainList(this.state.userActivity._mountains)}</ul>
+          </div>
+        </div>
       </div>
     );
   }

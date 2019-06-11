@@ -37,8 +37,8 @@ class OSMap extends Component {
       <div
         style={{
           border: "1px solid #ccc",
-          width: "750px",
-          height: "750px"
+          width: "100%",
+          height: "100%"
         }}
         ref="map"
       />

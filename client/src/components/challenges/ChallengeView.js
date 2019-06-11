@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { addUserChallenge, fetchMountainList, fetchAreas } from "../../actions";
 import { groupMountainsByAreaSelector, percentageCompleteSelector } from '../../selectors'
 
@@ -44,7 +44,7 @@ class ChallengeView extends Component {
 
         return (
           <li className="list-group-item" key={mountainItem._id}>
-            {mountainItem.name} ({mountainItem.metres}m) {hasClimbed ? '** CLIMBED **' : ''}
+            {mountainItem.name} ({mountainItem.metres}m) {hasClimbed ? '** CLIMBED **' : 'NOT '}
           </li>
         );
       });
@@ -57,21 +57,20 @@ class ChallengeView extends Component {
     });
   }
 
-  renderTable(mountainList) {
+  renderMountainList(mountainList) {
     const mountainsGrouped = groupMountainsByAreaSelector(mountainList._mountains, this.props.areas);
-
+    console.log(this.state.userChallenge, 'renderMountainList userChallenge');
     return (
-      <div>
-        <table className="table table-condensed">
-        <tbody>
-          <tr>
-            <th>Name</th>
-            <td>{this.state.userChallenge.title}</td>
-          </tr>
-          <tr>
-            <th>Description</th>
-            <td>{this.state.userChallenge.description}</td>
-          </tr>
+      <ul className="list-inline">
+        {this.renderMountainsByArea(mountainsGrouped)}
+      </ul>
+    );
+  }
+
+  renderCounts() {
+    return (
+        <table className="table table-responsive table-borderless">
+          <tbody>
           <tr>
             <th>Climbed</th>
             <td>{this.state.userChallenge.climbedCount}</td>
@@ -81,37 +80,57 @@ class ChallengeView extends Component {
             <td>{this.state.userChallenge.remainingCount}</td>
           </tr>
           <tr>
-            <th>% Complete</th>
-            <td>{percentageCompleteSelector(this.state.userChallenge)}% complete</td>
-          </tr>
-          
-          <tr>
             <th>Total</th>
             <td>{this.state.userChallenge.mountainCount}</td>
           </tr>
           <tr>
-            <td>
-              <ul className="list-inline">
-                {this.renderMountainsByArea(mountainsGrouped)}
-              </ul>
-            </td>
+            <th>% Complete</th>
+            <td>{percentageCompleteSelector(this.state.userChallenge)}%</td>
           </tr>
+
           </tbody>
         </table>
-      </div>
-    );  
+    );
+  }
+
+  renderDetails() {
+    return (
+        <table className="table table-responsive table-borderless">
+        <tbody>
+          <tr>
+            <th>Description</th>
+            <td>{this.state.userChallenge.description}</td>
+          </tr>
+        </tbody>
+      </table>
+    );
   }
 
   render() {
     const mountainList = _.find(this.props.mountainLists, { _id: this.state.userChallenge._mountainListId });
-            
+
     if (!mountainList || !this.props.areas || !this.state.userChallenge) {
       return "Loading details...";
     }
+
     return (
-      <div>        
-        <Link to={`/activities/add/${this.state.userChallenge._id}`}>Add New Activity</Link>
-        { this.renderTable(mountainList) }  
+      <div>
+        <h4>{this.state.userChallenge.title}</h4>
+
+        <div className="row">
+          <div className="col">
+            { this.renderDetails() }
+          </div>
+          <div className="col">
+            { this.renderCounts() }
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col">
+            { this.renderMountainList(mountainList) }
+          </div>
+        </div>
       </div>
     );
   }

@@ -26,7 +26,7 @@ class ActivityList extends Component {
   renderUserActivities() {
     return this.props.userActivities.reverse().map(item => {
       return (
-        <div className="bg-light1" key={item._id}>
+        <div key={item._id}>
           <p>
             {item.startDate ? Moment(item.startDate).format("MMMM Do YYYY") : ""}
           </p>
@@ -47,7 +47,8 @@ class ActivityList extends Component {
       return 'No activities created';
     }
     return (
-      <div className="activityList">   
+      <div className="activityList">
+        <h5>Your Activities</h5>
         {this.renderUserActivities()}
       </div>
     );

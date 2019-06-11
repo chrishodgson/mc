@@ -55,7 +55,7 @@ class ChallengeList extends Component {
     }
     return (
       <div>
-        <p>Challenges</p>
+        <h5>Challenges</h5>
         <table className="table condensed">
           <thead>
             <tr>
