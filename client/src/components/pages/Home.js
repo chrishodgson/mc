@@ -9,8 +9,13 @@ class Home extends Component {
     }
 
     return (
-      <div style={{ textAlign: "center" }}>
-        Sign up with Google
+      <div className="row">
+        <div className="col">
+          <h4>Join our Wainwright walking challenges in the Lakes District.</h4>
+        </div>
+        <div className="col">
+          <a href="/auth/google">Sign up with Google</a>
+        </div>
       </div>
     );
   }

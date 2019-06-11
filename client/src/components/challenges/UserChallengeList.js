@@ -12,7 +12,7 @@ class UserChallengeList extends Component {
   renderUserChallenges() {    
     return this.props.userChallenges.reverse().map(userChallenge => {
       return (
-        <div className="bg-light" key={userChallenge._id}>
+        <div className="bg-light1" key={userChallenge._id}>
           <p>
             <Link to={`/challenges/view/${userChallenge._id}`}>
               {userChallenge.title}

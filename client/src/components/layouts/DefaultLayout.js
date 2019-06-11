@@ -7,7 +7,7 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   const layout = matchProps => (
       <div>
           <DefaultHeader />
-          <div className="container">
+          <div className="container mt-5 pt-5">
               <Component {...matchProps} />
           </div>
       </div>
