@@ -62,7 +62,7 @@ class ActivityMountainSearchResults extends Component {
         const strArray = mountainItem.name.split("[");
         return this.isAlreadySelected(mountainItem._id) ? null : 
           <div key={mountainItem._id} className="grid-item">
-            <div className="grid-item-control">
+            <div className="grid-item-btn">
               <button
                 className="btn btn-secondary btn-sm"
                 name={mountainItem._id}

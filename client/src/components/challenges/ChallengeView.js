@@ -44,7 +44,8 @@ class ChallengeView extends Component {
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
         const hasClimbed = _.find(this.state.userChallenge._climbed, { _mountainId: mountainItem._mountainId });
-        const climbedOrNotClimbed = (this.props.challengeViewSearch && this.props.challengeViewSearch.climbedOrNotClimbed) || 'all'; 
+        const climbedOrNotClimbed = (this.props.challengeViewSearch &&
+            this.props.challengeViewSearch.climbedOrNotClimbed) || 'all';
 
         if ( (climbedOrNotClimbed === 'climbed' && !hasClimbed) || 
              (climbedOrNotClimbed === 'notClimbed' && hasClimbed) ) {
@@ -52,17 +53,26 @@ class ChallengeView extends Component {
         }  
 
         return (
-          <li className="list-group-item" key={mountainItem._id}>
-            {mountainItem.name} ({mountainItem.metres}m)
-            {hasClimbed ? <i className="fas fa-mountain ml-2"></i> : ''}
-          </li>
+          <div key={mountainItem._id} className="grid-item border">
+            <div className="grid-item-icon">
+              <i className="fas fa-mountain ml-2"></i>
+            </div>
+            <div className="grid-item-text">
+              {mountainItem.name} ({mountainItem.metres}m)
+            </div>
+
+            {/*{hasClimbed ? <i className="fas fa-mountain ml-2"></i> : ''}*/}
+          </div>
         );
       });
+
       return (
-        <li key={areaItem._id}>
-          {areaItem.name}
-          <ul className="list-group list-group-flush">{mountains}</ul>
-        </li>
+        <div key={areaItem._id}>
+          <h5>{areaItem.name}</h5>
+          <div className="grid-container">
+            {mountains}
+          </div>
+        </div>
       );
     });
   }

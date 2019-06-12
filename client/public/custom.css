@@ -20,36 +20,47 @@
 }
 
 a.navbar-brand {
-    font-style: 1rem;
+    size: 1rem;
 }
 
 .grid-container {
-    display: grid;
+    display: inline-grid;
     grid-template-columns: auto auto auto auto;
 }
 
 .grid-item {
-    /* border: 1px solid #eee; */
     width: 10rem;
-    line-height: 2.5rem;
+    height: 3rem;
+    position: relative;
+    font-size: 0.8rem;
+    line-height: normal;
+    /*line-height: 2.5rem;*/
 }
 
 .grid-item-text {
-    /* border: 1px solid #eee; */
-    display: inline-block;
-    vertical-align: middle;
-    width: 6.5rem;
-    height: 100%;
-    font-size: 0.9rem;
-    line-height: normal;
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+    /*width: 6.5rem;*/
+    /*height: 100%;*/
+
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     overflow: hidden;
 }
 
-.grid-item-control {
-    /* border: 1px solid #eee; */
-    display: inline-block;
-    vertical-align: middle;
+
+.grid-item-btn, .grid-item-icon {
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+    /*line-height: normal;*/
+}
+.grid-item-btn {
     width: 3.25rem;
-    font-size: 0.9rem;
-    line-height: normal;
+}
+.grid-item-icon {
+    width: 1.5rem;
 }
