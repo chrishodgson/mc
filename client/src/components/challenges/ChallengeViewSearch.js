@@ -7,28 +7,34 @@ import formFields from "./challengeSearchFields";
 class ChallengeViewSearch extends Component {
 
   renderFields() {
-    const fields = _.map(formFields, ({ label, name, formGroupClass, type }) => {
+    const fields = _.map(formFields, ({ name, label, type, value, formGroupClass }, index) => {
+      console.log(index);
       return (
         <ReduxField
-          key={name}
+          key={name + index}
+          index={index}
+          name={name}
           type={type}
+          label={label}
+          value={value}
           component={Field}
           formGroupClass={formGroupClass}
-          label={label}
-          name={name}
         />
       );
     });
-    return <div className="form-row">{fields}</div>;
+    return (
+      <div className="form-row mb-4">
+        <span className="ml-1 mr-3">Filter mountains:</span> 
+        {fields}
+      </div>
+    );
   }
 
   render() {  
     return (
-      <div>
-        <form onSubmit={this.props.handleSubmit}>
-          {this.renderFields()}
-        </form>  
-      </div>
+      <form onSubmit={this.props.handleSubmit}>          
+        {this.renderFields()}
+      </form>  
     );
   }
 }

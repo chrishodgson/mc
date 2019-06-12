@@ -58,6 +58,7 @@ const allowedClassifications = "M,C,G,F,Sim,Sy,Fel,B,W,WO";
 const allowedClassificationList = allowedClassifications.split(",");
 const allowedCountries = "E,W,S";
 const allowedCountriesList = allowedCountries.split(",");
+const classificationNames = { "W": "", "WO": "" };
 
 const filenameInput = args["filename"] || null;
 const countryInput = args["country"] || false;

@@ -11,12 +11,13 @@ momentLocaliser();
 export default props => {
   const {
     input,
+    key,
+    index,
     name,
     type,
     label,
     placeholder,
     formGroupClass,
-    index,
     options,
     meta: { error, touched },
     showTime
@@ -49,7 +50,7 @@ export default props => {
     const className = formGroupClass ? 'form-group ' + formGroupClass : 'form-group';
     return (
       <div className={className}>
-        <label htmlFor={name}>{label}</label>
+        <label htmlFor={key}>{label}</label>
         {children}
         {renderError()}
       </div>
@@ -57,13 +58,12 @@ export default props => {
   };
 
   const radioLayout = children => {
-    const className = formGroupClass ? 'form-group ' + formGroupClass : 'form-group';
+    const className = formGroupClass ? 'form-check ' + formGroupClass : 'form-check';
     return (
       <div className={className}>
         {index === 0 ? renderError() : ""}
         {children}
-        <label className="form-check-label">{label}</label>
-        {renderError()}
+        <label htmlFor={key} className="form-check-label">{label}</label>
       </div>
     );
   };
@@ -80,7 +80,7 @@ export default props => {
         );
       case "radio":
         return radioLayout(
-          <input {...input} type="radio" className="form-check-input" />
+          <input {...input} name={name} type="radio" className="form-check-input" id={key} />
         );
       case "textarea":
         return defaultLayout(
@@ -93,7 +93,7 @@ export default props => {
       case "text":
       default:
         return defaultLayout(
-          <input {...input} type="text" className="form-control" id={name} placeholder={placeholder || ''} />
+          <input {...input} type="text" className="form-control" id={key} placeholder={placeholder || ''} />
         );
     }
   };

@@ -26,12 +26,12 @@ class ActivityDetails extends Component {
         return (
           <ReduxField
             key={name}
+            name={name}
             type={type}
+            label={label}
             component={Field}
             formGroupClass={formGroupClass}
             placeholder={placeholder}
-            label={label}
-            name={name}
             options={options}
           />
         );

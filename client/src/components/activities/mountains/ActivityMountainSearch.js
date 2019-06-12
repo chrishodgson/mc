@@ -16,7 +16,7 @@ class ActivityMountainSearch extends Component {
   }
 
   renderFields() {
-    const fields = _.map(formFields, ({ label, name, formGroupClass, placeholder, type }) => {
+    const fields = _.map(formFields, ({ name, label, type, formGroupClass, placeholder }) => {
       let options = [];
       if (name === 'area') {
         options = this.getAreaList();
@@ -24,12 +24,12 @@ class ActivityMountainSearch extends Component {
       return (        
         <ReduxField
           key={name}
+          name={name}
           type={type}
+          label={label}
           component={Field}
           formGroupClass={formGroupClass}
           placeholder={placeholder}
-          label={label}
-          name={name}
           options={options}
         />
       );

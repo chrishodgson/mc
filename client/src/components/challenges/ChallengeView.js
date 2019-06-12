@@ -44,6 +44,12 @@ class ChallengeView extends Component {
     return mountainsByArea.map(areaItem => {      
       const mountains = areaItem.mountains.map(mountainItem => {
         const hasClimbed = _.find(this.state.userChallenge._climbed, { _mountainId: mountainItem._mountainId });
+        const climbedOrNotClimbed = (this.props.challengeViewSearch && this.props.challengeViewSearch.climbedOrNotClimbed) || 'all'; 
+
+        if ( (climbedOrNotClimbed === 'climbed' && !hasClimbed) || 
+             (climbedOrNotClimbed === 'notClimbed' && hasClimbed) ) {
+          return null;
+        }  
 
         return (
           <li className="list-group-item" key={mountainItem._id}>
@@ -120,8 +126,6 @@ class ChallengeView extends Component {
     return (
       <div>
         <h4>{this.state.userChallenge.title}</h4>
-
-        <ChallengeViewSearch />
         
         <div className="row">
           <div className="col">
@@ -131,6 +135,8 @@ class ChallengeView extends Component {
             { this.renderCounts() }
           </div>
         </div>
+
+        <ChallengeViewSearch />
 
         <div className="row">
           <div className="col">
@@ -142,7 +148,17 @@ class ChallengeView extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    challengeViewSearch: state.form.challengeViewSearch ? state.form.challengeViewSearch.values : [],
+    userChallenges: state.userChallenges,
+    mountainLists: state.mountainLists,
+    areas: state.areas
+  };
+}
+
 export default connect(
-  ({ userChallenges, mountainLists, areas }) => ({ userChallenges, mountainLists, areas }),
+  mapStateToProps,
+  // ({ userChallenges, mountainLists, areas }) => ({ userChallenges, mountainLists, areas }),
   { addUserChallenge, fetchMountainList, fetchAreas }
 )(withRouter(ChallengeView));

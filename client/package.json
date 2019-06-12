@@ -21,7 +21,8 @@
     "redux": "^4.0.1",
     "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "start": "^5.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
