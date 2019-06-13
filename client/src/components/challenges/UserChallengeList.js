@@ -8,20 +8,24 @@ class UserChallengeList extends Component {
   componentDidMount() {
       this.props.fetchUserChallenges(); // todo reload on add, then load only if empty 
   }
-
   renderUserChallenges() {    
     return this.props.userChallenges.reverse().map(userChallenge => {
       return (
-        <div key={userChallenge._id}>
-          <p>
-            <Link to={`/challenges/view/${userChallenge._id}`}>
-              {userChallenge.title}
-            </Link>
-          <br/>climbed: {userChallenge.climbedCount}
-          <br/>remaining: {userChallenge.remainingCount}
-          <br/>total: {userChallenge.mountainCount}
-          <br/>{percentageCompleteSelector(userChallenge)}% complete
-          </p>
+        <div key={userChallenge._id} className="card">
+          {/* <div className="card-header">Challenges</div> */}
+          <div className="card-body">
+            <h6 class="card-title">
+              <Link to={`/challenges/view/${userChallenge._id}`}>
+                {userChallenge.title}
+              </Link>
+            </h6>
+            <ul class="list-group list-group-flush list-group-condensed">
+              <li class="list-group-item">Climbed: {userChallenge.climbedCount}</li>
+              <li class="list-group-item">Remaining: {userChallenge.remainingCount}</li>
+              <li class="list-group-item">Total: {userChallenge.mountainCount}</li>
+              <li class="list-group-item">Completed: {percentageCompleteSelector(userChallenge)}%</li>
+            </ul>
+          </div>
         </div>
       );
     });

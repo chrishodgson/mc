@@ -13,11 +13,12 @@ class ActivityList extends Component {
   
   renderMountains(mountains) {
     return mountains.map((mountain, index) => {
-      return index > maxMountainsToShow ?  null : (
+      return index >= maxMountainsToShow ?  null : (
         <li className="list-inline-item" key={mountain._id}>
-          {mountain.name} ({mountain.metres}m)
+          {mountain.name} 
+          {/* ({mountain.metres}m) */}
           {(index + 1) < maxMountainsToShow && (index + 1) < mountains.length ? ', ' : ''}
-          {mountains.length > maxMountainsToShow ? '... ' : ''}
+          {(index + 1) === maxMountainsToShow && mountains.length > maxMountainsToShow ? '... ' : ''}
         </li>
       );
     });
@@ -26,16 +27,14 @@ class ActivityList extends Component {
   renderUserActivities() {
     return this.props.userActivities.reverse().map(item => {
       return (
-        <div key={item._id}>
-          <p>
-            {item.startDate ? Moment(item.startDate).format("MMMM Do YYYY") : ""}
-          </p>
-          <h5>
-            <Link to={`/activities/view/${item._id}`}>{item.title}</Link>
-          </h5>
-          <div>
+        <div key={item._id} className="card">
+          <div className="card-body">
+            <small>{item.startDate ? Moment(item.startDate).format("MMMM Do YYYY") : ""}</small>
+            <h5><Link to={`/activities/view/${item._id}`}>{item.title}</Link></h5>
             {item._mountains.length} {item._mountains.length > maxMountainsToShow ? 'mountain(s)' : 'mountain'}
-            <ul className="list-inline">{this.renderMountains(item._mountains)}</ul>
+            <ul className="list-inline">
+              {this.renderMountains(item._mountains)}
+            </ul>
           </div>
         </div>
       );
@@ -47,8 +46,7 @@ class ActivityList extends Component {
       return 'No activities created';
     }
     return (
-      <div className="activityList">
-        <h5>Your Activities</h5>
+      <div>
         {this.renderUserActivities()}
       </div>
     );

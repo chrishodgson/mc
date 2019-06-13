@@ -5,7 +5,7 @@ import ProtectedHeader from "./headers/ProtectedHeader";
 const ProtectedLayout = ({ component: Component, ...rest }) => {
 
   const layout = matchProps => (
-      <div>
+      <div className="protected-layout">
           <ProtectedHeader />
           <div className="container mt-5 pt-5">
               <Component {...matchProps} />

@@ -8,7 +8,8 @@ class ProtectedHeader extends Component {
     return this.props.auth ? (
       <span className="navbar-text">
         <a href="/api/logout" title={"Logout - " + this.props.auth.name}>Logout</a>
-        <Link className="icon-add-activity fa fa-plus-circle ml-3" to="/activities/add"></Link>
+        {/* <Link className="icon-add-activity fa fa-plus-circle ml-3" to="/activities/add"></Link> */}
+        <Link to="/activities/add" className="btn btn-dark btn-sm border ml-4">Add Activity</Link>
       </span>
     ) : null;
   }
@@ -24,9 +25,6 @@ class ProtectedHeader extends Component {
         </li>
         <li className="nav-item">
           <Link to="/challenges" className="nav-link">Challenges</Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/activities/add" className="nav-link">Add Activity</Link>
         </li>
       </ul>
     );

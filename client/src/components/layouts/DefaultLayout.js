@@ -5,7 +5,7 @@ import DefaultHeader from "./headers/DefaultHeader";
 const DefaultLayout = ({ component: Component, ...rest }) => {
 
   const layout = matchProps => (
-      <div>
+      <div className="default-layout">
           <DefaultHeader />
           <div className="container mt-5 pt-5">
               <Component {...matchProps} />

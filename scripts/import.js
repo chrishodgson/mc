@@ -58,7 +58,9 @@ const allowedClassifications = "M,C,G,F,Sim,Sy,Fel,B,W,WO";
 const allowedClassificationList = allowedClassifications.split(",");
 const allowedCountries = "E,W,S";
 const allowedCountriesList = allowedCountries.split(",");
-const classificationNames = { "W": "", "WO": "" };
+
+//todo import these
+//const classificationNames = { "W": "Wainwright Fells", "WO": "Wainwright Oulying Fells" };
 
 const filenameInput = args["filename"] || null;
 const countryInput = args["country"] || false;

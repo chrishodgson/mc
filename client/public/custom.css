@@ -1,3 +1,8 @@
+
+.protected-layout a {
+    color: #212529;   
+}
+
 .buttons {
     margin: 1rem 0;
 }
@@ -23,9 +28,16 @@ a.navbar-brand {
     size: 1rem;
 }
 
+.form-check-inline .form-check-label {
+    margin: 2px 5px 0 2px;
+}
+
+/** css grid **/
+
 .grid-container {
     display: inline-grid;
     grid-template-columns: auto auto auto auto;
+    border: 1px solid #eee;
 }
 
 .grid-item {
@@ -62,5 +74,5 @@ a.navbar-brand {
     width: 3.25rem;
 }
 .grid-item-icon {
-    width: 1.5rem;
+    width: 1.25rem;
 }

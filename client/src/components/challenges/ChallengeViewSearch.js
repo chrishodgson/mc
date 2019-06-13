@@ -8,7 +8,6 @@ class ChallengeViewSearch extends Component {
 
   renderFields() {
     const fields = _.map(formFields, ({ name, label, type, value, formGroupClass }, index) => {
-      console.log(index);
       return (
         <ReduxField
           key={name + index}

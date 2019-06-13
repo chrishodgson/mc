@@ -11,14 +11,14 @@ class DefaultHeader extends Component {
   renderLoginLink = () => {
     return this.isLogin() ? null :
       <li className="nav-item">
-        <Link to="/login" className="nav-link border rounded pl-3 pr-3 pt-1 pt-1">Login</Link>
+        <Link to="/login" className="btn btn-light border pl-3 pr-3 pt-1 pt-1">Login</Link>
       </li>;
   }
   
   renderSignupLink = () => {
     return this.isLogin() ? 
       <li className="nav-item">
-        <Link to="/" className="nav-link border rounded pl-3 pr-3 pt-1 pt-1">Sign up</Link>
+        <Link to="/" className="btn btn-light border pl-3 pr-3 pt-1 pt-1">Sign up</Link>
       </li> : null;
   }
 

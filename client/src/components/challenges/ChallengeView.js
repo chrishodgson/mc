@@ -52,15 +52,15 @@ class ChallengeView extends Component {
           return null;
         }  
 
+        const strArray = mountainItem.name.split("[");
         return (
           <div key={mountainItem._id} className="grid-item border">
             <div className="grid-item-icon">
               <i className="fas fa-mountain ml-2"></i>
             </div>
             <div className="grid-item-text">
-              {mountainItem.name} ({mountainItem.metres}m)
+              {strArray[0]} ({mountainItem.metres}m)
             </div>
-
             {/*{hasClimbed ? <i className="fas fa-mountain ml-2"></i> : ''}*/}
           </div>
         );
@@ -89,40 +89,12 @@ class ChallengeView extends Component {
 
   renderCounts() {
     return (
-        <table className="table table-responsive table-borderless">
-          <tbody>
-          <tr>
-            <th>Climbed</th>
-            <td>{this.state.userChallenge.climbedCount}</td>
-          </tr>
-          <tr>
-            <th>Remaining</th>
-            <td>{this.state.userChallenge.remainingCount}</td>
-          </tr>
-          <tr>
-            <th>Total</th>
-            <td>{this.state.userChallenge.mountainCount}</td>
-          </tr>
-          <tr>
-            <th>% Complete</th>
-            <td>{percentageCompleteSelector(this.state.userChallenge)}%</td>
-          </tr>
-
-          </tbody>
-        </table>
-    );
-  }
-
-  renderDetails() {
-    return (
-        <table className="table table-responsive table-borderless">
-        <tbody>
-          <tr>
-            <th>Description</th>
-            <td>{this.state.userChallenge.description}</td>
-          </tr>
-        </tbody>
-      </table>
+      <ul class="list-group list-group-horizontal-md">
+        <li class="list-group-item"><div>Climbed</div> {this.state.userChallenge.climbedCount}</li>
+        <li class="list-group-item"><div>Remaining</div> {this.state.userChallenge.remainingCount}</li>
+        <li class="list-group-item"><div>Total</div> {this.state.userChallenge.mountainCount}</li>
+        <li class="list-group-item"><div>Completed</div> {percentageCompleteSelector(this.state.userChallenge)}%</li>
+      </ul>
     );
   }
 
@@ -137,20 +109,14 @@ class ChallengeView extends Component {
       <div>
         <h4>{this.state.userChallenge.title}</h4>
         
-        <div className="row">
-          <div className="col">
-            { this.renderDetails() }
-          </div>
-          <div className="col">
-            { this.renderCounts() }
-          </div>
-        </div>
-
         <ChallengeViewSearch />
 
         <div className="row">
-          <div className="col">
+          <div className="col-md-8">
             { this.renderMountainList(mountainList) }
+          </div>
+          <div className="col-md-4">
+            { this.renderCounts() }
           </div>
         </div>
       </div>
