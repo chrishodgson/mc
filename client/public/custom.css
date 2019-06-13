@@ -3,6 +3,10 @@
     color: #212529;   
 }
 
+.protected-layout {
+    font-size: smaller !important;
+}
+
 .buttons {
     margin: 1rem 0;
 }
@@ -36,13 +40,13 @@ a.navbar-brand {
 
 .grid-container {
     display: inline-grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto;
     border: 1px solid #eee;
 }
 
 .grid-item {
-    width: 10rem;
-    height: 3rem;
+    width: 9rem;
+    height: 4rem;
     position: relative;
     font-size: 0.8rem;
     line-height: normal;
@@ -71,7 +75,7 @@ a.navbar-brand {
     /*line-height: normal;*/
 }
 .grid-item-btn {
-    width: 3.25rem;
+    width: 4.25rem;
 }
 .grid-item-icon {
     width: 1.25rem;

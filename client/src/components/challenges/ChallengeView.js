@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import { addUserChallenge, fetchMountainList, fetchAreas } from "../../actions";
 import { groupMountainsByAreaSelector, percentageCompleteSelector } from '../../selectors'
 
@@ -54,7 +54,7 @@ class ChallengeView extends Component {
 
         const strArray = mountainItem.name.split("[");
         return (
-          <div key={mountainItem._id} className="grid-item border">
+          <div key={mountainItem._id} className="grid-item">
             <div className="grid-item-icon">
               <i className="fas fa-mountain ml-2"></i>
             </div>
@@ -89,12 +89,15 @@ class ChallengeView extends Component {
 
   renderCounts() {
     return (
-      <ul class="list-group list-group-horizontal-md">
-        <li class="list-group-item"><div>Climbed</div> {this.state.userChallenge.climbedCount}</li>
-        <li class="list-group-item"><div>Remaining</div> {this.state.userChallenge.remainingCount}</li>
-        <li class="list-group-item"><div>Total</div> {this.state.userChallenge.mountainCount}</li>
-        <li class="list-group-item"><div>Completed</div> {percentageCompleteSelector(this.state.userChallenge)}%</li>
-      </ul>
+      <div className="card">
+        <div className="card-header">Your Progress</div>
+        <ul className="list-group list-group-condensed">
+          <li className="list-group-item">Climbed: {this.state.userChallenge.climbedCount}</li>
+          <li className="list-group-item">Remaining: {this.state.userChallenge.remainingCount}</li>
+          <li className="list-group-item">Total: {this.state.userChallenge.mountainCount}</li>
+          <li className="list-group-item">Completed: {percentageCompleteSelector(this.state.userChallenge)}%</li>
+        </ul>
+      </div>
     );
   }
 
