@@ -29,7 +29,7 @@ class ChallengeList extends Component {
   }
 
   renderLink(userChallenge) {
-    return <Link to={`/challenges/view/${userChallenge._id}`}>View Challenge</Link>
+    return <Link className="btn btn-light btn-sm btn-nowrap border" to={`/challenges/view/${userChallenge._id}`}>View Details</Link>
   }
 
   renderChallenges() {  

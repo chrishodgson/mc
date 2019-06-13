@@ -31,7 +31,8 @@ class ActivityList extends Component {
           <div className="card-body">
             <small>{item.startDate ? Moment(item.startDate).format("MMMM Do YYYY") : ""}</small>
             <h5><Link to={`/activities/view/${item._id}`}>{item.title}</Link></h5>
-            {item._mountains.length} {item._mountains.length > maxMountainsToShow ? 'mountain(s)' : 'mountain'}
+            {item._mountains.length}
+            {item._mountains.length > 1 ? ' mountains:' : ' mountain:'}
             <ul className="list-inline">
               {this.renderMountains(item._mountains)}
             </ul>

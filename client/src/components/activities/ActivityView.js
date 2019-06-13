@@ -29,7 +29,7 @@ class ActivityView extends Component {
   renderMountainList(mountains) {
     return mountains.map(mountain => {
       return (
-        <li key={mountain._id}>
+        <li className="" key={mountain._id}>
           {mountain.name} {mountain.metres}m - {mountain.gridRef}
         </li>
       );
@@ -41,21 +41,34 @@ class ActivityView extends Component {
       <table className="table table-responsive table-borderless">
         <tbody>
         <tr>
-          <th>Challenge</th>
-          <td>
-            <Link to={'/challenges/view/' + this.state.userActivity._userChallengeId}>{this.state.userChallenge.title}</Link>
-          </td>
-        </tr>
-        <tr>
-          <th>Description</th>
-          <td>{this.state.userActivity.description}</td>
-        </tr>
-        <tr>
           <th>Date</th>
           <td>
-            {this.state.userActivity.date ? Moment(this.state.userActivity.date).format("MMMM Do YYYY") : ""}
+            {this.state.userActivity.startDate ?
+                Moment(this.state.userActivity.startDate).format("MMMM Do YYYY") : ""}
           </td>
         </tr>
+
+        <tr>
+            <th>Mountains</th>
+            <td>
+                {this.state.userActivity._mountains.length}
+                {this.state.userActivity._mountains.length > 1 ? ' mountains:' : ' mountain:'}
+                <ul>{this.renderMountainList(this.state.userActivity._mountains)}</ul>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Challenge</th>
+            <td>
+                <Link to={'/challenges/view/' + this.state.userActivity._userChallengeId}>{this.state.userChallenge.title}</Link>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Description</th>
+            <td>{this.state.userActivity.description}</td>
+        </tr>
+
         </tbody>
       </table>
     );
@@ -75,13 +88,6 @@ class ActivityView extends Component {
           </div>
           <div className="col">
             <OSMap mountains={this.state.userActivity._mountains} />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col">
-              Mountains: (total {this.state.userActivity._mountains.length})
-              <ul>{this.renderMountainList(this.state.userActivity._mountains)}</ul>
           </div>
         </div>
       </div>
